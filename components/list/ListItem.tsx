@@ -124,10 +124,11 @@ const ListItemContent = ({
           >
             {title}
           </Text>
+          {/* Subtitles are whole sentences (setting hints), so they wrap in
+              full: the row has a min height and grows to fit. */}
           {subtitle && (
             <Text
               className={`text-[12px] mt-0.5 ${subtitleColor === "red" ? "text-red-600" : "text-[#9899A1]"}`}
-              numberOfLines={2}
             >
               {subtitle}
             </Text>
