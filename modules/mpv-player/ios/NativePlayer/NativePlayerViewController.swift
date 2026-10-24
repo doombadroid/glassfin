@@ -105,6 +105,12 @@ final class NativePlayerViewController: UIViewController {
 	// landscape drops the status bar on its own, but the iPhone Duo keeps it
 	// (the side strip folded, the top bar unfolded), and battery and signal
 	// over the video are just noise.
+	//
+	// This is the only control that works: linked against the iOS 27 SDK,
+	// UIApplication's statusBarHidden setters do nothing (UIApplication.h),
+	// so the app runs with UIViewControllerBasedStatusBarAppearance = YES and
+	// the presentation (modalPresentationCapturesStatusBarAppearance) asks
+	// this controller.
 	override var prefersStatusBarHidden: Bool {
 		true
 	}
@@ -208,12 +214,6 @@ final class NativePlayerViewController: UIViewController {
 			.receive(on: DispatchQueue.main)
 			.sink { [weak self] _ in
 				guard let self, self.isViewVisible else { return }
-				// Deprecated, and knowingly so: RN's required
-				// UIViewControllerBasedStatusBarAppearance=false disables
-				// prefersStatusBarHidden app-wide, so the app-level setter is
-				// the only working control — the same call RN's own StatusBar
-				// module makes. Re-asserted here in case anything showed it.
-				UIApplication.shared.setStatusBarHidden(true, with: .none)
 				UIView.animate(withDuration: 0.2) {
 					self.setNeedsStatusBarAppearanceUpdate()
 					self.setNeedsUpdateOfHomeIndicatorAutoHidden()
@@ -347,14 +347,24 @@ final class NativePlayerViewController: UIViewController {
 	}
 
 	#if os(iOS)
-	/// iPhone Duo standing on a table (the fold runs across the screen): the
-	/// video takes the top half and a reflection of it falls onto the bottom
-	/// half, under the controls. Anything else puts the layer back.
+	/// iPhone Duo half open. Standing on a table (the fold runs across the
+	/// screen) the video takes the top half and its reflection falls onto the
+	/// bottom half; held like a book (the fold runs down it) the video takes
+	/// the left page and its reflection the right. The controls sit over the
+	/// reflection. Anything else puts the layer back.
 	private func layoutTabletop() {
+		guard let windowFold = posture.fold else {
+			exitTabletop()
+			return
+		}
+		let fold = view.convert(windowFold, from: nil)
+		let bounds = view.bounds
+		let acrossScreen = fold.width > fold.height
+		let minPage: CGFloat = 80
 		guard
-			let windowFold = posture.tabletopFold,
-			case let fold = view.convert(windowFold, from: nil),
-			fold.minY > 80, fold.maxY < view.bounds.height - 80
+			acrossScreen
+				? fold.minY > minPage && fold.maxY < bounds.height - minPage
+				: fold.minX > minPage && fold.maxX < bounds.width - minPage
 		else {
 			exitTabletop()
 			return
@@ -364,7 +374,10 @@ final class NativePlayerViewController: UIViewController {
 			width: CGFloat(viewModel.videoWidth ?? 16),
 			height: CGFloat(max(viewModel.videoHeight ?? 9, 1))
 		)
-		let area = CGRect(x: 0, y: 0, width: view.bounds.width, height: fold.minY)
+		let area =
+			acrossScreen
+			? CGRect(x: 0, y: 0, width: bounds.width, height: fold.minY)
+			: CGRect(x: 0, y: 0, width: fold.minX, height: bounds.height)
 		let fit = AVMakeRect(aspectRatio: videoSize, insideRect: area)
 
 		CATransaction.begin()
@@ -378,22 +391,29 @@ final class NativePlayerViewController: UIViewController {
 		engine.displayLayer.frame = reflectionLayer.bounds
 
 		// Mirror about the fold's centre line. Instance transforms apply
-		// about the replicator's centre: flip in place, then drop the copy
-		// by its own height plus twice the gap down to the mirror line.
-		let gap = fold.midY - fit.maxY
+		// about the replicator's centre: flip in place, then move the copy by
+		// its own size plus twice the gap out to the mirror line.
 		var mirror = CATransform3DIdentity
-		mirror = CATransform3DTranslate(mirror, 0, fit.height + 2 * gap, 0)
-		mirror = CATransform3DScale(mirror, 1, -1, 1)
+		if acrossScreen {
+			let gap = fold.midY - fit.maxY
+			mirror = CATransform3DTranslate(mirror, 0, fit.height + 2 * gap, 0)
+			mirror = CATransform3DScale(mirror, 1, -1, 1)
+		} else {
+			let gap = fold.midX - fit.maxX
+			mirror = CATransform3DTranslate(mirror, fit.width + 2 * gap, 0, 0)
+			mirror = CATransform3DScale(mirror, -1, 1, 1)
+		}
 		reflectionLayer.instanceTransform = mirror
 		reflectionLayer.instanceCount = 2
 		reflectionLayer.instanceAlphaOffset = Float(reflectionAlpha() - 1)
 		engine.syncSubtitleLayerFrame()
 		CATransaction.commit()
 
-		reflectionShade.frame = CGRect(
-			x: 0, y: fold.maxY,
-			width: view.bounds.width, height: view.bounds.height - fold.maxY
-		)
+		reflectionShade.fadesDownward = acrossScreen
+		reflectionShade.frame =
+			acrossScreen
+			? CGRect(x: 0, y: fold.maxY, width: bounds.width, height: bounds.height - fold.maxY)
+			: CGRect(x: fold.maxX, y: 0, width: bounds.width - fold.maxX, height: bounds.height)
 		reflectionShade.isHidden = false
 	}
 
@@ -450,22 +470,11 @@ final class NativePlayerViewController: UIViewController {
 		#endif
 	}
 
-	#if os(iOS)
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		// Before the presentation animates in, so the bar never flashes up.
-		UIApplication.shared.setStatusBarHidden(true, with: .fade)
-	}
-	#endif
-
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		isViewVisible = true
 		engine.setPictureInPictureHostVisible(true)
 		UIApplication.shared.isIdleTimerDisabled = viewModel.isPlaying
-		#if os(iOS)
-		UIApplication.shared.setStatusBarHidden(true, with: .none)
-		#endif
 		#if os(tvOS)
 		// The initial zone activation ran at viewDidLoad time, before the
 		// view joined a window — no focus system existed and the kick was
@@ -480,9 +489,6 @@ final class NativePlayerViewController: UIViewController {
 		engine.setPictureInPictureHostVisible(false)
 		UIApplication.shared.isIdleTimerDisabled = false
 		#if os(iOS)
-		// Hand the bar back visible — the app-level state persists past this
-		// VC, and the RN screens underneath expect the bar shown.
-		UIApplication.shared.setStatusBarHidden(false, with: .fade)
 		sheen.stop()
 		#endif
 		#if os(tvOS)

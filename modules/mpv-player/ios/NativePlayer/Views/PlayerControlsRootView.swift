@@ -51,9 +51,9 @@ struct PlayerControlsRootView: View {
 
 	private func content(size: CGSize, bottomSafeAreaInset: CGFloat, layout: DuoLayout) -> some View {
 		ZStack {
-			if let fold = layout.tabletopFold {
-				// Standing on a table: video on top, every control on the
-				// bottom half (TabletopDeck), over the video's reflection.
+			if let fold = layout.halfOpenFold {
+				// Half open: video on one half, every control on the other
+				// (TabletopDeck), over the video's reflection.
 				if !viewModel.controlsLocked {
 					TabletopDeck(viewModel: viewModel, sheen: sheen, fold: fold, size: size)
 						.zIndex(1)
@@ -103,12 +103,8 @@ struct PlayerControlsRootView: View {
 					.tint(.white)
 			}
 
-			if layout.tabletopFold == nil {
-				adaptivePlaybackChrome(
-					bottomSafeAreaInset: bottomSafeAreaInset,
-					size: size,
-					bookFold: layout.bookFold
-				)
+			if layout.halfOpenFold == nil {
+				adaptivePlaybackChrome(bottomSafeAreaInset: bottomSafeAreaInset)
 
 				if viewModel.controlsVisible {
 					fullWidthBottomChrome
@@ -501,11 +497,7 @@ struct PlayerControlsRootView: View {
 			&& (viewModel.controlsVisible || viewModel.volumeSliderRevealed)
 	}
 
-	private func adaptivePlaybackChrome(
-		bottomSafeAreaInset: CGFloat,
-		size: CGSize,
-		bookFold: CGRect?
-	) -> some View {
+	private func adaptivePlaybackChrome(bottomSafeAreaInset: CGFloat) -> some View {
 		HStack {
 			if brightnessSliderVisible {
 				BrightnessSliderView(
@@ -531,17 +523,8 @@ struct PlayerControlsRootView: View {
 
 			ZStack {
 				if viewModel.controlsVisible {
-					if let bookFold {
-						// Held like a book the fold runs down the middle, right
-						// under the play button: the row moves to the right page.
-						PlayerCenterControls(viewModel: viewModel, time: viewModel.time)
-							.frame(width: max(0, size.width - bookFold.maxX - 24))
-							.frame(maxWidth: .infinity, alignment: .trailing)
-							.transition(.opacity)
-					} else {
-						PlayerCenterControls(viewModel: viewModel, time: viewModel.time)
-							.transition(.opacity)
-					}
+					PlayerCenterControls(viewModel: viewModel, time: viewModel.time)
+						.transition(.opacity)
 				}
 				bottomChrome(bottomSafeAreaInset: bottomSafeAreaInset)
 					.zIndex(1)
@@ -668,10 +651,9 @@ struct PlayerControlsRootView: View {
 
 /// The iPhone Duo posture, in the root view's own coordinates.
 private struct DuoLayout {
-	/// Standing on a table: the fold runs across the screen.
-	let tabletopFold: CGRect?
-	/// Held like a book: the fold runs down the screen.
-	let bookFold: CGRect?
+	/// The fold while half open: across the screen on a table, down it held
+	/// like a book.
+	let halfOpenFold: CGRect?
 	/// Folded in landscape the sensor strip leaves one side's inset much
 	/// bigger than the other's; the top bar's buttons stack down that side.
 	let railEdge: HorizontalEdge?
@@ -682,10 +664,9 @@ private struct DuoLayout {
 
 	init(origin: CGPoint, safeArea: EdgeInsets, posture: DuoPostureModel) {
 		let local = { (rect: CGRect) in rect.offsetBy(dx: -origin.x, dy: -origin.y) }
-		tabletopFold = posture.tabletopFold.map(local)
-		bookFold = posture.bookFold.map(local)
+		halfOpenFold = posture.fold.map(local)
 		let difference = safeArea.trailing - safeArea.leading
-		if tabletopFold != nil || abs(difference) < Self.railMinAsymmetry {
+		if halfOpenFold != nil || abs(difference) < Self.railMinAsymmetry {
 			railEdge = nil
 		} else {
 			railEdge = difference > 0 ? .trailing : .leading

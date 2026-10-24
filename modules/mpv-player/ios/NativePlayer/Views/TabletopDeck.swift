@@ -2,10 +2,11 @@
 import SwiftUI
 import UIKit
 
-/// iPhone Duo standing on a table: every control on the flat bottom half, on
-/// a glass deck over the video's reflection. The deck stays up the whole time,
-/// since the bottom half has nothing else to show. Its sheen tilts with the
-/// phone and glows brighter as the room (the screen) dims.
+/// iPhone Duo half open: every control on a glass deck over the video's
+/// reflection, on the bottom half standing on a table or the right page held
+/// like a book. The deck stays up the whole time, since that half has nothing
+/// else to show. Its sheen tilts with the phone and glows brighter as the
+/// room (the screen) dims.
 struct TabletopDeck: View {
 	@ObservedObject var viewModel: PlayerViewModel
 	@ObservedObject var sheen: PlayerSheenModel
@@ -15,22 +16,37 @@ struct TabletopDeck: View {
 
 	private let corner: CGFloat = 28
 
+	/// The fold runs across the screen (on a table) rather than down it.
+	private var acrossScreen: Bool { fold.width > fold.height }
+
 	var body: some View {
-		VStack(spacing: 0) {
-			Color.clear
-				.frame(height: max(0, fold.maxY))
-				.allowsHitTesting(false)
-			deck
-				.padding(.horizontal, 16)
-				.padding(.top, 14)
-			Spacer(minLength: 8)
+		if acrossScreen {
+			VStack(spacing: 0) {
+				Color.clear
+					.frame(height: max(0, fold.maxY))
+					.allowsHitTesting(false)
+				deck(compact: size.width < 500)
+					.padding(.horizontal, 16)
+					.padding(.top, 14)
+				Spacer(minLength: 8)
+			}
+			.frame(width: size.width, height: size.height, alignment: .top)
+		} else {
+			HStack(spacing: 0) {
+				Color.clear
+					.frame(width: max(0, fold.maxX))
+					.allowsHitTesting(false)
+				deck(compact: size.width - fold.maxX < 500)
+					.padding(.horizontal, 16)
+					.frame(maxHeight: .infinity)
+			}
+			.frame(width: size.width, height: size.height, alignment: .leading)
 		}
-		.frame(width: size.width, height: size.height, alignment: .top)
 	}
 
-	private var deck: some View {
+	private func deck(compact: Bool) -> some View {
 		VStack(spacing: 14) {
-			PlayerTopBar(viewModel: viewModel, compact: size.width < 500)
+			PlayerTopBar(viewModel: viewModel, compact: compact)
 			PlayerCenterControls(viewModel: viewModel, time: viewModel.time)
 			PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
 			if !viewModel.controlsLocked {
@@ -101,12 +117,20 @@ struct TabletopDeck: View {
 	}
 }
 
-/// Sits over the mirrored video below the fold: blurs it and darkens it
-/// toward the bottom edge, so it reads as the picture reflecting off a glossy
-/// surface rather than a second copy of it.
+/// Sits over the mirrored video past the fold: blurs it and darkens it away
+/// from the fold, so it reads as the picture reflecting off a glossy surface
+/// rather than a second copy of it.
 final class TabletopReflectionShadeView: UIView {
 	private let blur = UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialDark))
 	private let fade = CAGradientLayer()
+
+	/// Darkens toward the bottom (on a table) or the right edge (as a book).
+	var fadesDownward = true {
+		didSet {
+			fade.startPoint = fadesDownward ? CGPoint(x: 0.5, y: 0) : CGPoint(x: 0, y: 0.5)
+			fade.endPoint = fadesDownward ? CGPoint(x: 0.5, y: 1) : CGPoint(x: 1, y: 0.5)
+		}
+	}
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)

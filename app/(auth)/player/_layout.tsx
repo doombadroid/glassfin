@@ -36,6 +36,9 @@ export default function Layout() {
           name='direct-player'
           options={{
             headerShown: false,
+            // iOS 27 SDK: only view controllers can hide the status bar
+            // (SystemBars' app-wide call does nothing there).
+            statusBarHidden: true,
             autoHideHomeIndicator: true,
             title: "",
             animation: "fade",

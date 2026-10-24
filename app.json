@@ -24,7 +24,8 @@
         "NSSupportsLiveActivitiesFrequentUpdates": true,
         "UIFileSharingEnabled": true,
         "LSSupportsOpeningDocumentsInPlace": true,
-        "AVInitialRouteSharingPolicy": "LongFormAudio"
+        "AVInitialRouteSharingPolicy": "LongFormAudio",
+        "UIViewControllerBasedStatusBarAppearance": true
       },
       "config": {
         "usesNonExemptEncryption": false

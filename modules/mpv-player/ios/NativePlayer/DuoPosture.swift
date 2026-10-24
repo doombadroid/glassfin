@@ -1,7 +1,10 @@
 #if os(iOS)
 import Combine
 import CoreMotion
+import OSLog
 import UIKit
+
+private let duoLog = Logger(subsystem: "com.doombadroid.streamyfinnext", category: "duo")
 
 /// iPhone Duo posture for the presented player: where the fold is while the
 /// device is partly open, and the hinge angle. Everything here is iOS 27.1
@@ -14,22 +17,15 @@ final class DuoPostureModel: ObservableObject {
 	/// Radians; 0 when closed, π when flat. Nil until the hinge reports.
 	@Published private(set) var hingeAngle: Double?
 
-	var tabletopFold: CGRect? {
-		guard let fold, fold.width > fold.height else { return nil }
-		return fold
-	}
-
-	var bookFold: CGRect? {
-		guard let fold, fold.height >= fold.width else { return nil }
-		return fold
-	}
-
 	/// Starts listening for hinge changes on `view`'s hierarchy.
 	func attach(to view: UIView, onChange: @escaping () -> Void) {
 		guard #available(iOS 27.1, *) else { return }
 		let interaction = UIHingeInteraction { [weak self, weak view] _, update in
 			guard let self else { return }
 			self.hingeAngle = update.hinge.map { Double($0.angle) }
+			duoLog.notice(
+				"hinge status=\(update.hinge.map { $0.status.rawValue } ?? -1, privacy: .public) angle=\(self.hingeAngle ?? -1, privacy: .public)"
+			)
 			if let view { self.refresh(in: view) }
 			onChange()
 		}
@@ -39,7 +35,10 @@ final class DuoPostureModel: ObservableObject {
 	/// Re-reads the fold. Call after layout and on hinge updates.
 	func refresh(in view: UIView) {
 		let next = view.window.flatMap(Self.activeDivisionRegion(in:))
-		if next != fold { fold = next }
+		if next != fold {
+			duoLog.notice("fold \(next.map { NSCoder.string(for: $0) } ?? "none", privacy: .public)")
+			fold = next
+		}
 	}
 
 	/// The active division region, in the window's coordinates.
