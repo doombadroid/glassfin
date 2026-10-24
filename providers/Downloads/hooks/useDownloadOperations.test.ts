@@ -54,6 +54,15 @@ jest.mock("react-i18next", () => ({
 jest.mock("sonner-native", () => ({
   toast: { info: jest.fn(), success: jest.fn(), error: jest.fn() },
 }));
+// Music downloads live in their own store, outside the downloads database.
+jest.mock("@/providers/AudioStorage", () => ({
+  getStorageStats: () => ({
+    cacheCount: 0,
+    cacheSize: 0,
+    permanentCount: 2,
+    permanentSize: 5_000,
+  }),
+}));
 
 import { toast } from "sonner-native";
 import { getPendingDownload, savePendingDownload } from "../pendingDownloads";
@@ -442,5 +451,17 @@ describe("startBackgroundDownload", () => {
 
     expect(mockDownloadAdditionalAssets).not.toHaveBeenCalled();
     expect(fakeFiles.deleted()).toEqual([]);
+  });
+});
+
+describe("appSizeUsage", () => {
+  // Upstream #1760. The storage bar in the settings showed no space taken
+  // after downloading music: only the video downloads were added up.
+  test("counts the downloaded music", async () => {
+    const { operations } = await renderOperations();
+
+    const usage = await operations.appSizeUsage();
+
+    expect(usage.appSize).toBe(5_000);
   });
 });

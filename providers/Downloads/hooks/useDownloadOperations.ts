@@ -10,6 +10,7 @@ import { toast } from "sonner-native";
 import type { Bitrate } from "@/components/BitrateSelector";
 import useImageStorage from "@/hooks/useImageStorage";
 import { BackgroundDownloader } from "@/modules";
+import { getStorageStats } from "@/providers/AudioStorage";
 import { getJellyfinHeadersForUrl } from "@/utils/customHeaders";
 import { getOrSetDeviceId } from "@/utils/device";
 import useDownloadHelper from "@/utils/download";
@@ -446,7 +447,9 @@ export function useDownloadOperations({
   );
 
   const appSizeUsage = useCallback(async () => {
-    let totalSize = calculateTotalDownloadedSize();
+    // Downloaded music is kept by AudioStorage, outside the downloads database.
+    let totalSize =
+      calculateTotalDownloadedSize() + getStorageStats().permanentSize;
 
     // Also count in-progress downloads (they write straight to their final
     // path) so the growing file shows up as app usage instead of drifting
