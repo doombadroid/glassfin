@@ -1,6 +1,6 @@
-name: Build Sailfin IPA
+name: Build Glassfin IPA
 
-# Unsigned Sailfin IPA built with the iOS 27.1 SDK (the first SDK that lays apps out
+# Unsigned Glassfin IPA built with the iOS 27.1 SDK (the first SDK that lays apps out
 # edge to edge on iPhone Duo), published as a release plus a SideStore source feed.
 # The IPA is signed with your own Apple ID when it's installed (SideStore / AltStore).
 on:
@@ -63,13 +63,13 @@ jobs:
           bun run ios:unsigned-build
           ipa=$(ls build/*.ipa | head -1)
           test -s "$ipa"
-          mv "$ipa" "$RUNNER_TEMP/Sailfin-unsigned.ipa"
+          mv "$ipa" "$RUNNER_TEMP/Glassfin-unsigned.ipa"
 
       - name: Check the IPA
         run: |
           cd "$RUNNER_TEMP"
           rm -rf check && mkdir check && cd check
-          unzip -q ../Sailfin-unsigned.ipa
+          unzip -q ../Glassfin-unsigned.ipa
           app=$(ls -d Payload/*.app | head -1)
           exe=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Info.plist")
           test -f "$app/$exe"
@@ -78,7 +78,7 @@ jobs:
           done
           # iOS 27 SDK apps without a scene manifest die at launch (TN3187)
           /usr/libexec/PlistBuddy -c 'Print :UIApplicationSceneManifest' "$app/Info.plist"
-          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app/Info.plist")" = com.doombadroid.sailfin
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app/Info.plist")" = com.doombadroid.glassfin
           sdk=$(xcrun vtool -show-build "$app/$exe" | awk '/sdk/ {print $2; exit}')
           echo "Built against iOS SDK $sdk"
           echo "BUILD_TOOLCHAIN=$(xcodebuild -version | tr '\n' ' ' | sed 's/ *$//'), iOS SDK $sdk" >> "$GITHUB_ENV"
@@ -88,8 +88,8 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Sailfin-unsigned-ipa
-          path: ${{ runner.temp }}/Sailfin-unsigned.ipa
+          name: Glassfin-unsigned-ipa
+          path: ${{ runner.temp }}/Glassfin-unsigned.ipa
           if-no-files-found: error
 
       - name: Publish as a release
@@ -98,8 +98,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           sha=$(git rev-parse --short HEAD)
-          gh release create "next-${{ github.run_number }}" "$RUNNER_TEMP/Sailfin-unsigned.ipa" \
-            --title "Sailfin build ${{ github.run_number }} ($sha)" \
+          gh release create "next-${{ github.run_number }}" "$RUNNER_TEMP/Glassfin-unsigned.ipa" \
+            --title "Glassfin build ${{ github.run_number }} ($sha)" \
             --notes "Unsigned IPA at $sha ($BUILD_TOOLCHAIN). Sign it with your own Apple ID: add the SideStore source https://raw.githubusercontent.com/${{ github.repository }}/develop/sidestore-source.json or open the IPA in SideStore. MPL-2.0; source at https://github.com/${{ github.repository }}."
 
       - name: Update the SideStore source feed
@@ -111,17 +111,17 @@ jobs:
           run = "${{ github.run_number }}"
           repo = "${{ github.repository }}"
           path = "sidestore-source.json"
-          size = os.path.getsize(os.path.join(os.environ["RUNNER_TEMP"], "Sailfin-unsigned.ipa"))
+          size = os.path.getsize(os.path.join(os.environ["RUNNER_TEMP"], "Glassfin-unsigned.ipa"))
           try:
               source = json.load(open(path))
           except FileNotFoundError:
               source = {
-                  "name": "Sailfin",
-                  "identifier": "io.github.doombadroid.sailfin",
+                  "name": "Glassfin",
+                  "identifier": "io.github.doombadroid.glassfin",
                   "subtitle": "A Jellyfin player for iPhone Duo",
                   "apps": [{
-                      "name": "Sailfin",
-                      "bundleIdentifier": "com.doombadroid.sailfin",
+                      "name": "Glassfin",
+                      "bundleIdentifier": "com.doombadroid.glassfin",
                       "developerName": "doombadroid",
                       "subtitle": "Jellyfin client",
                       "localizedDescription": "Jellyfin player with a Liquid Glass design and iPhone Duo fold, tabletop and book layouts. MPL-2.0.",
@@ -138,7 +138,7 @@ jobs:
               "buildVersion": run,
               "date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
               "localizedDescription": os.environ["BUILD_TOOLCHAIN"],
-              "downloadURL": f"https://github.com/{repo}/releases/download/next-{run}/Sailfin-unsigned.ipa",
+              "downloadURL": f"https://github.com/{repo}/releases/download/next-{run}/Glassfin-unsigned.ipa",
               "size": size,
               "minOSVersion": os.environ["MIN_IOS"],
           })

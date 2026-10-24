@@ -442,7 +442,7 @@ export const Login: React.FC = () => {
                 }}
                 source={require("@/assets/images/icon-ios-plain.png")}
               />
-              <Text className='text-3xl font-bold'>Sailfin</Text>
+              <Text className='text-3xl font-bold'>Glassfin</Text>
               <Text className='text-neutral-500'>
                 {t("server.enter_url_to_jellyfin_server")}
               </Text>

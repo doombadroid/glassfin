@@ -122,10 +122,10 @@
       "disable": "Vypnout hlavní karusel"
     },
     "intro": {
-      "welcome_to_streamyfin": "Vítejte v Sailfin",
+      "welcome_to_streamyfin": "Vítejte v Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Volný a Open-Source klient pro Jellyfin.",
       "features_title": "Vlastnosti",
-      "features_description": "Sailfin má spoustu funkcí a spolupracuje s dalším softwarem. Najdete je v nabídce nastavení:",
+      "features_description": "Glassfin má spoustu funkcí a spolupracuje s dalším softwarem. Najdete je v nabídce nastavení:",
       "seerr_feature_description": "Připojte se ke své instanci Seerr a žádejte o filmy přímo v aplikaci.",
       "downloads_feature_title": "Stahování",
       "downloads_feature_description": "Stáhněte si filmy a tv-show pro zobrazení v režimu offline. Použijte buď výchozí metodu nebo nainstalujte optimalizovaný server ke stažení souborů na pozadí.",
@@ -135,8 +135,8 @@
       "done_button": "Hotovo",
       "go_to_settings_button": "Přejít do nastavení",
       "read_more": "Číst více",
-      "crash_reports_title": "Pomozte vylepšit Sailfin",
-      "crash_reports_description": "Sailfin odesílá vývojářům anonymní hlášení o pádech a chybách. Neobsahují žádné údaje o účtu ani adresy serverů. Můžete to vypnout zde nebo kdykoli v nastavení."
+      "crash_reports_title": "Pomozte vylepšit Glassfin",
+      "crash_reports_description": "Glassfin odesílá vývojářům anonymní hlášení o pádech a chybách. Neobsahují žádné údaje o účtu ani adresy serverů. Můžete to vypnout zde nebo kdykoli v nastavení."
     },
     "settings": {
       "settings_title": "Nastavení",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Hledat na OpenSubtitles",
         "opensubtitles_enabled_hint": "Umožní tomuto zařízení hledat titulky přímo na OpenSubtitles, když váš server Jellyfin nemá žádného poskytovatele titulků. Po vypnutí zůstane vyhledávání titulků na serveru a uložený API klíč zůstane nedotčen.",
         "crash_reports": "Hlášení o pádech",
-        "crash_reports_hint": "Odesílá anonymní hlášení o pádech a chybách vývojářům Sailfin prostřednictvím Sentry. Hlášení neobsahují žádné údaje o účtu; adresy serverů a tokeny se před odesláním odstraní.",
+        "crash_reports_hint": "Odesílá anonymní hlášení o pádech a chybách vývojářům Glassfin prostřednictvím Sentry. Hlášení neobsahují žádné údaje o účtu; adresy serverů a tokeny se před odesláním odstraní.",
         "seerr": {
           "server_url": "URL serveru",
           "server_url_hint": "Příklad: http(s)://your-host.url\n(v případě potřeby přidejte port)",
@@ -766,7 +766,7 @@
     "still_watching": "Ještě se díváte?",
     "error": "Chyba",
     "failed_to_get_stream_url": "Nepodařilo se získat URL streamu",
-    "unsupported_item_type": "Sailfin neumí přehrát tento typ položky",
+    "unsupported_item_type": "Glassfin neumí přehrát tento typ položky",
     "an_error_occurred_while_playing_the_video": "Při přehrávání videa došlo k chybě. Zkontrolujte logy v nastavení.",
     "client_error": "Chyba klienta",
     "could_not_create_stream_for_chromecast": "Nelze vytvořit stream pro Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "Televize se připojuje k vašemu účtu",
     "error_title": "Autorizace selhala",
     "error_invalid_qr": "Neplatný QR kód. Naskenujte párovací kód z televize.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Spárovat s telefonem",
     "pair_with_phone_title": "Přihlášení na televizi",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Přihlašování...",
     "logging_in_description": "Připojování k vašemu serveru"

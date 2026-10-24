@@ -122,10 +122,10 @@
       "disable": "Wyłącz karuzelę główną"
     },
     "intro": {
-      "welcome_to_streamyfin": "Witamy w Sailfin",
+      "welcome_to_streamyfin": "Witamy w Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Darmowy i otwartoźródłowy klient dla Jellyfin.",
       "features_title": "Funkcje",
-      "features_description": "Sailfin ma wiele funkcji i współpracuje z innym oprogramowaniem. Znajdziesz je w menu ustawień:",
+      "features_description": "Glassfin ma wiele funkcji i współpracuje z innym oprogramowaniem. Znajdziesz je w menu ustawień:",
       "seerr_feature_description": "Połącz się ze swoją instancją Seerr i wysyłaj prośby o filmy bezpośrednio w aplikacji.",
       "downloads_feature_title": "Pobieranie",
       "downloads_feature_description": "Pobieraj filmy oraz seriale do oglądania offline. Użyj domyślnej metody lub zainstaluj serwer do optymalizacji, aby pobierać pliki w tle.",
@@ -135,8 +135,8 @@
       "done_button": "Gotowe",
       "go_to_settings_button": "Przejdź do ustawień",
       "read_more": "Czytaj więcej",
-      "crash_reports_title": "Pomóż ulepszyć Sailfin",
-      "crash_reports_description": "Sailfin wysyła twórcom anonimowe raporty o awariach i błędach. Nie zawierają one danych konta ani adresów serwerów. Możesz to wyłączyć tutaj lub w dowolnej chwili w ustawieniach."
+      "crash_reports_title": "Pomóż ulepszyć Glassfin",
+      "crash_reports_description": "Glassfin wysyła twórcom anonimowe raporty o awariach i błędach. Nie zawierają one danych konta ani adresów serwerów. Możesz to wyłączyć tutaj lub w dowolnej chwili w ustawieniach."
     },
     "settings": {
       "settings_title": "Ustawienia",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Szukaj w OpenSubtitles",
         "opensubtitles_enabled_hint": "Pozwala temu urządzeniu szukać napisów bezpośrednio w OpenSubtitles, gdy Twój serwer Jellyfin nie ma dostawcy napisów. Po wyłączeniu wyszukiwanie napisów pozostaje na serwerze, a zapisany klucz API nie jest ruszany.",
         "crash_reports": "Raporty o awariach",
-        "crash_reports_hint": "Wysyła anonimowe raporty o awariach i błędach do twórców Sailfin za pośrednictwem Sentry. Raporty nie zawierają danych konta; adresy serwerów i tokeny są usuwane przed wysłaniem.",
+        "crash_reports_hint": "Wysyła anonimowe raporty o awariach i błędach do twórców Glassfin za pośrednictwem Sentry. Raporty nie zawierają danych konta; adresy serwerów i tokeny są usuwane przed wysłaniem.",
         "seerr": {
           "server_url": "URL serwera",
           "server_url_hint": "Przykład: http(s)://twoja-nazwa.url\n(dodaj port, jeśli jest wymagany)",
@@ -766,7 +766,7 @@
     "still_watching": "Czy nadal oglądasz?",
     "error": "Błąd",
     "failed_to_get_stream_url": "Nie udało się pobrać adresu strumienia",
-    "unsupported_item_type": "Sailfin nie może odtworzyć tego typu elementu",
+    "unsupported_item_type": "Glassfin nie może odtworzyć tego typu elementu",
     "an_error_occurred_while_playing_the_video": "Wystąpił błąd podczas odtwarzania wideo. Sprawdź logi w ustawieniach.",
     "client_error": "Błąd klienta",
     "could_not_create_stream_for_chromecast": "Nie udało się utworzyć strumienia dla Chromecasta",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "Telewizor łączy się z Twoim kontem",
     "error_title": "Autoryzacja nie powiodła się",
     "error_invalid_qr": "Nieprawidłowy kod QR. Zeskanuj kod parowania z telewizora.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Sparuj z telefonem",
     "pair_with_phone_title": "Zaloguj się na telewizorze",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Logowanie...",
     "logging_in_description": "Łączenie z serwerem"

@@ -344,7 +344,7 @@ internal object TvRecommendationsPublisher {
         val updated = Channel.Builder()
           .setType(TvContractCompat.Channels.TYPE_PREVIEW)
           .setDisplayName(displayName)
-          .setAppLinkIntentUri(buildIntentUri(context, "sailfin://"))
+          .setAppLinkIntentUri(buildIntentUri(context, "glassfin://"))
           .build()
 
         try {
@@ -380,7 +380,7 @@ internal object TvRecommendationsPublisher {
     val channel = Channel.Builder()
       .setType(TvContractCompat.Channels.TYPE_PREVIEW)
       .setDisplayName(displayName)
-      .setAppLinkIntentUri(buildIntentUri(context, "sailfin://"))
+      .setAppLinkIntentUri(buildIntentUri(context, "glassfin://"))
       .build()
 
     val channelUri = try {

@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="./assets/images/icon.png" alt="Sailfin app icon: a clear glass film sail with a mint play mark on a mint hull" width="160">
+  <img src="./assets/images/icon.png" alt="Glassfin app icon: a clear glass film sail with a mint play mark on a mint hull" width="160">
 </p>
 
-<h1 align="center">Sailfin</h1>
+<h1 align="center">Glassfin</h1>
 
 <p align="center">
   <b>A Liquid Glass Jellyfin player for iPhone, built for iPhone Duo.</b><br>
@@ -19,9 +19,9 @@
 
 ## 💚 Built on Streamyfin, with endless thanks
 
-Sailfin exists because of **[Streamyfin](https://github.com/streamyfin/streamyfin)**, and we want to be loud about it.
+Glassfin exists because of **[Streamyfin](https://github.com/streamyfin/streamyfin)**, and we want to be loud about it.
 
-Streamyfin is one of the finest Jellyfin clients ever made, and every good thing you feel in Sailfin started there. The silky native MPV player, the trickplay scrubbing, the offline downloads, skip intro and credits, Chromecast, Seerr requests, SyncPlay, the settings plugin, the music player, the translations into dozens of languages, the thousands of tests: all of it is their work, built with care, taste and an almost unreasonable amount of polish, and given away for free under an open licence. Sailfin is a coat of glass and a few new tricks on top of a ship they built.
+Streamyfin is one of the finest Jellyfin clients ever made, and every good thing you feel in Glassfin started there. The silky native MPV player, the trickplay scrubbing, the offline downloads, skip intro and credits, Chromecast, Seerr requests, SyncPlay, the settings plugin, the music player, the translations into dozens of languages, the thousands of tests: all of it is their work, built with care, taste and an almost unreasonable amount of polish, and given away for free under an open licence. Glassfin is a coat of glass and a few new tricks on top of a ship they built.
 
 **[Fredrik Burmester](https://github.com/fredrikburmester)** created Streamyfin. The core developers who carried it to where it is deserve every bit of credit too:
 
@@ -42,20 +42,20 @@ Streamyfin is one of the finest Jellyfin clients ever made, and every good thing
 
 …and every one of the [Streamyfin contributors](https://github.com/streamyfin/streamyfin/graphs/contributors) and translators. Thank you. Truly.
 
-If Sailfin makes your evenings better, please thank them where it counts:
+If Glassfin makes your evenings better, please thank them where it counts:
 **[star Streamyfin](https://github.com/streamyfin/streamyfin)**, support it on [Patreon](https://www.patreon.com/streamyfin) or [Buy Me a Coffee](https://www.buymeacoffee.com/fredrikbur3), and use the official Streamyfin app on Android, Apple TV and Android TV.
 
-> Sailfin is an independent, unofficial fork. It isn't affiliated with or endorsed by the Streamyfin project or Jellyfin. Please don't take Sailfin bugs to the Streamyfin team: open them [here](https://github.com/doombadroid/sailfin/issues) instead.
+> Glassfin is an independent, unofficial fork. It isn't affiliated with or endorsed by the Streamyfin project or Jellyfin. Please don't take Glassfin bugs to the Streamyfin team: open them [here](https://github.com/doombadroid/glassfin/issues) instead.
 
 ---
 
 ## 📱 iOS only
 
-Sailfin is built and tested for **iPhone only** (iOS 16.4 or later; the iPhone Duo layouts need iOS 27.1).
+Glassfin is built and tested for **iPhone only** (iOS 16.4 or later; the iPhone Duo layouts need iOS 27.1).
 
 The Android, Android TV and tvOS code from Streamyfin is still in the repository, untouched, so the fork can keep merging upstream changes. It isn't built, tested or supported here. On those platforms, please use [Streamyfin](https://github.com/streamyfin/streamyfin) itself.
 
-## ✨ What Sailfin adds
+## ✨ What Glassfin adds
 
 ### Frost: a Liquid Glass look
 - A dark, glassy design with a mint accent.
@@ -76,7 +76,7 @@ The Android, Android TV and tvOS code from Streamyfin is still in the repository
 - Brightness and volume sliders appear only while you use them.
 
 ### Fixes
-Sailfin carries fixes for about 27 open Streamyfin bug reports. Among them:
+Glassfin carries fixes for about 27 open Streamyfin bug reports. Among them:
 - **iOS 27:** the search tab works with the iOS 27 SDK (#2234).
 - **Playback:**
   - Music pauses when a video starts, and video owns the lock-screen controls (#1727, #442).
@@ -103,13 +103,13 @@ Most come with a test next to the fix.
 
 ## 📥 Install
 
-Sailfin isn't on the App Store. Each build is an unsigned IPA that you sign with your own Apple ID.
+Glassfin isn't on the App Store. Each build is an unsigned IPA that you sign with your own Apple ID.
 
 - **SideStore / AltStore:** add this source, and updates arrive on their own:
   ```
-  https://raw.githubusercontent.com/doombadroid/sailfin/develop/sidestore-source.json
+  https://raw.githubusercontent.com/doombadroid/glassfin/develop/sidestore-source.json
   ```
-- **Manual:** download `Sailfin-unsigned.ipa` from the [latest release](https://github.com/doombadroid/sailfin/releases/latest) and sign it with SideStore, AltStore or any other sideloading tool.
+- **Manual:** download `Glassfin-unsigned.ipa` from the [latest release](https://github.com/doombadroid/glassfin/releases/latest) and sign it with SideStore, AltStore or any other sideloading tool.
 
 You'll need a Jellyfin server you own, reachable from your phone.
 
@@ -131,12 +131,12 @@ The project uses Bun only (no npm, yarn or npx). Run `bun run test` before sendi
 - **[MPV](https://mpv.io/)** and **[MPVKit](https://github.com/mpvkit/MPVKit)**.
 - **[Reiverr](https://github.com/aleksilassila/reiverr)**, which helped Streamyfin understand the Jellyfin API.
 - **[Seerr](https://github.com/seerr-team/seerr)**.
-- **Netflix's iPhone Duo app**, whose tabletop mode inspired Sailfin's.
+- **Netflix's iPhone Duo app**, whose tabletop mode inspired Glassfin's.
 
 ## 📄 License
 
-Sailfin is licensed under the **Mozilla Public License 2.0**, the same as Streamyfin. See [LICENSE.txt](./LICENSE.txt). The original Streamyfin copyright and licence notices are kept, as the MPL requires, and every change Sailfin makes is published here as source.
+Glassfin is licensed under the **Mozilla Public License 2.0**, the same as Streamyfin. See [LICENSE.txt](./LICENSE.txt). The original Streamyfin copyright and licence notices are kept, as the MPL requires, and every change Glassfin makes is published here as source.
 
 ## ⚠️ Disclaimer
 
-Sailfin doesn't promote, support or condone piracy in any form. It is meant only for streaming media you personally own and control, and it doesn't provide or include any media.
+Glassfin doesn't promote, support or condone piracy in any form. It is meant only for streaming media you personally own and control, and it doesn't provide or include any media.

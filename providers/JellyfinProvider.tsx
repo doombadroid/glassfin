@@ -163,7 +163,7 @@ export const JellyfinProvider: React.FC<{ children: ReactNode }> = ({
       const id = getOrSetDeviceId();
       const deviceName = getDeviceNameSync();
       return new Jellyfin({
-        clientInfo: { name: "Sailfin", version: APP_VERSION },
+        clientInfo: { name: "Glassfin", version: APP_VERSION },
         deviceInfo: {
           name: deviceName,
           id,
@@ -333,7 +333,7 @@ export const JellyfinProvider: React.FC<{ children: ReactNode }> = ({
   const headers = useMemo((): Record<string, string> => {
     if (!deviceId) return {};
     return {
-      authorization: `MediaBrowser Client="Sailfin", Device=${
+      authorization: `MediaBrowser Client="Glassfin", Device=${
         Platform.OS === "android" ? "Android" : "iOS"
       }, DeviceId="${deviceId}", Version="${APP_VERSION}"`,
     };

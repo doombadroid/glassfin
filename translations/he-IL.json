@@ -122,10 +122,10 @@
       "disable": "השבתת הקרוסלה"
     },
     "intro": {
-      "welcome_to_streamyfin": "ברוך הבא ל-Sailfin",
+      "welcome_to_streamyfin": "ברוך הבא ל-Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "קליינט חינמי ובקוד פתוח לשרתי Jellyfin.",
       "features_title": "תכונות",
-      "features_description": "ל-Sailfin יש הרבה תכונות והוא עובד עם תוכנות נוספות. תוכל למצוא אותן בתפריט ההגדרות:",
+      "features_description": "ל-Glassfin יש הרבה תכונות והוא עובד עם תוכנות נוספות. תוכל למצוא אותן בתפריט ההגדרות:",
       "seerr_feature_description": "התחברות עם שרת Seerr כך שניתן לבקש סרטים ישירות מתוך האפליקציה.",
       "downloads_feature_title": "הורדות",
       "downloads_feature_description": "הורדת סרטים וסדרות לצפייה במצב לא-מקוון. השתמשו בדרך ברירת המחדל או התקינו את הגרסה האופטימלית של השרת כדי להוריד ברקע.",
@@ -135,8 +135,8 @@
       "done_button": "בוצע",
       "go_to_settings_button": "עבור להגדרות",
       "read_more": "קרא עוד",
-      "crash_reports_title": "עזרו לשפר את Sailfin",
-      "crash_reports_description": "דוחות קריסה ושגיאות אנונימיים נשלחים מ-Sailfin למפתחים. הם אינם כוללים נתוני חשבון או כתובות שרתים. אפשר לכבות זאת כאן או בכל עת בהגדרות."
+      "crash_reports_title": "עזרו לשפר את Glassfin",
+      "crash_reports_description": "דוחות קריסה ושגיאות אנונימיים נשלחים מ-Glassfin למפתחים. הם אינם כוללים נתוני חשבון או כתובות שרתים. אפשר לכבות זאת כאן או בכל עת בהגדרות."
     },
     "settings": {
       "settings_title": "הגדרות",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "חיפוש ב-OpenSubtitles",
         "opensubtitles_enabled_hint": "מאפשר למכשיר הזה לחפש ישירות ב-OpenSubtitles כאשר לשרת ה-Jellyfin שלכם אין ספק כתוביות. כיבוי האפשרות משאיר את חיפושי הכתוביות בשרת ולא נוגע במפתח ה-API השמור.",
         "crash_reports": "דוחות קריסה",
-        "crash_reports_hint": "שליחת דוחות קריסה ושגיאות אנונימיים למפתחי Sailfin דרך Sentry. הדוחות אינם כוללים נתוני חשבון; כתובות שרתים וטוקנים מוסרים לפני שליחת מידע כלשהו.",
+        "crash_reports_hint": "שליחת דוחות קריסה ושגיאות אנונימיים למפתחי Glassfin דרך Sentry. הדוחות אינם כוללים נתוני חשבון; כתובות שרתים וטוקנים מוסרים לפני שליחת מידע כלשהו.",
         "seerr": {
           "server_url": "כתובת השרת",
           "server_url_hint": "לדוגמא: http(s)://your-host.url\n(הוסף פורט במידת הצורך)",
@@ -766,7 +766,7 @@
     "still_watching": "האם אתה עדיין צופה?",
     "error": "שגיאה",
     "failed_to_get_stream_url": "נכשל בהשגת קישור הזרם",
-    "unsupported_item_type": "לא ניתן לנגן פריט מסוג זה ב-Sailfin",
+    "unsupported_item_type": "לא ניתן לנגן פריט מסוג זה ב-Glassfin",
     "an_error_occurred_while_playing_the_video": "קרתה תקלה במהלך הניגון של הקובץ. בדוק את הלוגים בהגדרות.",
     "client_error": "שגיאת לקוח",
     "could_not_create_stream_for_chromecast": "נכשל ביצירת זרם עבור Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "הטלוויזיה מתחברת לחשבון שלכם",
     "error_title": "האישור נכשל",
     "error_invalid_qr": "קוד QR לא תקין. סרקו את קוד ההתאמה שבטלוויזיה.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "התאמה לטלפון",
     "pair_with_phone_title": "התחברות בטלוויזיה",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "מתחבר...",
     "logging_in_description": "מתחבר לשרת שלכם"

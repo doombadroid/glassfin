@@ -17,7 +17,7 @@ const initialApi = (() => {
       const id = getOrSetDeviceId();
       const deviceName = getDeviceNameSync();
       const jellyfinInstance = new Jellyfin({
-        clientInfo: { name: "Sailfin", version: APP_VERSION },
+        clientInfo: { name: "Glassfin", version: APP_VERSION },
         deviceInfo: {
           name: deviceName,
           id,

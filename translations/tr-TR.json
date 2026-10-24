@@ -122,10 +122,10 @@
       "disable": "Kapak bölümünü devre dışı bırak"
     },
     "intro": {
-      "welcome_to_streamyfin": "Sailfin'e Hoş Geldiniz",
+      "welcome_to_streamyfin": "Glassfin'e Hoş Geldiniz",
       "a_free_and_open_source_client_for_jellyfin": "Jellyfin için ücretsiz ve açık kaynak bir istemci.",
       "features_title": "Özellikler",
-      "features_description": "Sailfin birçok özelliğe sahip ve başka yazılımlarla çalışabiliyor. Bunları ayarlar menüsünde bulabilirsiniz:",
+      "features_description": "Glassfin birçok özelliğe sahip ve başka yazılımlarla çalışabiliyor. Bunları ayarlar menüsünde bulabilirsiniz:",
       "seerr_feature_description": "Seerr sunucunuza bağlanın ve doğrudan uygulama içinden film isteğinde bulunun.",
       "downloads_feature_title": "İndirmeler",
       "downloads_feature_description": "Filmleri ve TV dizilerini çevrimdışı izlemek için indirin. Varsayılan yöntemi veya dosyaları arka planda indirmek için optimize sunucuyu kurabilirsiniz.",
@@ -135,8 +135,8 @@
       "done_button": "Tamam",
       "go_to_settings_button": "Ayarlara Git",
       "read_more": "Daha fazla oku",
-      "crash_reports_title": "Sailfin'i geliştirmemize yardımcı olun",
-      "crash_reports_description": "Sailfin geliştiricilerine anonim çökme ve hata raporları gönderir. Hiçbir hesap verisi ya da sunucu adresi dahil edilmez. İstediğiniz zaman ayarlardan devre dışı bırakabilirsiniz."
+      "crash_reports_title": "Glassfin'i geliştirmemize yardımcı olun",
+      "crash_reports_description": "Glassfin geliştiricilerine anonim çökme ve hata raporları gönderir. Hiçbir hesap verisi ya da sunucu adresi dahil edilmez. İstediğiniz zaman ayarlardan devre dışı bırakabilirsiniz."
     },
     "settings": {
       "settings_title": "Ayarlar",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "OpenSubtitles'ta ara",
         "opensubtitles_enabled_hint": "Jellyfin sunucunuzda altyazı sağlayıcısı yoksa bu cihazın doğrudan OpenSubtitles'ta aramasına izin verir. Kapatırsanız altyazı aramaları sunucunuzda kalır ve kayıtlı API anahtarına dokunulmaz.",
         "crash_reports": "Çökme raporları",
-        "crash_reports_hint": "Sailfin geliştiricilerine Sentry üzerinden anonim kilitlenme ve hata bildirimleri iletin. Raporlar hesap bilgisi barındırmaz; herhangi bir veri gönderilmeden önce sunucu adresleri ve token'lar temizlenir.",
+        "crash_reports_hint": "Glassfin geliştiricilerine Sentry üzerinden anonim kilitlenme ve hata bildirimleri iletin. Raporlar hesap bilgisi barındırmaz; herhangi bir veri gönderilmeden önce sunucu adresleri ve token'lar temizlenir.",
         "seerr": {
           "server_url": "Sunucu adresi",
           "server_url_hint": "Örnek: http(s)://sunucunuz.com\n(gerekirse port ekleyin)",
@@ -766,7 +766,7 @@
     "still_watching": "Hala izliyor musunuz?",
     "error": "Hata",
     "failed_to_get_stream_url": "Yayın URL'si alınamadı",
-    "unsupported_item_type": "Sailfin bu öğe türünü oynatamıyor",
+    "unsupported_item_type": "Glassfin bu öğe türünü oynatamıyor",
     "an_error_occurred_while_playing_the_video": "Video oynatılırken bir hata oluştu. Ayarlardaki günlüklere bakın.",
     "client_error": "İstemci hatası",
     "could_not_create_stream_for_chromecast": "Chromecast için yayın oluşturulamadı",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "TV hesabınıza bağlanıyor",
     "error_title": "Yetkilendirme Başarısız",
     "error_invalid_qr": "Geçersiz QR kod. Lütfen TV eşleştirme kodunu tarayın.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Telefonla Eşleştir",
     "pair_with_phone_title": "TV'de oturum aç",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Giriş yapılıyor...",
     "logging_in_description": "Sunucunuza bağlanılıyor"

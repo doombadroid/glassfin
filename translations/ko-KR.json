@@ -122,10 +122,10 @@
       "disable": "상단 추천 영역 끄기"
     },
     "intro": {
-      "welcome_to_streamyfin": "Sailfin에 오신 것을 환영합니다",
+      "welcome_to_streamyfin": "Glassfin에 오신 것을 환영합니다",
       "a_free_and_open_source_client_for_jellyfin": "Jellyfin을 위한 무료 오픈소스 클라이언트입니다.",
       "features_title": "기능",
-      "features_description": "Sailfin은 다양한 기능을 제공하며 다른 소프트웨어와도 연동됩니다. 설정 메뉴에서 확인할 수 있습니다:",
+      "features_description": "Glassfin은 다양한 기능을 제공하며 다른 소프트웨어와도 연동됩니다. 설정 메뉴에서 확인할 수 있습니다:",
       "seerr_feature_description": "Seerr 서버에 연결하여 앱에서 바로 영화를 요청할 수 있습니다.",
       "downloads_feature_title": "다운로드된 컨텐츠",
       "downloads_feature_description": "영화와 시리즈를 다운로드하여 오프라인으로 시청.",
@@ -135,8 +135,8 @@
       "done_button": "완료",
       "go_to_settings_button": "설정으로 이동",
       "read_more": "자세히 보기",
-      "crash_reports_title": "Sailfin 개선에 참여하기",
-      "crash_reports_description": "Sailfin은 앱 개선을 위해 익명으로 충돌 및 오류 보고서를 개발자에게 전송합니다. 계정 정보나 서버 주소는 포함되지 않습니다. 이 기능은 여기에서 끄거나 언제든지 설정에서 변경할 수 있습니다."
+      "crash_reports_title": "Glassfin 개선에 참여하기",
+      "crash_reports_description": "Glassfin은 앱 개선을 위해 익명으로 충돌 및 오류 보고서를 개발자에게 전송합니다. 계정 정보나 서버 주소는 포함되지 않습니다. 이 기능은 여기에서 끄거나 언제든지 설정에서 변경할 수 있습니다."
     },
     "settings": {
       "settings_title": "설정",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "OpenSubtitles 검색",
         "opensubtitles_enabled_hint": "Jellyfin 서버에 자막 제공자가 없을 때 이 기기가 OpenSubtitles에서 직접 검색하도록 허용합니다. 끄면 자막 검색은 서버에서만 이루어지며 저장된 API 키는 그대로 유지됩니다.",
         "crash_reports": "오류 보고서",
-        "crash_reports_hint": "Sentry를 통해 익명으로 앱 충돌 및 오류 보고서를 Sailfin 개발자에게 전송합니다. 보고서에는 계정 정보가 포함되지 않으며, 서버 주소와 토큰은 전송 전에 제거됩니다.",
+        "crash_reports_hint": "Sentry를 통해 익명으로 앱 충돌 및 오류 보고서를 Glassfin 개발자에게 전송합니다. 보고서에는 계정 정보가 포함되지 않으며, 서버 주소와 토큰은 전송 전에 제거됩니다.",
         "seerr": {
           "server_url": "서버 URL",
           "server_url_hint": "예: http(s)://your-host.url\n(필요한 경우 포트 추가)",
@@ -766,7 +766,7 @@
     "still_watching": "아직 보고 계신가요?",
     "error": "오류",
     "failed_to_get_stream_url": "스트림 URL을 가져오지 못했습니다",
-    "unsupported_item_type": "Sailfin은 이 유형의 항목을 재생할 수 없습니다",
+    "unsupported_item_type": "Glassfin은 이 유형의 항목을 재생할 수 없습니다",
     "an_error_occurred_while_playing_the_video": "비디오 재생 중 오류가 발생했습니다. 설정에서 로그를 확인하세요.",
     "client_error": "클라이언트 오류",
     "could_not_create_stream_for_chromecast": "Chromecast용 스트림을 생성하지 못했습니다",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "TV가 계정에 연결 중입니다",
     "error_title": "인증에 실패했습니다",
     "error_invalid_qr": "잘못된 QR 코드입니다. TV 페어링 코드를 스캔하세요.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "휴대폰과 페어링",
     "pair_with_phone_title": "TV에서 로그인",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "로그인 중...",
     "logging_in_description": "서버에 연결 중"

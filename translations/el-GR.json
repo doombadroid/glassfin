@@ -122,10 +122,10 @@
       "disable": "Απενεργοποίηση καρουζέλ"
     },
     "intro": {
-      "welcome_to_streamyfin": "Καλώς ήρθατε στο Sailfin",
+      "welcome_to_streamyfin": "Καλώς ήρθατε στο Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Ένας ελεύθερος και ανοιχτού κώδικα πελάτης για τη ζελυφίνη.",
       "features_title": "Χαρακτηριστικά",
-      "features_description": "Το Sailfin διαθέτει πολλές λειτουργίες και συνεργάζεται με άλλο λογισμικό. Θα τις βρείτε στο μενού ρυθμίσεων:",
+      "features_description": "Το Glassfin διαθέτει πολλές λειτουργίες και συνεργάζεται με άλλο λογισμικό. Θα τις βρείτε στο μενού ρυθμίσεων:",
       "seerr_feature_description": "Συνδεθείτε στον διακομιστή Seerr σας και ζητήστε ταινίες απευθείας από την εφαρμογή.",
       "downloads_feature_title": "Λήψεις",
       "downloads_feature_description": "Κατεβάστε ταινίες και tv-shows για να δείτε εκτός σύνδεσης. Χρησιμοποιήστε είτε την προεπιλεγμένη μέθοδο ή εγκαταστήστε το βελτιστοποιημένο διακομιστή για να κατεβάσετε αρχεία στο παρασκήνιο.",
@@ -135,8 +135,8 @@
       "done_button": "Ολοκληρώθηκε",
       "go_to_settings_button": "Μετάβαση στις ρυθμίσεις",
       "read_more": "Διαβάστε Περισσότερα",
-      "crash_reports_title": "Βοηθήστε μας να βελτιώσουμε το Sailfin",
-      "crash_reports_description": "Το Sailfin στέλνει ανώνυμες αναφορές κατάρρευσης και σφαλμάτων στους προγραμματιστές. Δεν περιλαμβάνονται δεδομένα λογαριασμού ούτε διευθύνσεις διακομιστών. Μπορείτε να το απενεργοποιήσετε εδώ ή οποιαδήποτε στιγμή από τις ρυθμίσεις."
+      "crash_reports_title": "Βοηθήστε μας να βελτιώσουμε το Glassfin",
+      "crash_reports_description": "Το Glassfin στέλνει ανώνυμες αναφορές κατάρρευσης και σφαλμάτων στους προγραμματιστές. Δεν περιλαμβάνονται δεδομένα λογαριασμού ούτε διευθύνσεις διακομιστών. Μπορείτε να το απενεργοποιήσετε εδώ ή οποιαδήποτε στιγμή από τις ρυθμίσεις."
     },
     "settings": {
       "settings_title": "Ρυθμίσεις",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Αναζήτηση στο OpenSubtitles",
         "opensubtitles_enabled_hint": "Επιτρέπει σε αυτή τη συσκευή να αναζητά απευθείας στο OpenSubtitles όταν ο διακομιστής Jellyfin σας δεν έχει πάροχο υπότιτλων. Αν το απενεργοποιήσετε, οι αναζητήσεις υπότιτλων παραμένουν στον διακομιστή και το αποθηκευμένο κλειδί API δεν θίγεται.",
         "crash_reports": "Αναφορές κατάρρευσης",
-        "crash_reports_hint": "Αποστολή ανώνυμων αναφορών κατάρρευσης και σφαλμάτων στους προγραμματιστές του Sailfin μέσω του Sentry. Οι αναφορές δεν περιέχουν δεδομένα λογαριασμού, ενώ οι διευθύνσεις διακομιστών και τα διακριτικά αφαιρούνται πριν από οποιαδήποτε αποστολή.",
+        "crash_reports_hint": "Αποστολή ανώνυμων αναφορών κατάρρευσης και σφαλμάτων στους προγραμματιστές του Glassfin μέσω του Sentry. Οι αναφορές δεν περιέχουν δεδομένα λογαριασμού, ενώ οι διευθύνσεις διακομιστών και τα διακριτικά αφαιρούνται πριν από οποιαδήποτε αποστολή.",
         "seerr": {
           "server_url": "Διεύθυνση URL Διακομιστή",
           "server_url_hint": "Παράδειγμα: http(s)://your-host.url\n(προσθέστε τη θύρα αν χρειάζεται)",
@@ -766,7 +766,7 @@
     "still_watching": "Συνεχίζετε να παρακολουθείτε?",
     "error": "Σφάλμα",
     "failed_to_get_stream_url": "Αποτυχία λήψης του URL ροής",
-    "unsupported_item_type": "Το Sailfin δεν μπορεί να αναπαράγει αυτόν τον τύπο στοιχείου",
+    "unsupported_item_type": "Το Glassfin δεν μπορεί να αναπαράγει αυτόν τον τύπο στοιχείου",
     "an_error_occurred_while_playing_the_video": "Παρουσιάστηκε σφάλμα κατά την αναπαραγωγή του βίντεο. Ελέγξτε τα αρχεία καταγραφής στις ρυθμίσεις.",
     "client_error": "Σφάλμα Πελάτη",
     "could_not_create_stream_for_chromecast": "Αδυναμία δημιουργίας ροής για το Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "Η τηλεόραση συνδέεται στον λογαριασμό σας",
     "error_title": "Η εξουσιοδότηση απέτυχε",
     "error_invalid_qr": "Μη έγκυρος κωδικός QR. Σαρώστε τον κωδικό σύζευξης της τηλεόρασης.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Σύζευξη με τηλέφωνο",
     "pair_with_phone_title": "Σύνδεση στην τηλεόραση",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Γίνεται σύνδεση...",
     "logging_in_description": "Σύνδεση με τον διακομιστή σας"

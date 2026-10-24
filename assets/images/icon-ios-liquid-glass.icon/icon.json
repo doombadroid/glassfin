@@ -20,8 +20,8 @@
           ],
           "glass": true,
           "hidden": false,
-          "image-name": "sailfin_play.svg",
-          "name": "sailfin_play"
+          "image-name": "glassfin_play.svg",
+          "name": "glassfin_play"
         }
       ],
       "name": "Play",
@@ -53,8 +53,8 @@
           ],
           "glass": true,
           "hidden": false,
-          "image-name": "sailfin_sail.svg",
-          "name": "sailfin_sail"
+          "image-name": "glassfin_sail.svg",
+          "name": "glassfin_sail"
         }
       ],
       "lighting": "individual",
@@ -87,8 +87,8 @@
           ],
           "glass": true,
           "hidden": false,
-          "image-name": "sailfin_hull.svg",
-          "name": "sailfin_hull"
+          "image-name": "glassfin_hull.svg",
+          "name": "glassfin_hull"
         }
       ],
       "name": "Hull",

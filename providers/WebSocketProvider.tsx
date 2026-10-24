@@ -446,9 +446,9 @@ export const WebSocketProvider = ({ children }: WebSocketProviderProps) => {
       try {
         await getSessionApi(api).postFullCapabilities({
           clientCapabilitiesDto: {
-            AppStoreUrl: "https://github.com/doombadroid/sailfin",
+            AppStoreUrl: "https://github.com/doombadroid/glassfin",
             IconUrl:
-              "https://raw.githubusercontent.com/doombadroid/sailfin/develop/assets/images/icon.png",
+              "https://raw.githubusercontent.com/doombadroid/glassfin/develop/assets/images/icon.png",
             PlayableMediaTypes: ["Audio", "Video"],
             SupportedCommands: supportedCommands(Platform.isTV),
             SupportsMediaControl: true,

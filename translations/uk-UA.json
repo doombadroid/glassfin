@@ -122,10 +122,10 @@
       "disable": "Вимкнути карусель"
     },
     "intro": {
-      "welcome_to_streamyfin": "Вітаємо у Sailfin",
+      "welcome_to_streamyfin": "Вітаємо у Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Вільний і open-source клієнт для Jellyfin.",
       "features_title": "Функції",
-      "features_description": "Sailfin має безліч функцій і працює з іншим програмним забезпеченням. Ви знайдете їх у меню налаштувань:",
+      "features_description": "Glassfin має безліч функцій і працює з іншим програмним забезпеченням. Ви знайдете їх у меню налаштувань:",
       "seerr_feature_description": "Підключіться до свого сервера Seerr і запитуйте фільми безпосередньо в застосунку.",
       "downloads_feature_title": "Завантаження",
       "downloads_feature_description": "Завантажуйте фільми і серіали для перегляду офлайн. Використовуйте або метод за замовчуванням або встановіть оптимізований сервер для завантаження файлів у фоні.",
@@ -135,8 +135,8 @@
       "done_button": "Готово",
       "go_to_settings_button": "Перейти до параметрів",
       "read_more": "Прочитати більше",
-      "crash_reports_title": "Допоможіть покращити Sailfin",
-      "crash_reports_description": "Sailfin надсилає розробникам анонімні звіти про збої та помилки. Дані облікового запису й адреси серверів до них не входять. Це можна вимкнути тут або будь-коли в налаштуваннях."
+      "crash_reports_title": "Допоможіть покращити Glassfin",
+      "crash_reports_description": "Glassfin надсилає розробникам анонімні звіти про збої та помилки. Дані облікового запису й адреси серверів до них не входять. Це можна вимкнути тут або будь-коли в налаштуваннях."
     },
     "settings": {
       "settings_title": "Параметри",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Шукати на OpenSubtitles",
         "opensubtitles_enabled_hint": "Дозволити цьому пристрою шукати субтитри безпосередньо на OpenSubtitles, коли на вашому сервері Jellyfin немає постачальника субтитрів. Якщо вимкнути, пошук субтитрів залишиться на сервері, а збережений ключ API не буде змінено.",
         "crash_reports": "Звіти про збої",
-        "crash_reports_hint": "Надсилати розробникам Sailfin анонімні звіти про збої та помилки через Sentry. Звіти не містять даних облікового запису; адреси серверів і токени видаляються перед надсиланням.",
+        "crash_reports_hint": "Надсилати розробникам Glassfin анонімні звіти про збої та помилки через Sentry. Звіти не містять даних облікового запису; адреси серверів і токени видаляються перед надсиланням.",
         "seerr": {
           "server_url": "URL сервера",
           "server_url_hint": "Наприклад: http(s)://your-host.url\n(додайте порт, якщо необхідно)",
@@ -766,7 +766,7 @@
     "still_watching": "Ви все ще дивитесь?",
     "error": "Помилка",
     "failed_to_get_stream_url": "Не вдалося отримати URL-адресу потоку",
-    "unsupported_item_type": "Sailfin не може відтворювати елементи цього типу",
+    "unsupported_item_type": "Glassfin не може відтворювати елементи цього типу",
     "an_error_occurred_while_playing_the_video": "Під час відтворення відео сталася помилка. Перевірте журнал в налаштуваннях.",
     "client_error": "Помилка клієнту",
     "could_not_create_stream_for_chromecast": "Не вдалося створити потік для Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "Телевізор підключається до вашого облікового запису",
     "error_title": "Авторизація не вдалася",
     "error_invalid_qr": "Недійсний QR-код. Відскануйте код підключення з телевізора.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Підключити телефон",
     "pair_with_phone_title": "Увійти на ТБ",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Вхід...",
     "logging_in_description": "Підключення до вашого сервера"

@@ -1,15 +1,15 @@
 {
-  "name": "Sailfin",
-  "identifier": "io.github.doombadroid.sailfin",
+  "name": "Glassfin",
+  "identifier": "io.github.doombadroid.glassfin",
   "subtitle": "A Jellyfin player for iPhone Duo",
   "apps": [
     {
-      "name": "Sailfin",
-      "bundleIdentifier": "com.doombadroid.sailfin",
+      "name": "Glassfin",
+      "bundleIdentifier": "com.doombadroid.glassfin",
       "developerName": "doombadroid",
       "subtitle": "Jellyfin client",
       "localizedDescription": "Jellyfin player with a Liquid Glass design and iPhone Duo fold, tabletop and book layouts. MPL-2.0.",
-      "iconURL": "https://raw.githubusercontent.com/doombadroid/sailfin/develop/assets/images/icon.png",
+      "iconURL": "https://raw.githubusercontent.com/doombadroid/glassfin/develop/assets/images/icon.png",
       "tintColor": "8fe6cb",
       "versions": [],
       "appPermissions": {

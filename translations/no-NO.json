@@ -122,10 +122,10 @@
       "disable": "Slå av hovedkarusellen"
     },
     "intro": {
-      "welcome_to_streamyfin": "Velkommen til Sailfin",
+      "welcome_to_streamyfin": "Velkommen til Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "En gratis og Open-Source klient for Jellyfin.",
       "features_title": "Funksjoner",
-      "features_description": "Sailfin har en haug med funksjoner og fungerer med annen programvare. Du finner dem i innstillingsmenyen:",
+      "features_description": "Glassfin har en haug med funksjoner og fungerer med annen programvare. Du finner dem i innstillingsmenyen:",
       "seerr_feature_description": "Koble til Seerr-instansen din og be om filmer direkte i appen.",
       "downloads_feature_title": "Nedlastinger",
       "downloads_feature_description": "Last ned filmer og serier for å se dem offline.",
@@ -135,8 +135,8 @@
       "done_button": "Ferdig",
       "go_to_settings_button": "Gå til innstillinger",
       "read_more": "Les mer",
-      "crash_reports_title": "Bidra til å forbedre Sailfin",
-      "crash_reports_description": "Sailfin sender anonyme krasj- og feilrapporter til utviklerne. Ingen kontodata eller serveradresser blir sendt med. Du kan slå dette av her eller når som helst i innstillingene."
+      "crash_reports_title": "Bidra til å forbedre Glassfin",
+      "crash_reports_description": "Glassfin sender anonyme krasj- og feilrapporter til utviklerne. Ingen kontodata eller serveradresser blir sendt med. Du kan slå dette av her eller når som helst i innstillingene."
     },
     "settings": {
       "settings_title": "Innstillinger",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Søk på OpenSubtitles",
         "opensubtitles_enabled_hint": "La denne enheten søke direkte på OpenSubtitles når Jellyfin-serveren din ikke har noen undertekstleverandør. Hvis du slår dette av, blir undertekstsøk værende på serveren, og en lagret API-nøkkel røres ikke.",
         "crash_reports": "Krasjrapporter",
-        "crash_reports_hint": "Send anonyme krasj- og feilrapporter til Sailfin-utviklerne via Sentry. Rapportene inneholder ingen kontodata; serveradresser og tokener fjernes før noe sendes.",
+        "crash_reports_hint": "Send anonyme krasj- og feilrapporter til Glassfin-utviklerne via Sentry. Rapportene inneholder ingen kontodata; serveradresser og tokener fjernes før noe sendes.",
         "seerr": {
           "server_url": "Server-URL",
           "server_url_hint": "Eksempel: http(s)://din-vert.url\n(legg til port hvis nødvendig)",
@@ -766,7 +766,7 @@
     "still_watching": "Ser du fortsatt?",
     "error": "Feil",
     "failed_to_get_stream_url": "Kan ikke hente nettadressen for stream",
-    "unsupported_item_type": "Sailfin kan ikke spille av denne typen element",
+    "unsupported_item_type": "Glassfin kan ikke spille av denne typen element",
     "an_error_occurred_while_playing_the_video": "En feil oppstod under video. Sjekk loggene i innstillingene.",
     "client_error": "Klientfeil",
     "could_not_create_stream_for_chromecast": "Kan ikke opprette en strøm for Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "TV-en kobler seg til kontoen din",
     "error_title": "Autorisering mislyktes",
     "error_invalid_qr": "Ugyldig QR-kode. Skann tilkoblingskoden på TV-en.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Koble til telefon",
     "pair_with_phone_title": "Logg inn på TV",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Logger inn...",
     "logging_in_description": "Kobler til serveren din"

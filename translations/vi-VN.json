@@ -122,10 +122,10 @@
       "disable": "Tắt băng chuyền nổi bật"
     },
     "intro": {
-      "welcome_to_streamyfin": "Chào mừng đến với Sailfin",
+      "welcome_to_streamyfin": "Chào mừng đến với Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Một ứng dụng miễn phí và mã nguồn mở cho Jellyfin.",
       "features_title": "Tính năng",
-      "features_description": "Sailfin có nhiều tính năng và hoạt động cùng các phần mềm khác. Bạn sẽ thấy chúng trong mục cài đặt:",
+      "features_description": "Glassfin có nhiều tính năng và hoạt động cùng các phần mềm khác. Bạn sẽ thấy chúng trong mục cài đặt:",
       "seerr_feature_description": "Kết nối với máy chủ Seerr của bạn và yêu cầu phim ngay trong ứng dụng.",
       "downloads_feature_title": "Tải xuống",
       "downloads_feature_description": "Tải phim và chương trình để xem ngoại tuyến. Có thể dùng phương pháp mặc định hoặc cài đặt máy chủ tối ưu để hỗ trợ tải trong nền.",
@@ -135,8 +135,8 @@
       "done_button": "Xong",
       "go_to_settings_button": "Tới cài đặt",
       "read_more": "Xem thêm",
-      "crash_reports_title": "Giúp cải thiện Sailfin",
-      "crash_reports_description": "Sailfin gửi báo cáo sự cố và lỗi ẩn danh cho nhà phát triển. Báo cáo không kèm dữ liệu tài khoản hay địa chỉ máy chủ. Bạn có thể tắt tính năng này tại đây hoặc bất cứ lúc nào trong cài đặt."
+      "crash_reports_title": "Giúp cải thiện Glassfin",
+      "crash_reports_description": "Glassfin gửi báo cáo sự cố và lỗi ẩn danh cho nhà phát triển. Báo cáo không kèm dữ liệu tài khoản hay địa chỉ máy chủ. Bạn có thể tắt tính năng này tại đây hoặc bất cứ lúc nào trong cài đặt."
     },
     "settings": {
       "settings_title": "Cài đặt",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Tìm trên OpenSubtitles",
         "opensubtitles_enabled_hint": "Cho phép thiết bị này tìm trực tiếp trên OpenSubtitles khi máy chủ Jellyfin của bạn không có nhà cung cấp phụ đề. Khi tắt, việc tìm phụ đề vẫn diễn ra trên máy chủ và khóa API đã lưu không bị thay đổi.",
         "crash_reports": "Báo cáo sự cố",
-        "crash_reports_hint": "Gửi báo cáo sự cố và lỗi ẩn danh tới nhà phát triển Sailfin qua Sentry. Báo cáo không chứa dữ liệu tài khoản; địa chỉ máy chủ và mã thông báo được xóa trước khi gửi đi bất cứ thứ gì.",
+        "crash_reports_hint": "Gửi báo cáo sự cố và lỗi ẩn danh tới nhà phát triển Glassfin qua Sentry. Báo cáo không chứa dữ liệu tài khoản; địa chỉ máy chủ và mã thông báo được xóa trước khi gửi đi bất cứ thứ gì.",
         "seerr": {
           "server_url": "URL máy chủ",
           "server_url_hint": "Ví dụ: http(s)://your-host.url\n(thêm cổng nếu cần)",
@@ -766,7 +766,7 @@
     "still_watching": "Bạn có đang xem không?",
     "error": "Lỗi",
     "failed_to_get_stream_url": "Không thể lấy URL phát trực tiếp",
-    "unsupported_item_type": "Sailfin không thể phát loại nội dung này",
+    "unsupported_item_type": "Glassfin không thể phát loại nội dung này",
     "an_error_occurred_while_playing_the_video": "Có lỗi khi phát video. Xem nhật ký trong cài đặt.",
     "client_error": "Lỗi phía máy khách",
     "could_not_create_stream_for_chromecast": "Không thể tạo luồng cho Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "TV đang kết nối với tài khoản của bạn",
     "error_title": "Cấp quyền thất bại",
     "error_invalid_qr": "Mã QR không hợp lệ. Vui lòng quét mã ghép nối trên TV.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Ghép nối với điện thoại",
     "pair_with_phone_title": "Đăng nhập trên TV",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Đang đăng nhập...",
     "logging_in_description": "Đang kết nối tới máy chủ của bạn"

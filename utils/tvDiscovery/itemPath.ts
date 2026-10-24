@@ -5,7 +5,7 @@ const HOME = "/(auth)/(tabs)/(home)";
 const SEASON_INDEX = /^\d+$/;
 
 /**
- * Where a `sailfin://topshelf/item` link lands inside the app. The other
+ * Where a `glassfin://topshelf/item` link lands inside the app. The other
  * half of the link built in `payload.ts`: a parameter added there is read
  * here.
  *

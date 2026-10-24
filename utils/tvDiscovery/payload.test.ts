@@ -14,8 +14,8 @@ const tileFor = (item: BaseItemDto): TVDiscoveryItem => {
   return tile;
 };
 
-const PLAY = "sailfin://topshelf/play";
-const DETAILS = "sailfin://topshelf/item";
+const PLAY = "glassfin://topshelf/play";
+const DETAILS = "glassfin://topshelf/item";
 
 describe("buildTVDiscoveryPayload: what Play does on a tile", () => {
   test("an episode plays straight from the tile", () => {

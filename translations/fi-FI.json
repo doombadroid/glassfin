@@ -122,10 +122,10 @@
       "disable": "Poista nostokaruselli käytöstä"
     },
     "intro": {
-      "welcome_to_streamyfin": "Tervetuloa Sailfiniin",
+      "welcome_to_streamyfin": "Tervetuloa Glassfiniin",
       "a_free_and_open_source_client_for_jellyfin": "Ilmainen ja avoimen lähdekoodin asiakas Jellyfinille.",
       "features_title": "Ominaisuudet",
-      "features_description": "Sailfinissä on useita ominaisuuksia, ja se toimii muiden ohjelmistojen kanssa. Löydät ne asetukset-valikosta:",
+      "features_description": "Glassfinissä on useita ominaisuuksia, ja se toimii muiden ohjelmistojen kanssa. Löydät ne asetukset-valikosta:",
       "seerr_feature_description": "Yhdistä Seerr-instanssiisi ja pyydä elokuvia suoraan sovelluksessa.",
       "downloads_feature_title": "Lataukset",
       "downloads_feature_description": "Lataa elokuvia ja TV-sarjoja katsottavaksi offline-tilassa. Käytä joko oletusmenetelmää tai asenna optimoitu palvelin ladataksesi tiedostoja taustalla.",
@@ -135,8 +135,8 @@
       "done_button": "Valmis",
       "go_to_settings_button": "Siirry asetuksiin",
       "read_more": "Lue lisää",
-      "crash_reports_title": "Auta parantamaan Sailfiniä",
-      "crash_reports_description": "Sailfin lähettää kehittäjille nimettömiä kaatumis- ja virheraportteja. Niihin ei sisälly tilitietoja eikä palvelinosoitteita. Voit poistaa tämän käytöstä täällä tai milloin tahansa asetuksista."
+      "crash_reports_title": "Auta parantamaan Glassfiniä",
+      "crash_reports_description": "Glassfin lähettää kehittäjille nimettömiä kaatumis- ja virheraportteja. Niihin ei sisälly tilitietoja eikä palvelinosoitteita. Voit poistaa tämän käytöstä täällä tai milloin tahansa asetuksista."
     },
     "settings": {
       "settings_title": "Asetukset",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Hae OpenSubtitlesista",
         "opensubtitles_enabled_hint": "Anna tämän laitteen hakea tekstityksiä suoraan OpenSubtitlesista, kun Jellyfin-palvelimellasi ei ole tekstityspalvelua. Kun tämä on pois päältä, tekstityshaut tehdään palvelimella eikä tallennettuun API-avaimeen kosketa.",
         "crash_reports": "Kaatumisraportit",
-        "crash_reports_hint": "Lähetä nimettömiä kaatumis- ja virheraportteja Sailfinin kehittäjille Sentryn kautta. Raportit eivät sisällä tilitietoja; palvelinosoitteet ja pääsymerkit poistetaan ennen kuin mitään lähetetään.",
+        "crash_reports_hint": "Lähetä nimettömiä kaatumis- ja virheraportteja Glassfinin kehittäjille Sentryn kautta. Raportit eivät sisällä tilitietoja; palvelinosoitteet ja pääsymerkit poistetaan ennen kuin mitään lähetetään.",
         "seerr": {
           "server_url": "Palvelimen URL",
           "server_url_hint": "Esimerkki: http(s)://verkkotunnus.url\n(lisää portti tarvittaessa)",
@@ -766,7 +766,7 @@
     "still_watching": "Oletko edelleen katsomassa?",
     "error": "Virhe",
     "failed_to_get_stream_url": "Lähetyksen URL-osoitteen haku epäonnistui",
-    "unsupported_item_type": "Sailfin ei voi toistaa tämäntyyppistä kohdetta",
+    "unsupported_item_type": "Glassfin ei voi toistaa tämäntyyppistä kohdetta",
     "an_error_occurred_while_playing_the_video": "Videon toiston yhteydessä tapahtui virhe. Tarkista lokit asetuksista.",
     "client_error": "Asiakkaan Virhe",
     "could_not_create_stream_for_chromecast": "Suoratoistoa ei voitu luoda Chromecastia varten",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "Televisio yhdistää tiliisi",
     "error_title": "Valtuutus epäonnistui",
     "error_invalid_qr": "Virheellinen QR-koodi. Skannaa television pariliitoskoodi.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Pariliitos puhelimen kanssa",
     "pair_with_phone_title": "Kirjaudu televisiossa",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Kirjaudutaan...",
     "logging_in_description": "Yhdistetään palvelimeesi"

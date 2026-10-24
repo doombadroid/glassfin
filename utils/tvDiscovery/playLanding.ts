@@ -6,7 +6,7 @@ import { getUserItemData } from "@/utils/jellyfin/user-library/getUserItemData";
 import { getTopShelfItemPath } from "./itemPath";
 
 /**
- * Where a `sailfin://topshelf/play` link goes instead of the player, or
+ * Where a `glassfin://topshelf/play` link goes instead of the player, or
  * null when the item is one the player can be given.
  *
  * `payload.ts` no longer writes a play link for a container, but a tile keeps

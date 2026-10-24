@@ -122,10 +122,10 @@
       "disable": "nIH HaSta jIr yIchu'Ha'"
     },
     "intro": {
-      "welcome_to_streamyfin": "Sailfin yI'el!",
+      "welcome_to_streamyfin": "Glassfin yI'el!",
       "a_free_and_open_source_client_for_jellyfin": "Jellyfin lut 'el je'be' 'ej wang.",
       "features_title": "mIw",
-      "features_description": "Sailfin mIw law' tu'. men menuDaq yISam:",
+      "features_description": "Glassfin mIw law' tu'. men menuDaq yISam:",
       "seerr_feature_description": "SeerrlIj yIngoq 'ej ghunDaq DIS yIpetlh.",
       "downloads_feature_title": "Qaw' Doch",
       "downloads_feature_description": "DIS 'ej Hem Qaw'laH. Qaw' mIw tu'lu'.",
@@ -135,8 +135,8 @@
       "done_button": "Qapla'",
       "go_to_settings_button": "men yIghoS",
       "read_more": "yIlaDqa'",
-      "crash_reports_title": "Sailfin wIDubmeH ghoQaH",
-      "crash_reports_description": "ghunwI'pu'vaD Qagh De' pong Hutlhbogh ngeH Sailfin. laH De' ghap Server Daq ghap ngeHbe'. naDev Dachu'Ha'laH, pagh reH menDaq Dachu'Ha'laH."
+      "crash_reports_title": "Glassfin wIDubmeH ghoQaH",
+      "crash_reports_description": "ghunwI'pu'vaD Qagh De' pong Hutlhbogh ngeH Glassfin. laH De' ghap Server Daq ghap ngeHbe'. naDev Dachu'Ha'laH, pagh reH menDaq Dachu'Ha'laH."
     },
     "settings": {
       "settings_title": "men",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "OpenSubtitles yISam",
         "opensubtitles_enabled_hint": "Jellyfin ServerlIjvaD De' chu' nobwI' pagh 'e' qaSchugh, De'wI'vam OpenSubtitles Sam 'e' chaw'. Dachu'Ha'chugh Server Sam 'ej API ngoq polta' choHbe'.",
         "crash_reports": "Qagh De'",
-        "crash_reports_hint": "Sentry lo'taHvIS, Sailfin ghunwI'pu'vaD Qagh De' pong Hutlhbogh yIngeH. Qagh De'Daq laH De' tu'lu'be'; vay' ngeHlu'pa', Server Daq per De' je teqlu'.",
+        "crash_reports_hint": "Sentry lo'taHvIS, Glassfin ghunwI'pu'vaD Qagh De' pong Hutlhbogh yIngeH. Qagh De'Daq laH De' tu'lu'be'; vay' ngeHlu'pa', Server Daq per De' je teqlu'.",
         "seerr": {
           "server_url": "Ho'Do' veS URL",
           "server_url_hint": "ghojmeH: http(s)://your-host.url\n(poQlu'chugh, lojmIt mI' yIchel)",
@@ -766,7 +766,7 @@
     "still_watching": "DabejtaH'a'?",
     "error": "ghIq",
     "failed_to_get_stream_url": "tlhol ret URL tu'laHbe'",
-    "unsupported_item_type": "Doch Seghvam chu'laHbe' Sailfin",
+    "unsupported_item_type": "Doch Seghvam chu'laHbe' Glassfin",
     "an_error_occurred_while_playing_the_video": "mu'tlhegh tlholDI' ghIq. menDaq De' qon mej.",
     "client_error": "lut 'el ghIq",
     "could_not_create_stream_for_chromecast": "Chromecast tlhol ret qonlaHbe'",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "laHlIjDaq rarlI' TV",
     "error_title": "chaw' luj",
     "error_invalid_qr": "QR ngoq lughbe'. TV rar ngoq yIlaD.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "De'wI' yIrar",
     "pair_with_phone_title": "TVDaq yI'el",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "'ellI'...",
     "logging_in_description": "ServerlIjDaq rarlI'"

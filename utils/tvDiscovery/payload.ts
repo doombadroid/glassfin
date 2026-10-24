@@ -168,7 +168,7 @@ function getTVDiscoveryRoute(item: BaseItemDto): string {
     }
   }
 
-  return `sailfin://topshelf/item?${params.join("&")}`;
+  return `glassfin://topshelf/item?${params.join("&")}`;
 }
 
 function getTVDiscoveryPlayRoute(item: BaseItemDto, route: string): string {
@@ -179,7 +179,7 @@ function getTVDiscoveryPlayRoute(item: BaseItemDto, route: string): string {
   // button on the remote from being a dead key on those tiles.
   if (!isPlayableItem(item)) return route;
 
-  return `sailfin://topshelf/play?id=${encodeURIComponent(item.Id!)}`;
+  return `glassfin://topshelf/play?id=${encodeURIComponent(item.Id!)}`;
 }
 
 function sectionFromItems(

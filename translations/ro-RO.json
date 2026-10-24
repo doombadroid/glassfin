@@ -122,10 +122,10 @@
       "disable": "Dezactivează caruselul"
     },
     "intro": {
-      "welcome_to_streamyfin": "Bun venit la Sailfin",
+      "welcome_to_streamyfin": "Bun venit la Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Un client gratuit și open-source pentru Jellyfin.",
       "features_title": "Caracteristici",
-      "features_description": "Sailfin are o mulțime de funcții și funcționează cu alte aplicații software. Le găsiți în meniul de setări:",
+      "features_description": "Glassfin are o mulțime de funcții și funcționează cu alte aplicații software. Le găsiți în meniul de setări:",
       "seerr_feature_description": "Conectează-te la instanța ta Seerr și cere filme direct din aplicație.",
       "downloads_feature_title": "Descărcări",
       "downloads_feature_description": "Descarcă filme și seriale pentru a le viziona offline. Folosește fie metoda implicită, fie instalează serverul de optimizare pentru a descărca fișiere în fundal.",
@@ -135,8 +135,8 @@
       "done_button": "Efectuat",
       "go_to_settings_button": "Accesați setările",
       "read_more": "Citeşte mai mult",
-      "crash_reports_title": "Ajută-ne să îmbunătățim Sailfin",
-      "crash_reports_description": "Sailfin trimite dezvoltatorilor rapoarte anonime de blocare și erori. Nu sunt incluse date de cont sau adrese de server. Poți dezactiva această opțiune aici sau oricând din setări."
+      "crash_reports_title": "Ajută-ne să îmbunătățim Glassfin",
+      "crash_reports_description": "Glassfin trimite dezvoltatorilor rapoarte anonime de blocare și erori. Nu sunt incluse date de cont sau adrese de server. Poți dezactiva această opțiune aici sau oricând din setări."
     },
     "settings": {
       "settings_title": "Setări",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Caută pe OpenSubtitles",
         "opensubtitles_enabled_hint": "Permite acestui dispozitiv să caute direct pe OpenSubtitles când serverul tău Jellyfin nu are niciun furnizor de subtitrări. Dacă dezactivezi, căutările de subtitrări rămân pe server, iar cheia API salvată nu este modificată.",
         "crash_reports": "Rapoarte de blocare",
-        "crash_reports_hint": "Trimite rapoarte anonime de blocare și erori dezvoltatorilor Sailfin prin Sentry. Rapoartele nu conțin date de cont; adresele serverelor și token-urile sunt eliminate înainte de orice trimitere.",
+        "crash_reports_hint": "Trimite rapoarte anonime de blocare și erori dezvoltatorilor Glassfin prin Sentry. Rapoartele nu conțin date de cont; adresele serverelor și token-urile sunt eliminate înainte de orice trimitere.",
         "seerr": {
           "server_url": "URL server",
           "server_url_hint": "Exemplu: http(s)://your-host.url\n(adăugați portul dacă este necesar)",
@@ -766,7 +766,7 @@
     "still_watching": "Mai urmăriți?",
     "error": "Eroare",
     "failed_to_get_stream_url": "Nu s-a putut obține adresa URL a fluxului",
-    "unsupported_item_type": "Sailfin nu poate reda acest tip de element",
+    "unsupported_item_type": "Glassfin nu poate reda acest tip de element",
     "an_error_occurred_while_playing_the_video": "A apărut o eroare la redarea videoclipului. Verificați jurnalele în setări.",
     "client_error": "Eroare client",
     "could_not_create_stream_for_chromecast": "Nu s-a putut crea un flux pentru Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "Televizorul se conectează la contul tău",
     "error_title": "Autorizarea a eșuat",
     "error_invalid_qr": "Cod QR invalid. Scanează codul de asociere de pe televizor.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Asociază cu telefonul",
     "pair_with_phone_title": "Autentificare pe televizor",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Se autentifică...",
     "logging_in_description": "Se conectează la serverul tău"

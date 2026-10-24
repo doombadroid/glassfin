@@ -122,10 +122,10 @@
       "disable": "Disabilita Hero"
     },
     "intro": {
-      "welcome_to_streamyfin": "Benvenuto a Sailfin",
+      "welcome_to_streamyfin": "Benvenuto a Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Un client gratuito e open-source per Jellyfin.",
       "features_title": "Funzioni",
-      "features_description": "Sailfin ha molte funzioni e funziona con altro software. Le trovi nel menu delle impostazioni:",
+      "features_description": "Glassfin ha molte funzioni e funziona con altro software. Le trovi nel menu delle impostazioni:",
       "seerr_feature_description": "Connettiti alla tua istanza Seerr e richiedi i film direttamente dall'app.",
       "downloads_feature_title": "Scaricamento",
       "downloads_feature_description": "Scaricate film e serie tv da vedere offline. Utilizzate il metodo predefinito o installate il server di ottimizzazione per scaricare i file in background.",
@@ -135,8 +135,8 @@
       "done_button": "Fatto",
       "go_to_settings_button": "Vai alle impostazioni",
       "read_more": "Leggi di più",
-      "crash_reports_title": "Aiuta a migliorare Sailfin",
-      "crash_reports_description": "Sailfin invia crash anonimi e report di errore agli sviluppatori. Nessun dato dell'account o indirizzo del server sono inclusi. È possibile disattivare questo qui o in qualsiasi momento nelle impostazioni."
+      "crash_reports_title": "Aiuta a migliorare Glassfin",
+      "crash_reports_description": "Glassfin invia crash anonimi e report di errore agli sviluppatori. Nessun dato dell'account o indirizzo del server sono inclusi. È possibile disattivare questo qui o in qualsiasi momento nelle impostazioni."
     },
     "settings": {
       "settings_title": "Impostazioni",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Cerca su OpenSubtitles",
         "opensubtitles_enabled_hint": "Consente a questo dispositivo di cercare direttamente su OpenSubtitles quando il tuo server Jellyfin non ha un provider di sottotitoli. Disattivandolo, le ricerche dei sottotitoli restano sul server e la chiave API salvata non viene toccata.",
         "crash_reports": "Segnalazione dei crash",
-        "crash_reports_hint": "Invia segnalazioni anonime di crash e errori agli sviluppatori di Sailfin tramite Sentry. I report non contengono alcun dato dell'account; gli indirizzi del server e i token vengono rimossi prima che qualsiasi cosa venga inviata.",
+        "crash_reports_hint": "Invia segnalazioni anonime di crash e errori agli sviluppatori di Glassfin tramite Sentry. I report non contengono alcun dato dell'account; gli indirizzi del server e i token vengono rimossi prima che qualsiasi cosa venga inviata.",
         "seerr": {
           "server_url": "URL del Server",
           "server_url_hint": "Esempio: http(s)://tuo-host.url\n(aggiungere la porta se necessario)",
@@ -766,7 +766,7 @@
     "still_watching": "Stai ancora guardando?",
     "error": "Errore",
     "failed_to_get_stream_url": "Impossibile ottenere l'URL dello stream",
-    "unsupported_item_type": "Sailfin non può riprodurre questo tipo di elemento",
+    "unsupported_item_type": "Glassfin non può riprodurre questo tipo di elemento",
     "an_error_occurred_while_playing_the_video": "Si è verificato un errore durante la riproduzione del video. Controllare i log nelle impostazioni.",
     "client_error": "Errore del client",
     "could_not_create_stream_for_chromecast": "Impossibile creare uno stream per Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "La TV si sta collegando al tuo account",
     "error_title": "Autorizzazione non riuscita",
     "error_invalid_qr": "QR code non valido. Scansiona il codice di associazione della TV.",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Associa al telefono",
     "pair_with_phone_title": "Accedi sulla TV",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Accesso in corso...",
     "logging_in_description": "Sto connettendo al server"

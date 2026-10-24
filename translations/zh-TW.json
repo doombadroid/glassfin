@@ -122,10 +122,10 @@
       "disable": "停用主打輪播"
     },
     "intro": {
-      "welcome_to_streamyfin": "歡迎來到 Sailfin",
+      "welcome_to_streamyfin": "歡迎來到 Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "一個免費且開源的 Jellyfin 客戶端。",
       "features_title": "功能",
-      "features_description": "Sailfin 擁有許多功能，並與多種軟體整合，您可以在設置菜單中找到這些功能，包括：",
+      "features_description": "Glassfin 擁有許多功能，並與多種軟體整合，您可以在設置菜單中找到這些功能，包括：",
       "seerr_feature_description": "連線到您的 Seerr 伺服器，直接在應用程式中請求電影。",
       "downloads_feature_title": "下載",
       "downloads_feature_description": "下載電影和電視節目以離線觀看。使用默認方法或安裝 Optimized Server 以在背景中下載文件。",
@@ -135,8 +135,8 @@
       "done_button": "完成",
       "go_to_settings_button": "前往設置",
       "read_more": "閱讀更多",
-      "crash_reports_title": "協助改善 Sailfin",
-      "crash_reports_description": "Sailfin 會向開發者傳送匿名的當機與錯誤報告，不包含任何帳戶資料或伺服器位址。您可以在此處關閉此功能，也可以隨時在設定中關閉。"
+      "crash_reports_title": "協助改善 Glassfin",
+      "crash_reports_description": "Glassfin 會向開發者傳送匿名的當機與錯誤報告，不包含任何帳戶資料或伺服器位址。您可以在此處關閉此功能，也可以隨時在設定中關閉。"
     },
     "settings": {
       "settings_title": "設置",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "搜尋 OpenSubtitles",
         "opensubtitles_enabled_hint": "當您的 Jellyfin 伺服器沒有字幕提供者時，允許此裝置直接搜尋 OpenSubtitles。關閉後，字幕搜尋仍在伺服器上進行，已儲存的 API 金鑰不會變動。",
         "crash_reports": "當機報告",
-        "crash_reports_hint": "透過 Sentry 向 Sailfin 開發者傳送匿名的當機與錯誤報告。報告不含帳戶資料；伺服器位址與權杖會在傳送前移除。",
+        "crash_reports_hint": "透過 Sentry 向 Glassfin 開發者傳送匿名的當機與錯誤報告。報告不含帳戶資料；伺服器位址與權杖會在傳送前移除。",
         "seerr": {
           "server_url": "伺服器 URL",
           "server_url_hint": "範例：http(s)://your-host.url\n（如有需要，請加上連接埠）",
@@ -766,7 +766,7 @@
     "still_watching": "您還在觀看嗎？",
     "error": "錯誤",
     "failed_to_get_stream_url": "無法獲取流 URL",
-    "unsupported_item_type": "Sailfin 無法播放此類型的項目",
+    "unsupported_item_type": "Glassfin 無法播放此類型的項目",
     "an_error_occurred_while_playing_the_video": "播放影片時發生錯誤。請在設定中查看紀錄。",
     "client_error": "客戶端錯誤",
     "could_not_create_stream_for_chromecast": "無法為 Chromecast 建立串流",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "電視正在連線到您的帳戶",
     "error_title": "授權失敗",
     "error_invalid_qr": "QR code 無效。請掃描電視上的配對碼。",
-    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Glassfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "與手機配對",
     "pair_with_phone_title": "在電視上登入",
-    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Glassfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "登入中...",
     "logging_in_description": "正在連線到您的伺服器"
