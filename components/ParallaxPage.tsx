@@ -1,3 +1,4 @@
+import type { BaseItemDto } from "@jellyfin/sdk/lib/generated-client/models";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   createContext,
@@ -15,7 +16,9 @@ import Animated, {
   useScrollViewOffset,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { AmbientBackdrop } from "@/components/frost/AmbientBackdrop";
 import { ParallaxPageColors } from "@/constants/Colors";
+import { FROST_CONTENT_FILL } from "@/constants/Frost";
 import { LOGO_HEIGHT } from "@/constants/Images";
 
 /**
@@ -46,6 +49,11 @@ interface Props extends ViewProps {
   episodePoster?: ReactElement;
   headerHeight?: number;
   onEndReached?: (() => void) | null | undefined;
+  /**
+   * Frost: draw this item's blurred artwork behind the page, and let it show
+   * through the content area instead of the solid black.
+   */
+  ambientItem?: BaseItemDto | null;
 }
 
 export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
@@ -55,8 +63,11 @@ export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
   headerHeight = PARALLAX_HEADER_HEIGHT,
   logo,
   onEndReached,
+  ambientItem,
   ...props
 }: Props) => {
+  const ambient = ambientItem !== undefined;
+  const fill = ambient ? FROST_CONTENT_FILL : ParallaxPageColors.background;
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const originRef = useAnimatedRef<Animated.View>();
   const scrollOffset = useScrollViewOffset(scrollRef);
@@ -99,6 +110,7 @@ export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
 
   return (
     <View className='flex-1' {...props}>
+      {ambient ? <AmbientBackdrop item={ambientItem} /> : null}
       <Animated.ScrollView
         style={{
           position: "relative",
@@ -126,7 +138,9 @@ export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
           style={[
             {
               height: headerHeight,
-              backgroundColor: ParallaxPageColors.background,
+              backgroundColor: ambient
+                ? "transparent"
+                : ParallaxPageColors.background,
             },
             headerAnimatedStyle,
           ]}
@@ -144,7 +158,7 @@ export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
         >
           <LinearGradient
             // Background Linear Gradient
-            colors={["transparent", "rgba(0,0,0,1)"]}
+            colors={["transparent", ambient ? fill : "rgba(0,0,0,1)"]}
             style={{
               position: "absolute",
               left: 0,
@@ -161,7 +175,7 @@ export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
               right: 0,
               top: 50,
               height: "100%",
-              backgroundColor: ParallaxPageColors.background,
+              backgroundColor: fill,
             }}
           />
           <ParallaxScrollContext.Provider value={scroll}>

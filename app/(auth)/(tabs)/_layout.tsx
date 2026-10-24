@@ -153,10 +153,14 @@ export default function TabLayout() {
     <View style={{ flex: 1 }}>
       <SystemBars hidden={false} style='light' />
       <NativeTabs
-        sidebarAdaptable={false}
-        tabBarStyle={{
-          backgroundColor: "#121212",
-        }}
+        // Frost: on iOS the bar stays Liquid Glass (no fill), and a regular
+        // width window (the unfolded iPhone Duo, iPad) gets the sidebar.
+        sidebarAdaptable={Platform.OS === "ios" && !Platform.isTV}
+        tabBarStyle={
+          Platform.OS === "ios" && !Platform.isTV
+            ? undefined
+            : { backgroundColor: "#121212" }
+        }
         tabBarActiveTintColor={Platform.isTV ? "#FFFFFF" : Colors.primary}
         activeIndicatorColor={"#392c3b"}
         scrollEdgeAppearance='default'

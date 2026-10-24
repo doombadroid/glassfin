@@ -3,11 +3,22 @@ import type { FC } from "react";
 import { Platform, TouchableOpacity, View } from "react-native";
 import { Text } from "@/components/common/Text";
 import { Loader } from "@/components/Loader";
+import { FrostColors } from "@/constants/Frost";
 import { useControlsSafeAreaInsets } from "@/hooks/useControlsSafeAreaInsets";
 import { useSettings } from "@/utils/atoms/settings";
 import AudioSlider from "./AudioSlider";
 import BrightnessSlider from "./BrightnessSlider";
 import { ICON_SIZES } from "./constants";
+
+const FROST_DISC = 76;
+const FROST_PLAY_DISC = {
+  width: FROST_DISC,
+  height: FROST_DISC,
+  borderRadius: FROST_DISC / 2,
+  backgroundColor: "white",
+  alignItems: "center",
+  justifyContent: "center",
+} as const;
 
 interface CenterControlsProps {
   showControls: boolean;
@@ -54,7 +65,7 @@ export const CenterControls: FC<CenterControlsProps> = ({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        transform: [{ translateY: -22.5 }],
+        transform: [{ translateY: Platform.isTV ? -22.5 : -FROST_DISC / 2 }],
         paddingHorizontal: hasChapters ? "18%" : "28%",
       }}
       pointerEvents={showControls ? "box-none" : "none"}
@@ -120,12 +131,17 @@ export const CenterControls: FC<CenterControlsProps> = ({
       )}
 
       <View style={Platform.isTV ? { flex: 1, alignItems: "center" } : {}}>
-        <TouchableOpacity onPress={togglePlay}>
+        <TouchableOpacity
+          onPress={togglePlay}
+          // Frost: a solid white disc carries play/pause on phones.
+          style={Platform.isTV || isBuffering ? undefined : FROST_PLAY_DISC}
+        >
           {!isBuffering ? (
             <Ionicons
               name={isPlaying ? "pause" : "play"}
-              size={ICON_SIZES.CENTER}
-              color='white'
+              size={Platform.isTV ? ICON_SIZES.CENTER : 34}
+              color={Platform.isTV ? "white" : FrostColors.ground}
+              style={Platform.isTV || isPlaying ? undefined : { marginLeft: 4 }}
             />
           ) : (
             <Loader size={"large"} />

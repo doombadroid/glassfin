@@ -259,6 +259,7 @@ const page: React.FC = () => {
     <OfflineModeProvider isOffline={isOffline}>
       <ParallaxScrollView
         headerHeight={HEADER_HEIGHT}
+        ambientItem={Platform.isTV ? undefined : item}
         headerImage={
           backdropUrl ? (
             <Image

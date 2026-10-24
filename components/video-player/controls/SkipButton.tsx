@@ -1,6 +1,7 @@
 import type React from "react";
 import { TouchableOpacity, View, type ViewProps } from "react-native";
 import { Text } from "@/components/common/Text";
+import { FrostColors } from "@/constants/Frost";
 
 interface SkipButtonProps extends ViewProps {
   onPress: () => void;
@@ -18,9 +19,17 @@ const SkipButton: React.FC<SkipButtonProps> = ({
     <View className={showButton ? "flex" : "hidden"} {...props}>
       <TouchableOpacity
         onPress={onPress}
-        className='bg-black/60 rounded-md px-3 py-2 border border-neutral-900'
+        // Frost glass pill.
+        style={{
+          backgroundColor: FrostColors.glassRaised,
+          borderColor: FrostColors.glassEdge,
+          borderWidth: 1,
+          borderRadius: 999,
+          paddingHorizontal: 20,
+          paddingVertical: 12,
+        }}
       >
-        <Text className='text-sm font-bold'>{buttonText}</Text>
+        <Text className='text-base font-bold'>{buttonText}</Text>
       </TouchableOpacity>
     </View>
   );

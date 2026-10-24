@@ -27,6 +27,7 @@ import { Button } from "@/components/Button";
 import { HeaderButton } from "@/components/common/HeaderButton";
 import { HeaderIcon } from "@/components/common/HeaderIcon";
 import { Text } from "@/components/common/Text";
+import { HomeAmbientBackdrop } from "@/components/frost/AmbientBackdrop";
 import { HomeHeroCarousel } from "@/components/home/HomeHeroCarousel";
 import { InfiniteScrollingCollectionList } from "@/components/home/InfiniteScrollingCollectionList";
 import { StreamystatsPromotedWatchlists } from "@/components/home/StreamystatsPromotedWatchlists";
@@ -609,123 +610,127 @@ const HomeMobile = () => {
     );
 
   return (
-    <ScrollView
-      ref={scrollRef}
-      nestedScrollEnabled
-      contentInsetAdjustmentBehavior='automatic'
-      refreshControl={
-        <RefreshControl
-          refreshing={loading}
-          onRefresh={refetch}
-          tintColor='white'
-          colors={["white"]}
-        />
-      }
-      contentContainerStyle={{
-        paddingLeft: insets.left,
-        paddingRight: insets.right,
-        paddingBottom: 16,
-      }}
-    >
-      <View
-        className='flex flex-col space-y-4'
-        style={{ paddingTop: Platform.OS === "android" ? 10 : 0 }}
+    <View style={{ flex: 1 }}>
+      <HomeAmbientBackdrop />
+      <ScrollView
+        ref={scrollRef}
+        style={{ backgroundColor: "transparent" }}
+        nestedScrollEnabled
+        contentInsetAdjustmentBehavior='automatic'
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={refetch}
+            tintColor='white'
+            colors={["white"]}
+          />
+        }
+        contentContainerStyle={{
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+          paddingBottom: 16,
+        }}
       >
-        <HomeHeroCarousel />
-        {sections.map((section, index) => {
-          // Render Streamystats sections after Recently Added sections
-          // For default sections: place after Recently Added, before Suggested Movies (if present)
-          // For custom sections: place at the very end
-          const hasSuggestedMovies =
-            !settings?.streamyStatsMovieRecommendations &&
-            !settings?.home?.sections;
-          const streamystatsIndex =
-            sections.length - 1 - (hasSuggestedMovies ? 1 : 0);
-          const hasStreamystatsContent =
-            settings.streamyStatsMovieRecommendations ||
-            settings.streamyStatsSeriesRecommendations ||
-            settings.streamyStatsPromotedWatchlists;
-          const streamystatsSections =
-            index === streamystatsIndex && hasStreamystatsContent ? (
-              <View
-                key='streamystats-sections'
-                className='flex flex-col space-y-4'
-              >
-                {settings.streamyStatsMovieRecommendations && (
-                  <StreamystatsRecommendations
-                    title={t(
-                      "home.settings.plugins.streamystats.recommended_movies",
-                    )}
-                    type='Movie'
-                    enabled={allHighPriorityLoaded}
-                  />
-                )}
-                {settings.streamyStatsSeriesRecommendations && (
-                  <StreamystatsRecommendations
-                    title={t(
-                      "home.settings.plugins.streamystats.recommended_series",
-                    )}
-                    type='Series'
-                    enabled={allHighPriorityLoaded}
-                  />
-                )}
-                {settings.streamyStatsPromotedWatchlists && (
-                  <StreamystatsPromotedWatchlists
-                    enabled={allHighPriorityLoaded}
-                  />
-                )}
-              </View>
-            ) : null;
-          if (section.type === "InfiniteScrollingCollectionList") {
-            const isHighPriority = section.priority === 1;
-            const handleSeeAll = section.parentId
-              ? () => {
-                  router.push({
-                    pathname: "/(auth)/(tabs)/(libraries)/[libraryId]",
-                    params: {
-                      libraryId: section.parentId!,
-                      ...recentlyAddedSeeAllParams(section.collectionType),
-                    },
-                  } as any);
-                }
-              : undefined;
-            return (
-              <View key={index} className='flex flex-col space-y-4'>
-                <InfiniteScrollingCollectionList
-                  title={section.title}
-                  queryKey={section.queryKey}
-                  queryFn={section.queryFn}
-                  orientation={section.orientation}
-                  hideIfEmpty
-                  pageSize={section.pageSize}
-                  enabled={isHighPriority || allHighPriorityLoaded}
-                  onLoaded={
-                    isHighPriority
-                      ? () => markSectionLoaded(section.queryKey)
-                      : undefined
+        <View
+          className='flex flex-col space-y-4'
+          style={{ paddingTop: Platform.OS === "android" ? 10 : 0 }}
+        >
+          <HomeHeroCarousel />
+          {sections.map((section, index) => {
+            // Render Streamystats sections after Recently Added sections
+            // For default sections: place after Recently Added, before Suggested Movies (if present)
+            // For custom sections: place at the very end
+            const hasSuggestedMovies =
+              !settings?.streamyStatsMovieRecommendations &&
+              !settings?.home?.sections;
+            const streamystatsIndex =
+              sections.length - 1 - (hasSuggestedMovies ? 1 : 0);
+            const hasStreamystatsContent =
+              settings.streamyStatsMovieRecommendations ||
+              settings.streamyStatsSeriesRecommendations ||
+              settings.streamyStatsPromotedWatchlists;
+            const streamystatsSections =
+              index === streamystatsIndex && hasStreamystatsContent ? (
+                <View
+                  key='streamystats-sections'
+                  className='flex flex-col space-y-4'
+                >
+                  {settings.streamyStatsMovieRecommendations && (
+                    <StreamystatsRecommendations
+                      title={t(
+                        "home.settings.plugins.streamystats.recommended_movies",
+                      )}
+                      type='Movie'
+                      enabled={allHighPriorityLoaded}
+                    />
+                  )}
+                  {settings.streamyStatsSeriesRecommendations && (
+                    <StreamystatsRecommendations
+                      title={t(
+                        "home.settings.plugins.streamystats.recommended_series",
+                      )}
+                      type='Series'
+                      enabled={allHighPriorityLoaded}
+                    />
+                  )}
+                  {settings.streamyStatsPromotedWatchlists && (
+                    <StreamystatsPromotedWatchlists
+                      enabled={allHighPriorityLoaded}
+                    />
+                  )}
+                </View>
+              ) : null;
+            if (section.type === "InfiniteScrollingCollectionList") {
+              const isHighPriority = section.priority === 1;
+              const handleSeeAll = section.parentId
+                ? () => {
+                    router.push({
+                      pathname: "/(auth)/(tabs)/(libraries)/[libraryId]",
+                      params: {
+                        libraryId: section.parentId!,
+                        ...recentlyAddedSeeAllParams(section.collectionType),
+                      },
+                    } as any);
                   }
-                  onPressSeeAll={handleSeeAll}
-                  showParentTitle={section.showParentTitle}
-                />
-                {streamystatsSections}
-              </View>
-            );
-          }
-          if (section.type === "MediaListSection") {
-            return (
-              <View key={index} className='flex flex-col space-y-4'>
-                <MediaListSection
-                  queryKey={section.queryKey}
-                  queryFn={section.queryFn}
-                />
-                {streamystatsSections}
-              </View>
-            );
-          }
-          return null;
-        })}
-      </View>
-    </ScrollView>
+                : undefined;
+              return (
+                <View key={index} className='flex flex-col space-y-4'>
+                  <InfiniteScrollingCollectionList
+                    title={section.title}
+                    queryKey={section.queryKey}
+                    queryFn={section.queryFn}
+                    orientation={section.orientation}
+                    hideIfEmpty
+                    pageSize={section.pageSize}
+                    enabled={isHighPriority || allHighPriorityLoaded}
+                    onLoaded={
+                      isHighPriority
+                        ? () => markSectionLoaded(section.queryKey)
+                        : undefined
+                    }
+                    onPressSeeAll={handleSeeAll}
+                    showParentTitle={section.showParentTitle}
+                  />
+                  {streamystatsSections}
+                </View>
+              );
+            }
+            if (section.type === "MediaListSection") {
+              return (
+                <View key={index} className='flex flex-col space-y-4'>
+                  <MediaListSection
+                    queryKey={section.queryKey}
+                    queryFn={section.queryFn}
+                  />
+                  {streamystatsSections}
+                </View>
+              );
+            }
+            return null;
+          })}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 

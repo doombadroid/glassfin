@@ -252,6 +252,7 @@ const ItemContentMobile: React.FC<ItemContentProps> = ({
       <ParallaxScrollView
         className='flex-1'
         headerHeight={headerHeight}
+        ambientItem={Platform.isTV ? undefined : item}
         headerImage={
           <View style={[{ flex: 1 }]}>
             <ItemImage
