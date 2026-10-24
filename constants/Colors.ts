@@ -16,6 +16,19 @@ export const Colors = {
 };
 
 /**
+ * The Android settings switch (SettingSwitch). Left uncoloured it takes the
+ * system theme's colours, which can put a dark knob on a dark track. The on
+ * knob is the accent itself, over a see-through accent track, the Material
+ * pattern, so the knob always stands out from both the track and the row.
+ */
+export const SwitchColors = {
+  thumbOn: Colors.primary,
+  trackOn: "rgba(143, 230, 203, 0.5)",
+  thumbOff: "#d4d4d8",
+  trackOff: "#52525b",
+} as const;
+
+/**
  * What a Seerr status reads as wherever it is spelled out: available in
  * green, pending in amber, requested (approved and on its way) in indigo.
  */

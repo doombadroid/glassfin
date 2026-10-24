@@ -1,5 +1,6 @@
 import type React from "react";
 import { Platform, Switch, type SwitchProps, View } from "react-native";
+import { SwitchColors } from "@/constants/Colors";
 
 /**
  * Settings toggle. Android's native Switch lays out ~40px tall / ~56px wide and
@@ -32,6 +33,11 @@ export const SettingSwitch: React.FC<SwitchProps> = (props) => {
       }}
     >
       <Switch
+        thumbColor={props.value ? SwitchColors.thumbOn : SwitchColors.thumbOff}
+        trackColor={{
+          false: SwitchColors.trackOff,
+          true: SwitchColors.trackOn,
+        }}
         {...props}
         style={[props.style, { transform: [{ scale: SCALE }] }]}
       />
