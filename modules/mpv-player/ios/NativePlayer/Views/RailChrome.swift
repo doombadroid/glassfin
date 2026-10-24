@@ -87,8 +87,9 @@ private struct CapsuleSheen: View {
 	}
 }
 
-/// Back, play/pause, forward, and next episode when there is one. Play is the
-/// one filled control, in the app's accent.
+/// Previous episode, previous chapter, back, play/pause, forward, next
+/// chapter, next episode: the episode and chapter jumps only where they
+/// apply. Play is the one filled control, in the app's accent.
 struct RailTransport: View {
 	@ObservedObject var viewModel: PlayerViewModel
 	var vertical = true
@@ -96,6 +97,23 @@ struct RailTransport: View {
 	private static let accent = Color(red: 0x8F / 255, green: 0xE6 / 255, blue: 0xCB / 255)
 
 	var body: some View {
+		if showsEpisodeJumps {
+			button("backward.end") {
+				viewModel.playPreviousEpisode()
+			}
+			.disabled(viewModel.isSyncPlayActive && viewModel.syncPlay?.hasPrevious != true)
+			.accessibilityLabel(viewModel.str("previousEpisode", "Previous episode"))
+		}
+
+		if hasChapters {
+			button("backward") {
+				viewModel.goToPreviousChapter()
+			}
+			.opacity(viewModel.hasPreviousChapter ? 1 : 0.35)
+			.disabled(!viewModel.hasPreviousChapter)
+			.accessibilityLabel(viewModel.str("previousChapter", "Previous chapter"))
+		}
+
 		button(seekSymbol(prefix: "gobackward", seconds: viewModel.seekBackwardSec)) {
 			viewModel.seekBackward()
 		}
@@ -122,18 +140,44 @@ struct RailTransport: View {
 		}
 		.accessibilityLabel(viewModel.str("seekForward", "Forward"))
 
-		if hasNext {
+		if hasChapters {
+			button("forward") {
+				viewModel.goToNextChapter()
+			}
+			.opacity(viewModel.hasNextChapter ? 1 : 0.35)
+			.disabled(!viewModel.hasNextChapter)
+			.accessibilityLabel(viewModel.str("nextChapter", "Next chapter"))
+		}
+
+		if showsEpisodeJumps {
 			button("forward.end") {
 				viewModel.playNextEpisode()
 			}
+			.opacity(hasNextEpisode ? 1 : 0.35)
+			.disabled(!hasNextEpisode)
 			.accessibilityLabel(viewModel.str("nextEpisode", "Next episode"))
 		}
 	}
 
-	private var hasNext: Bool {
+	/// Same rule as the old centre row: episodes and SyncPlay queues.
+	private var showsEpisodeJumps: Bool {
+		viewModel.isSyncPlayActive || viewModel.metadata?.isEpisode == true
+	}
+
+	private var hasChapters: Bool { !viewModel.chapters.isEmpty }
+
+	private var hasNextEpisode: Bool {
 		viewModel.isSyncPlayActive
 			? viewModel.syncPlay?.hasNext == true
-			: viewModel.metadata?.isEpisode == true && viewModel.nextEpisode != nil
+			: viewModel.nextEpisode != nil
+	}
+
+	/// Buttons the transport shows for this item.
+	static func buttonCount(viewModel: PlayerViewModel) -> Int {
+		var count = 3 // back, play, forward
+		if viewModel.isSyncPlayActive || viewModel.metadata?.isEpisode == true { count += 2 }
+		if !viewModel.chapters.isEmpty { count += 2 }
+		return count
 	}
 
 	private func button(_ systemName: String, action: @escaping () -> Void) -> some View {
@@ -198,7 +242,7 @@ struct PlayerRail: View {
 		if !viewModel.isSyncPlayActive && !viewModel.episodeList.isEmpty { actions += 1 }
 		if !viewModel.audioMenu.isEmpty { actions += 1 }
 		if !viewModel.subtitleMenu.isEmpty { actions += 1 }
-		let transport = 4
+		let transport = RailTransport.buttonCount(viewModel: viewModel)
 		return CGFloat(actions + transport) * 44 + 16 + 12 + 24
 	}
 }
