@@ -7,6 +7,14 @@ export type {
   DownloadStartedEvent,
 } from "./background-downloader";
 export { default as BackgroundDownloader } from "./background-downloader";
+// Duo Layout (iPhone Duo vertical bar, hinge and fold)
+export type {
+  DuoLayoutState,
+  DuoRect,
+  HingeStatus,
+  VerticalBarEdge,
+} from "./duo-layout";
+export { DuoLayoutObserver } from "./duo-layout";
 // ExoPlayer (Android TV)
 export { ExoPlayerView } from "./exoplayer-player";
 // Glass Poster (tvOS 26+)

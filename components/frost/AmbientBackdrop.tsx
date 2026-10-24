@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { StyleSheet, View } from "react-native";
 import { Image } from "@/components/common/ServerImage";
+import { useTabContentInsets } from "@/components/duo/TabContentInsets";
 import { FrostAmbient, FrostColors } from "@/constants/Frost";
 import { apiAtom, userAtom } from "@/utils/atoms/api";
 import { getBackdropUrl } from "@/utils/jellyfin/image/getBackdropUrl";
@@ -12,9 +13,14 @@ import { getBackdropUrl } from "@/utils/jellyfin/image/getBackdropUrl";
  * The Frost ambient layer: the item's backdrop, heavily blurred and darkened,
  * filling the screen behind transparent content. Without an item it is the
  * plain ground colour.
+ *
+ * Screens are padded clear of the tab's side insets (the iPhone Duo's status
+ * bar strip and vertical tab bar, the sidebar); the backdrop bleeds back out
+ * under them, since it's decoration and nothing on it takes a tap.
  */
 export const AmbientBackdrop = ({ item }: { item?: BaseItemDto | null }) => {
   const api = useAtomValue(apiAtom);
+  const { left, right } = useTabContentInsets();
   const uri = getBackdropUrl({
     api,
     item,
@@ -25,7 +31,10 @@ export const AmbientBackdrop = ({ item }: { item?: BaseItemDto | null }) => {
   return (
     <View
       pointerEvents='none'
-      style={[StyleSheet.absoluteFill, { backgroundColor: FrostColors.ground }]}
+      style={[
+        StyleSheet.absoluteFill,
+        { left: -left, right: -right, backgroundColor: FrostColors.ground },
+      ]}
     >
       {uri ? (
         <Image

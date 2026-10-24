@@ -1,0 +1,23 @@
+Pod::Spec.new do |s|
+  s.name           = 'DuoLayout'
+  s.version        = '1.0.0'
+  s.summary        = 'iPhone Duo layout state for React Native'
+  s.description    = 'Reports the vertical bar edge, hinge status and fold region (iOS 27.1) to JS'
+  s.author         = 'Streamyfin'
+  s.homepage       = 'https://github.com/streamyfin/streamyfin'
+  s.platforms      = {
+    :ios => '15.1',
+    :tvos => '15.1'
+  }
+  s.source         = { git: '' }
+  s.static_framework = true
+
+  s.dependency 'ExpoModulesCore'
+
+  s.pod_target_xcconfig = {
+    'DEFINES_MODULE' => 'YES',
+    'SWIFT_VERSION' => '5.9'
+  }
+
+  s.source_files = "*.{h,m,mm,swift}"
+end

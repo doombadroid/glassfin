@@ -11,6 +11,7 @@ import { OrientationLock } from "@/packages/expo-screen-orientation";
 import { HEADER_LAYOUT, ICON_SIZES } from "./constants";
 import DropdownView from "./dropdown/DropdownView";
 import { PlaybackSpeedScope } from "./utils/playback-speed-settings";
+import { playerRailEdge } from "./utils/playerRail";
 import { shouldShowPlayerMenu } from "./utils/shouldShowPlayerMenu";
 import { type AspectRatio } from "./VideoScalingModeSelector";
 import { ZoomToggle } from "./ZoomToggle";
@@ -64,6 +65,9 @@ export const HeaderControls: FC<HeaderControlsProps> = ({
   const { t } = useTranslation();
   const router = useRouter();
   const insets = useControlsSafeAreaInsets();
+  // Folded iPhone Duo in landscape: the buttons stack down the strip's side,
+  // like the system's own vertical bar, and the menu takes the other corner.
+  const rail = Platform.isTV ? null : playerRailEdge(insets);
   const lightHapticFeedback = useHaptic("light");
   const { orientation, lockOrientation } = useOrientation();
   const [isTogglingOrientation, setIsTogglingOrientation] = useState(false);
@@ -109,9 +113,18 @@ export const HeaderControls: FC<HeaderControlsProps> = ({
         },
       ]}
       pointerEvents={showControls ? "auto" : "none"}
-      className='flex flex-row justify-between'
+      className={
+        rail === "left"
+          ? "flex flex-row-reverse justify-between items-start"
+          : rail
+            ? "flex flex-row justify-between items-start"
+            : "flex flex-row justify-between"
+      }
     >
-      <View className='mr-auto' pointerEvents='box-none'>
+      <View
+        className={rail === "left" ? "ml-auto" : "mr-auto"}
+        pointerEvents='box-none'
+      >
         {shouldShowPlayerMenu({ isTV: Platform.isTV }) && (
           <View
             pointerEvents='auto'
@@ -131,7 +144,13 @@ export const HeaderControls: FC<HeaderControlsProps> = ({
         )}
       </View>
 
-      <View className='flex flex-row items-center space-x-2'>
+      <View
+        className={
+          rail
+            ? "flex flex-col items-center space-y-2"
+            : "flex flex-row items-center space-x-2"
+        }
+      >
         {/* Rotate toggle is Android-only: iOS does not reliably rotate the
             player back to portrait programmatically. */}
         {Platform.OS === "android" && (

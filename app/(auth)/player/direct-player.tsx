@@ -69,6 +69,7 @@ import { useInactivity } from "@/providers/InactivityProvider";
 import { apiAtom, userAtom } from "@/providers/JellyfinProvider";
 import { OfflineModeProvider } from "@/providers/OfflineModeProvider";
 import { getSubtitlesForItem } from "@/utils/atoms/downloadedSubtitles";
+import { useTableFold } from "@/utils/atoms/duoLayout";
 import { getActivePlayerType, useSettings } from "@/utils/atoms/settings";
 import { getJellyfinHeadersForUrl } from "@/utils/customHeaders";
 import {
@@ -119,6 +120,7 @@ import { generateDeviceProfile } from "../../../utils/profiles/native";
 // this file, Expo Router turns everything under app/ into a route.
 export default function DirectPlayerPage() {
   const videoRef = useRef<MpvPlayerViewRef>(null);
+  const tableFold = useTableFold();
   const user = useAtomValue(userAtom);
   const api = useAtomValue(apiAtom);
   const { t } = useTranslation();
@@ -1790,7 +1792,9 @@ export default function DirectPlayerPage() {
               style={{
                 display: "flex",
                 width: "100%",
-                height: "100%",
+                // iPhone Duo on a table: the video takes the top half, above
+                // the fold; Controls fills the bottom half.
+                height: tableFold ? tableFold.y : "100%",
                 position: "relative",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -1917,7 +1921,7 @@ export default function DirectPlayerPage() {
                   progress={progress}
                   cacheProgress={cacheProgress}
                   isBuffering={isBuffering}
-                  showControls={showControls}
+                  showControls={showControls || tableFold !== null}
                   setShowControls={setShowControls}
                   startPictureInPicture={startPictureInPicture}
                   play={play}

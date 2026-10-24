@@ -5,6 +5,7 @@ import { Text } from "@/components/common/Text";
 import { Loader } from "@/components/Loader";
 import { FrostColors } from "@/constants/Frost";
 import { useControlsSafeAreaInsets } from "@/hooks/useControlsSafeAreaInsets";
+import { useBookFold } from "@/utils/atoms/duoLayout";
 import { useSettings } from "@/utils/atoms/settings";
 import AudioSlider from "./AudioSlider";
 import BrightnessSlider from "./BrightnessSlider";
@@ -54,13 +55,18 @@ export const CenterControls: FC<CenterControlsProps> = ({
 }) => {
   const { settings } = useSettings();
   const insets = useControlsSafeAreaInsets();
+  // iPhone Duo held like a book: the fold runs down the middle, right where
+  // the play disc would sit, so the cluster moves to the right-hand page.
+  const bookFold = useBookFold();
 
   return (
     <View
       style={{
         position: "absolute",
         top: "50%",
-        left: insets.left,
+        left: bookFold
+          ? Math.max(insets.left, bookFold.x + bookFold.width)
+          : insets.left,
         right: insets.right,
         flexDirection: "row",
         justifyContent: "space-between",

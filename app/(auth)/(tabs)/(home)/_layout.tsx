@@ -8,7 +8,7 @@ import {
 import { HeaderIcon } from "@/components/common/HeaderIcon";
 import {
   nestedTabPageScreenOptions,
-  stackScreenOptions,
+  useStackScreenOptions,
 } from "@/components/stacks/NestedTabPageStack";
 import { SyncPlayButton } from "@/components/syncplay/SyncPlayButton";
 import { Colors } from "@/constants/Colors";
@@ -45,11 +45,12 @@ import { userAtom } from "@/providers/JellyfinProvider";
 export const unstable_settings = { anchor: "index" };
 
 export default function IndexLayout() {
+  const screenOptions = useStackScreenOptions();
   const [user] = useAtom(userAtom);
   const { t } = useTranslation();
 
   return (
-    <Stack screenOptions={stackScreenOptions}>
+    <Stack screenOptions={screenOptions}>
       <Stack.Screen
         name='index'
         options={{

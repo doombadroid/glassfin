@@ -7,7 +7,7 @@ import { HeaderIcon } from "@/components/common/HeaderIcon";
 import { PlatformDropdown } from "@/components/PlatformDropdown";
 import {
   nestedTabPageScreenOptions,
-  stackScreenOptions,
+  useStackScreenOptions,
 } from "@/components/stacks/NestedTabPageStack";
 import { useSettings } from "@/utils/atoms/settings";
 
@@ -24,6 +24,7 @@ import { useSettings } from "@/utils/atoms/settings";
 export const unstable_settings = Platform.isTV ? {} : { anchor: "index" };
 
 export default function IndexLayout() {
+  const screenOptions = useStackScreenOptions();
   const { settings, updateSettings, pluginSettings } = useSettings();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -166,7 +167,7 @@ export default function IndexLayout() {
   if (!settings?.libraryOptions) return null;
 
   return (
-    <Stack screenOptions={stackScreenOptions}>
+    <Stack screenOptions={screenOptions}>
       <Stack.Screen
         name='index'
         options={{

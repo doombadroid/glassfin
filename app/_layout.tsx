@@ -17,6 +17,7 @@ import * as Device from "expo-device";
 import { Image } from "expo-image";
 import { DarkTheme, ThemeProvider } from "expo-router/react-navigation";
 import { Platform } from "react-native";
+import { DuoLayoutRoot } from "@/components/duo/DuoLayoutRoot";
 import { GlobalModal } from "@/components/GlobalModal";
 import { PendingAccountSaveModal } from "@/components/PendingAccountSaveModal";
 import { SeerrAutoLogin } from "@/components/seerr/SeerrAutoLogin";
@@ -284,6 +285,7 @@ function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <JotaiProvider store={jotaiStore}>
+        <DuoLayoutRoot />
         <ActionSheetProvider>
           <I18nextProvider i18n={i18n}>
             <Layout />

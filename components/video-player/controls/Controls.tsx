@@ -34,6 +34,7 @@ import { useTrickplay } from "@/hooks/useTrickplay";
 import type { TechnicalInfo } from "@/modules/mpv-player";
 import { DownloadedItem } from "@/providers/Downloads/types";
 import { useOfflineMode } from "@/providers/OfflineModeProvider";
+import { useTableFold } from "@/utils/atoms/duoLayout";
 import { useSettings } from "@/utils/atoms/settings";
 import { hasChapterMarkers } from "@/utils/chapters";
 import { resolveStartTicks } from "@/utils/directPlayer/sessionPosition";
@@ -171,7 +172,12 @@ export const Controls: FC<Props> = ({
   // still playing.
   const [stillWatchingVisible, setStillWatchingVisible] = useState(false);
 
-  const { height: screenHeight, width: screenWidth } = useWindowDimensions();
+  const { height: windowHeight, width: screenWidth } = useWindowDimensions();
+  // iPhone Duo standing on a table: the video keeps the top half and every
+  // control moves to the flat bottom half, below the fold.
+  const tableFold = useTableFold();
+  const controlsTop = tableFold ? tableFold.y + tableFold.height : 0;
+  const screenHeight = windowHeight - controlsTop;
   const { previousItem, nextItem } = usePlaybackManager({
     item,
     isOffline: offline,
@@ -236,7 +242,7 @@ export const Controls: FC<Props> = ({
   // Top edge of the rendered video, so overlays sit inside the frame
   // instead of in the letterbox bars
   const videoTopOffset = useMemo(() => {
-    if (isZoomedToFill) return 0;
+    if (isZoomedToFill || controlsTop > 0) return 0;
     const videoStream = mediaSource?.MediaStreams?.find(
       (s) => s.Type === "Video",
     );
@@ -245,7 +251,7 @@ export const Controls: FC<Props> = ({
     const screenAspect = screenWidth / screenHeight;
     if (screenAspect >= videoAspect) return 0;
     return (screenHeight - screenWidth / videoAspect) / 2;
-  }, [isZoomedToFill, mediaSource, screenWidth, screenHeight]);
+  }, [isZoomedToFill, controlsTop, mediaSource, screenWidth, screenHeight]);
 
   // Create animated styles
   const headerAnimatedStyle = useAnimatedStyle(() => ({
@@ -744,7 +750,10 @@ export const Controls: FC<Props> = ({
 
   return (
     <View
-      style={styles.controlsContainer}
+      style={[
+        styles.controlsContainer,
+        controlsTop > 0 && { top: controlsTop },
+      ]}
       pointerEvents='box-none'
       // Any touch on the player counts as "still watching": the idle half of
       // the prompt's rule, and restarts the auto-hide countdown. The capture

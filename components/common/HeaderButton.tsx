@@ -27,6 +27,7 @@ import {
   type ViewStyle,
 } from "react-native";
 import { Pressable, type PressableProps } from "react-native-gesture-handler";
+import { useDuoLayout } from "@/utils/atoms/duoLayout";
 
 /**
  * Render every header icon at this size. Icon fonts share a common em square,
@@ -127,6 +128,11 @@ export const HeaderButton: React.FC<PropsWithChildren<HeaderButtonProps>> = ({
  * `Children.toArray` discards the `false` a short-circuited child renders, but
  * counts a fragment as one — so keep buttons as direct children rather than
  * grouping several inside a single fragment.
+ *
+ * On an iPhone Duo the navigation bar runs down the side of the screen
+ * (folded, or unfolded in landscape), and react-native-screens marks these
+ * custom-view items `verticalPreferred` so UIKit moves them into it. The group
+ * stacks into a column there, so it fits the strip.
  */
 export const HeaderButtonGroup: React.FC<PropsWithChildren<ViewProps>> = ({
   children,
@@ -134,15 +140,18 @@ export const HeaderButtonGroup: React.FC<PropsWithChildren<ViewProps>> = ({
   ...props
 }) => {
   const isAlone = Children.toArray(children).length < 2;
+  const vertical = useDuoLayout().verticalBarEdge !== "none";
+  const endInset = isAlone ? 0 : HEADER_INSET;
 
   return (
     <View
       style={[
         {
-          flexDirection: "row",
+          flexDirection: vertical ? "column" : "row",
           alignItems: "center",
           gap: HEADER_BUTTON_GAP,
-          paddingHorizontal: isAlone ? 0 : HEADER_INSET,
+          paddingHorizontal: vertical ? 0 : endInset,
+          paddingVertical: vertical ? endInset : 0,
         },
         style,
       ]}

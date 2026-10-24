@@ -1,7 +1,8 @@
 import { Stack } from "expo-router";
-import type { ComponentProps } from "react";
+import { type ComponentProps, useMemo } from "react";
 import { Platform } from "react-native";
 import { HeaderGradient } from "@/components/common/HeaderGradient";
+import { useTabContentInsets } from "@/components/duo/TabContentInsets";
 
 type ICommonScreenOptions = ComponentProps<typeof Stack.Screen>["options"];
 
@@ -24,6 +25,24 @@ export const stackScreenOptions: ICommonScreenOptions = {
   scrollEdgeEffects: { top: "hidden" },
   headerBackground:
     Platform.OS === "ios" ? () => <HeaderGradient /> : undefined,
+};
+
+/**
+ * `stackScreenOptions` for a tab's stack, plus side padding on every screen
+ * that keeps its content clear of the tab's left/right insets: the status bar
+ * strip and vertical tab bar on a folded iPhone Duo, the sidebar when it's
+ * unfolded. Zero on a regular iPhone in portrait. Screens that want artwork to
+ * run under those strips (the Frost ambient backdrop) bleed it back out.
+ */
+export const useStackScreenOptions = (): ICommonScreenOptions => {
+  const { left, right } = useTabContentInsets();
+  return useMemo(
+    () => ({
+      ...stackScreenOptions,
+      contentStyle: { paddingLeft: left, paddingRight: right },
+    }),
+    [left, right],
+  );
 };
 
 export const commonScreenOptions: ICommonScreenOptions = {

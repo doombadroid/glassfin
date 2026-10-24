@@ -1,5 +1,8 @@
+diff --git a/node_modules/react-native-bottom-tabs/.bun-tag-ef3ce6296afd079d b/.bun-tag-ef3ce6296afd079d
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/ios/TabViewImpl.swift b/ios/TabViewImpl.swift
-index 68053e1f17cbdd489f1712aac82f58e24ff4d892..5a611abb2eca702fc2929d1ca5cec467ccd5dff2 100644
+index 68053e1f17cbdd489f1712aac82f58e24ff4d892..cfe0cd3d2c85b31b6caa8dd044c33b1553333ff9 100644
 --- a/ios/TabViewImpl.swift
 +++ b/ios/TabViewImpl.swift
 @@ -120,14 +120,31 @@ struct TabViewImpl: View {
@@ -49,3 +52,24 @@ index 68053e1f17cbdd489f1712aac82f58e24ff4d892..5a611abb2eca702fc2929d1ca5cec467
          let itemIndex = props.items.firstIndex(where: { $0.key == tabData.key })
        else { continue }
  
+@@ -425,7 +443,19 @@ extension View {
+     if #available(iOS 18.0, macOS 15.0, tvOS 18.0, visionOS 2.0, *) {
+       if enabled {
+         #if compiler(>=6.0)
+-          self.tabViewStyle(.sidebarAdaptable)
++          #if os(iOS)
++            if #available(iOS 27.1, *) {
++              // Streamyfin Next: open in the sidebar on a regular-width
++              // window (the unfolded iPhone Duo), as Apple's Duo guidance
++              // shows, rather than the iPad-style tab bar at the top.
++              self.tabViewStyle(.sidebarAdaptable)
++                .defaultAdaptableTabBarPlacement(.sidebar)
++            } else {
++              self.tabViewStyle(.sidebarAdaptable)
++            }
++          #else
++            self.tabViewStyle(.sidebarAdaptable)
++          #endif
+         #else
+           self
+         #endif

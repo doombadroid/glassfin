@@ -12,6 +12,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, View } from "react-native";
 import { SystemBars } from "react-native-edge-to-edge";
+import { TabContentInsets } from "@/components/duo/TabContentInsets";
 import type { TVNavBarTab } from "@/components/tv/TVNavBar";
 import { TVNavBar } from "@/components/tv/TVNavBar";
 import { Colors } from "@/constants/Colors";
@@ -156,6 +157,11 @@ export default function TabLayout() {
         // Frost: on iOS the bar stays Liquid Glass (no fill), and a regular
         // width window (the unfolded iPhone Duo, iPad) gets the sidebar.
         sidebarAdaptable={Platform.OS === "ios" && !Platform.isTV}
+        // iPhone Duo: each tab reads its own left/right insets (status bar
+        // strip, vertical tab bar, sidebar) so screens can keep clear of them.
+        screenLayout={({ children }) => (
+          <TabContentInsets>{children}</TabContentInsets>
+        )}
         tabBarStyle={
           Platform.OS === "ios" && !Platform.isTV
             ? undefined
