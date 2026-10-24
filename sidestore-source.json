@@ -11,7 +11,17 @@
       "localizedDescription": "Jellyfin player with a Liquid Glass design and iPhone Duo fold, tabletop and book layouts. MPL-2.0.",
       "iconURL": "https://raw.githubusercontent.com/doombadroid/glassfin/develop/assets/images/icon.png",
       "tintColor": "8fe6cb",
-      "versions": [],
+      "versions": [
+        {
+          "version": "0.56.0.16",
+          "buildVersion": "16",
+          "date": "2026-10-24T23:42:58Z",
+          "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
+          "downloadURL": "https://github.com/doombadroid/glassfin/releases/download/next-16/Glassfin-unsigned.ipa",
+          "size": 59130915,
+          "minOSVersion": "16.4"
+        }
+      ],
       "appPermissions": {
         "entitlements": [],
         "privacy": {}
