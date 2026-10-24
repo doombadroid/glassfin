@@ -241,9 +241,9 @@ export default function DirectPlayerPage() {
   const audioIndexFromUrl = audioIndexStr
     ? Number.parseInt(audioIndexStr, 10)
     : undefined;
-  const subtitleIndex = subtitleIndexStr
+  const subtitleIndexFromUrl = subtitleIndexStr
     ? Number.parseInt(subtitleIndexStr, 10)
-    : -1;
+    : undefined;
   const bitrateValue = bitrateValueStr
     ? Number.parseInt(bitrateValueStr, 10)
     : BITRATES[0].value;
@@ -309,6 +309,15 @@ export default function DirectPlayerPage() {
     }
     return undefined;
   }, [audioIndexFromUrl, offline, downloadedItem?.userData?.audioStreamIndex]);
+
+  // Same order as the audio index, and as resolveTrackIndexes for the native
+  // player. Every way into a download (offline mode, the Downloads list, the
+  // "play downloaded file?" prompt) opens it without a subtitle index, and
+  // reading that as off dropped the subtitle the download was made with.
+  const subtitleIndex =
+    subtitleIndexFromUrl ??
+    (offline ? downloadedItem?.userData?.subtitleStreamIndex : undefined) ??
+    -1;
 
   // Initialize TV audio/subtitle indices from URL params.
   // No undefined guard: when a new episode's URL omits audioIndex, reset to
