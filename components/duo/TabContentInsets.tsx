@@ -3,10 +3,14 @@ import {
   type PropsWithChildren,
   useCallback,
   useContext,
+  useMemo,
   useState,
 } from "react";
 import { Platform } from "react-native";
-import { SafeAreaListener } from "react-native-safe-area-context";
+import {
+  SafeAreaInsetsContext,
+  SafeAreaListener,
+} from "react-native-safe-area-context";
 
 export interface HorizontalInsets {
   left: number;
@@ -29,9 +33,19 @@ export const useTabContentInsets = () => useContext(TabContentInsetsContext);
 /**
  * `screenLayout` for the tab navigator. Each tab gets an invisible listener on
  * its own native view and shares that view's horizontal insets.
+ *
+ * Every tab stack pads its screens by those insets (`useStackScreenOptions`),
+ * so inside a tab `useSafeAreaInsets()` reports zero at the sides: the many
+ * screens that pad by `insets.left`/`insets.right` themselves would otherwise
+ * pad twice. Top and bottom pass through unchanged.
  */
 export function TabContentInsets({ children }: PropsWithChildren) {
   const [insets, setInsets] = useState<HorizontalInsets>(NONE);
+  const parentInsets = useContext(SafeAreaInsetsContext);
+  const innerInsets = useMemo(
+    () => (parentInsets ? { ...parentInsets, left: 0, right: 0 } : null),
+    [parentInsets],
+  );
 
   const onChange = useCallback(
     ({ insets: next }: { insets: HorizontalInsets }) => {
@@ -48,9 +62,11 @@ export function TabContentInsets({ children }: PropsWithChildren) {
 
   return (
     <SafeAreaListener style={{ flex: 1 }} onChange={onChange}>
-      <TabContentInsetsContext.Provider value={insets}>
-        {children}
-      </TabContentInsetsContext.Provider>
+      <SafeAreaInsetsContext.Provider value={innerInsets}>
+        <TabContentInsetsContext.Provider value={insets}>
+          {children}
+        </TabContentInsetsContext.Provider>
+      </SafeAreaInsetsContext.Provider>
     </SafeAreaListener>
   );
 }

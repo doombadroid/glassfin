@@ -14,6 +14,7 @@ import {
 import { HeaderIcon } from "@/components/common/HeaderIcon";
 import { Image } from "@/components/common/ServerImage";
 import { DownloadItems } from "@/components/DownloadItem";
+import { TwoPane } from "@/components/duo/TwoPane";
 import { ParallaxScrollView } from "@/components/ParallaxPage";
 import { SimilarItems } from "@/components/SimilarItems";
 import { NextUp } from "@/components/series/NextUp";
@@ -297,15 +298,27 @@ const page: React.FC = () => {
         }
       >
         <View className='flex flex-col pt-4'>
-          <SeriesHeader item={item} />
-          {!isOffline && (
-            <View className='mb-4'>
-              <NextUp seriesId={seriesId} />
-            </View>
-          )}
-          {allEpisodes !== undefined && (
-            <SeasonPicker item={item} initialSeasonIndex={initialSeasonIndex} />
-          )}
+          {/* Unfolded, the episodes sit beside the show rather than under it. */}
+          <TwoPane
+            primary={
+              <>
+                <SeriesHeader item={item} />
+                {!isOffline && (
+                  <View className='mb-4'>
+                    <NextUp seriesId={seriesId} />
+                  </View>
+                )}
+              </>
+            }
+            secondary={
+              allEpisodes !== undefined && (
+                <SeasonPicker
+                  item={item}
+                  initialSeasonIndex={initialSeasonIndex}
+                />
+              )
+            }
+          />
           {!isOffline && <SimilarItems item={item} className='mt-4' />}
         </View>
       </ParallaxScrollView>
