@@ -256,6 +256,8 @@ export type NativePlayerUIOptions = {
   brightnessSwipeEnabled?: boolean;
   /** false makes a vertical drag on the right half do nothing (settings.enableRightSideVolumeSwipe). */
   volumeSwipeEnabled?: boolean;
+  /** false stops a horizontal drag on the video from scrubbing (settings.enableHorizontalSwipeSkip). */
+  swipeToSeekEnabled?: boolean;
   /** false disables press-and-hold speed boosting (settings.enableHoldToSpeed). */
   holdToSpeedEnabled?: boolean;
   /** Speed applied while press-and-hold is held (settings.holdToSpeedRate). */

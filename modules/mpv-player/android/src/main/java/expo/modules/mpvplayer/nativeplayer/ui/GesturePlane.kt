@@ -140,18 +140,18 @@ fun GesturePlane(
                                 } else {
                                     DragAxis.VERTICAL
                                 }
-                                val sideSwipeEnabled = if (dragOnLeftHalf) {
-                                    viewModel.uiOptions.brightnessSwipeEnabled
-                                } else {
-                                    viewModel.uiOptions.volumeSwipeEnabled
+                                val axisSwipeEnabled = when {
+                                    dragAxis == DragAxis.HORIZONTAL -> viewModel.uiOptions.swipeToSeekEnabled
+                                    dragOnLeftHalf -> viewModel.uiOptions.brightnessSwipeEnabled
+                                    else -> viewModel.uiOptions.volumeSwipeEnabled
                                 }
-                                if (dragAxis == DragAxis.HORIZONTAL) {
-                                    viewModel.startScrubbing()
-                                } else if (!sideSwipeEnabled) {
-                                    // A side whose swipe is turned off owns
-                                    // nothing: the rest of this drag stays dead.
+                                if (!axisSwipeEnabled) {
+                                    // A swipe that is turned off owns nothing:
+                                    // the rest of this drag stays dead.
                                     dragAxis = null
                                     dragSuppressed = true
+                                } else if (dragAxis == DragAxis.HORIZONTAL) {
+                                    viewModel.startScrubbing()
                                 } else {
                                     if (dragOnLeftHalf) {
                                         viewModel.brightnessController?.isUserInteracting = true

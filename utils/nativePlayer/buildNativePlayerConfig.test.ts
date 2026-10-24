@@ -204,7 +204,14 @@ describe("the native player's swipe gestures", () => {
     expect(await uiOptions({})).toMatchObject({
       brightnessSwipeEnabled: true,
       volumeSwipeEnabled: true,
+      swipeToSeekEnabled: true,
     });
+  });
+
+  test("never scrub once horizontal swipe is off", async () => {
+    expect(await uiOptions({ enableHorizontalSwipeSkip: false })).toMatchObject(
+      { swipeToSeekEnabled: false },
+    );
   });
 
   test("leave brightness alone once its swipe is off", async () => {

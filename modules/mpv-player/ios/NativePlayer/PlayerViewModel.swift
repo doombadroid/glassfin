@@ -193,6 +193,7 @@ final class PlayerViewModel: NSObject, ObservableObject {
 	private(set) var showBrightnessSlider = true
 	private(set) var brightnessSwipeEnabled = true
 	private(set) var volumeSwipeEnabled = true
+	private(set) var swipeToSeekEnabled = true
 	private(set) var holdToSpeedEnabled = true
 	private(set) var holdToSpeedRate: Double = 2.0
 	private(set) var pinchToZoomEnabled = true
@@ -528,6 +529,7 @@ final class PlayerViewModel: NSObject, ObservableObject {
 		showBrightnessSlider = config.ui.showBrightnessSlider
 		brightnessSwipeEnabled = config.ui.brightnessSwipeEnabled
 		volumeSwipeEnabled = config.ui.volumeSwipeEnabled
+		swipeToSeekEnabled = config.ui.swipeToSeekEnabled
 		holdToSpeedEnabled = config.ui.holdToSpeedEnabled
 		holdToSpeedRate = config.ui.holdToSpeedRate
 		pinchToZoomEnabled = config.ui.pinchToZoomEnabled

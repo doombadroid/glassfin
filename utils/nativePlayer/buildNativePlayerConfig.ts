@@ -614,6 +614,7 @@ export async function buildNativePlayerConfig(params: {
       brightnessSwipeEnabled:
         !Platform.isTV && settings.enableLeftSideBrightnessSwipe,
       volumeSwipeEnabled: !Platform.isTV && settings.enableRightSideVolumeSwipe,
+      swipeToSeekEnabled: !Platform.isTV && settings.enableHorizontalSwipeSkip,
       holdToSpeedEnabled: !Platform.isTV && settings.enableHoldToSpeed,
       holdToSpeedRate: settings.holdToSpeedRate,
       pinchToZoomEnabled: !Platform.isTV && settings.enablePinchToZoom,

@@ -343,6 +343,10 @@ struct PlayerControlsRootView: View {
 
 				if dragAxis == nil {
 					if abs(value.translation.width) >= abs(value.translation.height) {
+						guard viewModel.swipeToSeekEnabled else {
+							dragSuppressed = true
+							return
+						}
 						dragAxis = .horizontal
 						if viewModel.duration > 0 {
 							viewModel.showControls()

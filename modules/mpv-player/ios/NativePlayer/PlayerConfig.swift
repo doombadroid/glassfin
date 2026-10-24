@@ -162,6 +162,7 @@ struct UIOptionsRecord: Record {
 	@Field var showBrightnessSlider: Bool = true
 	@Field var brightnessSwipeEnabled: Bool = true
 	@Field var volumeSwipeEnabled: Bool = true
+	@Field var swipeToSeekEnabled: Bool = true
 	@Field var holdToSpeedEnabled: Bool = true
 	@Field var holdToSpeedRate: Double = 2.0
 	@Field var pinchToZoomEnabled: Bool = true
