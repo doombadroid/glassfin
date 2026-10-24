@@ -1,0 +1,153 @@
+name: Build Streamyfin Next IPA
+
+# Unsigned Streamyfin Next IPA built with the iOS 27.1 SDK (the first SDK that lays apps out
+# edge to edge on iPhone Duo), published as a release plus a SideStore source feed.
+# The IPA is signed with your own Apple ID when it's installed (SideStore / AltStore).
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish a release and update the SideStore feed
+        type: boolean
+        default: true
+
+permissions:
+  contents: write   # releases + the SideStore feed commit
+
+concurrency:
+  group: build-next-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  XCODE: '27.1'
+  EXPO_PUBLIC_GIT_BRANCH: ${{ github.ref_name }}
+  EXPO_PUBLIC_GIT_COMMIT: ${{ github.sha }}
+  EXPO_PUBLIC_GIT_RUN_NUMBER: ${{ github.run_number }}
+
+jobs:
+  ipa:
+    if: (!contains(github.event.head_commit.message, '[skip ci]'))
+    runs-on: xcode-27
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.2"
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with: { xcode-version: '${{ env.XCODE }}' }
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-${{ runner.arch }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-${{ runner.arch }}-bun-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate project files
+        run: bun run prebuild
+
+      - name: Build unsigned IPA
+        env:
+          EXPO_TV: 0
+        run: |
+          xcodebuild -version
+          bun run ios:unsigned-build
+          ipa=$(ls build/*.ipa | head -1)
+          test -s "$ipa"
+          mv "$ipa" "$RUNNER_TEMP/StreamyfinNext-unsigned.ipa"
+
+      - name: Check the IPA
+        run: |
+          cd "$RUNNER_TEMP"
+          rm -rf check && mkdir check && cd check
+          unzip -q ../StreamyfinNext-unsigned.ipa
+          app=$(ls -d Payload/*.app | head -1)
+          exe=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Info.plist")
+          test -f "$app/$exe"
+          for key in CFBundleIdentifier CFBundleDisplayName CFBundleShortVersionString MinimumOSVersion; do
+            echo "$key = $(/usr/libexec/PlistBuddy -c "Print :$key" "$app/Info.plist" 2>/dev/null)"
+          done
+          # iOS 27 SDK apps without a scene manifest die at launch (TN3187)
+          /usr/libexec/PlistBuddy -c 'Print :UIApplicationSceneManifest' "$app/Info.plist"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app/Info.plist")" = com.doombadroid.streamyfinnext
+          sdk=$(xcrun vtool -show-build "$app/$exe" | awk '/sdk/ {print $2; exit}')
+          echo "Built against iOS SDK $sdk"
+          echo "BUILD_TOOLCHAIN=$(xcodebuild -version | tr '\n' ' ' | sed 's/ *$//'), iOS SDK $sdk" >> "$GITHUB_ENV"
+          echo "MIN_IOS=$(/usr/libexec/PlistBuddy -c 'Print :MinimumOSVersion' "$app/Info.plist")" >> "$GITHUB_ENV"
+          echo "APP_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Info.plist")" >> "$GITHUB_ENV"
+          ls "$app/PlugIns" 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: StreamyfinNext-unsigned-ipa
+          path: ${{ runner.temp }}/StreamyfinNext-unsigned.ipa
+          if-no-files-found: error
+
+      - name: Publish as a release
+        if: github.event_name == 'push' || inputs.publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha=$(git rev-parse --short HEAD)
+          gh release create "next-${{ github.run_number }}" "$RUNNER_TEMP/StreamyfinNext-unsigned.ipa" \
+            --title "Streamyfin Next build ${{ github.run_number }} ($sha)" \
+            --notes "Unsigned IPA at $sha ($BUILD_TOOLCHAIN). Sign it with your own Apple ID: add the SideStore source https://raw.githubusercontent.com/${{ github.repository }}/develop/sidestore-source.json or open the IPA in SideStore. MPL-2.0, fork of streamyfin/streamyfin."
+
+      - name: Update the SideStore source feed
+        if: github.event_name == 'push' || inputs.publish
+        run: |
+          git fetch -q origin develop && git checkout -q -B develop origin/develop
+          python3 - <<'PY'
+          import json, os, datetime
+          run = "${{ github.run_number }}"
+          repo = "${{ github.repository }}"
+          path = "sidestore-source.json"
+          size = os.path.getsize(os.path.join(os.environ["RUNNER_TEMP"], "StreamyfinNext-unsigned.ipa"))
+          try:
+              source = json.load(open(path))
+          except FileNotFoundError:
+              source = {
+                  "name": "Streamyfin Next",
+                  "identifier": "io.github.doombadroid.streamyfin-next",
+                  "subtitle": "Streamyfin, redesigned for iPhone Duo",
+                  "apps": [{
+                      "name": "Streamyfin Next",
+                      "bundleIdentifier": "com.doombadroid.streamyfinnext",
+                      "developerName": "doombadroid (fork of streamyfin/streamyfin)",
+                      "subtitle": "Jellyfin client",
+                      "localizedDescription": "Fork of Streamyfin (MPL-2.0) with the Frost Liquid Glass redesign and iPhone Duo fold/unfold layouts.",
+                      "iconURL": f"https://raw.githubusercontent.com/{repo}/develop/assets/images/icon.png",
+                      "tintColor": "8fe6cb",
+                      "versions": [],
+                      "appPermissions": {"entitlements": [], "privacy": {}},
+                  }],
+                  "news": [],
+              }
+          versions = source["apps"][0]["versions"]
+          versions.insert(0, {
+              "version": f"{os.environ['APP_VERSION']}.{run}",
+              "buildVersion": run,
+              "date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "localizedDescription": os.environ["BUILD_TOOLCHAIN"],
+              "downloadURL": f"https://github.com/{repo}/releases/download/next-{run}/StreamyfinNext-unsigned.ipa",
+              "size": size,
+              "minOSVersion": os.environ["MIN_IOS"],
+          })
+          del versions[5:]
+          json.dump(source, open(path, "w"), indent=2)
+          open(path, "a").write("\n")
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sidestore-source.json
+          git commit -qm "SideStore feed: build ${{ github.run_number }} [skip ci]"
+          git push -q origin develop
