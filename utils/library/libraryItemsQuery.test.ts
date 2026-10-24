@@ -54,6 +54,31 @@ describe("library items query", () => {
     });
   });
 
+  // Upstream #1620. Every request carried a sort with SortName behind it, and
+  // the server sorts a playlist by whatever it is sent, so a playlist never
+  // showed in its own order, not even under Default.
+  test("leaves a playlist in its own order under Default", () => {
+    const query = buildLibraryItemsQuery({
+      ...horrorMovies,
+      collectionType: undefined,
+      isPlaylist: true,
+      sortBy: "Default",
+    });
+
+    expect(query.sortBy).toBeUndefined();
+    expect(query.sortOrder).toBeUndefined();
+  });
+
+  test("sorts a playlist by a sort picked for it", () => {
+    expect(
+      buildLibraryItemsQuery({
+        ...horrorMovies,
+        isPlaylist: true,
+        sortBy: "SortName",
+      }).sortBy,
+    ).toEqual(["SortName", "SortName", "ProductionYear"]);
+  });
+
   test("Play All queues the list on screen, minus what cannot be played, up to the cap", () => {
     const queue = buildLibraryQueueQuery(horrorMovies, { shuffle: false });
 

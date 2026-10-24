@@ -18,6 +18,8 @@ export interface LibraryItemsFilter {
   userId?: string;
   libraryId: string;
   collectionType?: CollectionType;
+  /** The page lists the entries of a playlist rather than a library. */
+  isPlaylist?: boolean;
   sortBy: ItemSortBy;
   sortOrder: SortOrder;
   filterBy: ItemFilter[];
@@ -86,6 +88,7 @@ export const buildLibraryItemsQuery = ({
   userId,
   libraryId,
   collectionType,
+  isPlaylist,
   sortBy,
   sortOrder,
   filterBy,
@@ -95,15 +98,20 @@ export const buildLibraryItemsQuery = ({
   tags,
   serverVersion,
 }: LibraryItemsFilter): ItemsApiGetItemsRequest => {
+  // The server keeps a playlist's own order only when it is asked for no sort
+  // at all: any sort, Default included, falls back to SortName.
+  const ownOrder = isPlaylist && sortBy === "Default";
   return {
     userId,
     parentId: libraryId,
-    sortBy: [
-      serverSortBy(sortBy, collectionType, serverVersion),
-      "SortName",
-      "ProductionYear",
-    ],
-    sortOrder: [sortOrder],
+    sortBy: ownOrder
+      ? undefined
+      : [
+          serverSortBy(sortBy, collectionType, serverVersion),
+          "SortName",
+          "ProductionYear",
+        ],
+    sortOrder: ownOrder ? undefined : [sortOrder],
     filters: filterBy,
     // true is needed for merged versions
     recursive: true,

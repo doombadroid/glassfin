@@ -292,6 +292,22 @@ const Page = () => {
     enabled: Platform.isTV && !!api && !!user?.Id && !!libraryId,
   });
 
+  const { data: library, isLoading: isLibraryLoading } = useQuery({
+    queryKey: ["library", libraryId],
+    queryFn: async () => {
+      if (!api) return null;
+      const response = await getUserLibraryApi(api).getItem({
+        itemId: libraryId,
+        userId: user?.Id,
+      });
+      return response.data;
+    },
+    enabled: !!api && !!user?.Id && !!libraryId,
+    staleTime: 60 * 1000,
+  });
+  // A playlist opens in its own order until a sort is picked for it.
+  const isPlaylist = library?.Type === "Playlist";
+
   // The "See All" params describe how to open the screen, not a state to hold:
   // once applied, a reset (or any later run of this effect) has to be free to
   // move away from them, so they only win on the run that first sees them.
@@ -335,7 +351,9 @@ const Page = () => {
         _setSortBy([urlSortBy]);
       } else {
         const obp = getSortByPreference(libraryId, sortByPreference);
-        _setSortBy([obp || SortByOption.SortName]);
+        _setSortBy([
+          obp || (isPlaylist ? SortByOption.Default : SortByOption.SortName),
+        ]);
       }
 
       // Apply filterBy: URL param > saved preference > default
@@ -367,6 +385,7 @@ const Page = () => {
       libraryId,
       sortOrderPreference,
       sortByPreference,
+      isPlaylist,
       _setSortOrder,
       _setSortBy,
       filterByPreference,
@@ -506,20 +525,6 @@ const Page = () => {
     if (screenWidth < 1500) return 7;
     return 6;
   }, [screenWidth, orientation]);
-
-  const { data: library, isLoading: isLibraryLoading } = useQuery({
-    queryKey: ["library", libraryId],
-    queryFn: async () => {
-      if (!api) return null;
-      const response = await getUserLibraryApi(api).getItem({
-        itemId: libraryId,
-        userId: user?.Id,
-      });
-      return response.data;
-    },
-    enabled: !!api && !!user?.Id && !!libraryId,
-    staleTime: 60 * 1000,
-  });
 
   // Collections and playlists that hold items of this library (Jellyfin 12).
   // The policy is covered by utils/library/libraryTabs.test.ts, the counts by
@@ -666,6 +671,7 @@ const Page = () => {
         userId: user?.Id,
         libraryId,
         collectionType: library?.CollectionType,
+        isPlaylist,
         sortBy: ownFilters.sortBy[0],
         sortOrder: ownFilters.sortOrder[0],
         filterBy: ownFilters.filterBy as ItemFilter[],
@@ -677,7 +683,14 @@ const Page = () => {
         subtitleLanguages: ownFilters.subtitleLanguages,
         serverVersion,
       },
-    [user?.Id, libraryId, library?.CollectionType, ownFilters, serverVersion],
+    [
+      user?.Id,
+      libraryId,
+      library?.CollectionType,
+      isPlaylist,
+      ownFilters,
+      serverVersion,
+    ],
   );
 
   const fetchItems = useCallback(
