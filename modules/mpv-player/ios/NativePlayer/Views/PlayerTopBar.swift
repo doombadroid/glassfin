@@ -14,79 +14,83 @@ struct PlayerTopBar: View {
 
 	private var buttonSize: CGFloat { compact ? 40 : 44 }
 
+	/// iPhone Duo, folded in landscape: the buttons stack down the side
+	/// strip, like the system's own vertical bar, and the title moves out to
+	/// `PlayerTitleBlock` on the other side.
+	var vertical = false
+
 	var body: some View {
-		HStack(spacing: 4) {
-			barButton(systemName: "xmark") {
-				viewModel.close()
+		if vertical {
+			VStack(spacing: 4) {
+				closeButton
+				trailingButtons
 			}
-			.accessibilityLabel(viewModel.str("close", "Close"))
+		} else {
+			HStack(spacing: 4) {
+				closeButton
 
-			VStack(alignment: .leading, spacing: 2) {
-				if let title = viewModel.metadata?.title {
-					Text(title)
-						.font(.subheadline.weight(.semibold))
-						.foregroundStyle(.white)
-						.lineLimit(1)
-				}
-				if let subtitle = viewModel.metadata?.subtitle {
-					Text(subtitle)
-						.font(.caption)
-						.foregroundStyle(.white.opacity(0.7))
-						.lineLimit(1)
-				}
-				if let group = viewModel.syncPlay {
-					Text("\(group.groupName) · \(group.connected ? group.status : viewModel.syncStr("reconnecting", "Reconnecting"))")
-						.font(.caption).foregroundStyle(.white.opacity(0.7)).lineLimit(1)
-				}
+				PlayerTitleBlock(viewModel: viewModel)
+					.padding(.leading, 8)
+
+				Spacer(minLength: 12)
+
+				trailingButtons
 			}
-			.padding(.leading, 8)
-
-			Spacer(minLength: 12)
-
-			if viewModel.isSyncPlayActive {
-				barButton(systemName: "person.2.fill") { viewModel.openSyncPlayQueue() }
-					.accessibilityLabel(viewModel.syncStr("queue", "Queue"))
-					.accessibilityIdentifier("syncplay-open-queue")
-			}
-
-			if viewModel.engine?.isPictureInPictureSupported() == true {
-				barButton(systemName: viewModel.isPipActive ? "pip.exit" : "pip.enter") {
-					viewModel.togglePictureInPicture()
-				}
-			}
-
-			if !compact {
-				barButton(
-					systemName: viewModel.isZoomedToFill
-						? "arrow.down.right.and.arrow.up.left"
-						: "arrow.up.left.and.arrow.down.right"
-				) {
-					viewModel.toggleZoomToFill()
-				}
-			}
-
-			if !viewModel.isSyncPlayActive && !viewModel.episodeList.isEmpty {
-				barButton(systemName: "list.bullet") {
-					viewModel.showEpisodeList = true
-					viewModel.scheduleAutoHide()
-				}
-				.accessibilityLabel(viewModel.str("episodes", "Episodes"))
-			}
-
-			if !compact && !viewModel.isSyncPlayActive {
-				speedMenu
-			}
-
-			if !viewModel.audioMenu.isEmpty {
-				audioTracksMenu
-			}
-
-			if !viewModel.subtitleMenu.isEmpty {
-				subtitlesMenu
-			}
-
-			moreMenu
 		}
+	}
+
+	private var closeButton: some View {
+		barButton(systemName: "xmark") {
+			viewModel.close()
+		}
+		.accessibilityLabel(viewModel.str("close", "Close"))
+	}
+
+	@ViewBuilder
+	private var trailingButtons: some View {
+		if viewModel.isSyncPlayActive {
+			barButton(systemName: "person.2.fill") { viewModel.openSyncPlayQueue() }
+				.accessibilityLabel(viewModel.syncStr("queue", "Queue"))
+				.accessibilityIdentifier("syncplay-open-queue")
+		}
+
+		if viewModel.engine?.isPictureInPictureSupported() == true {
+			barButton(systemName: viewModel.isPipActive ? "pip.exit" : "pip.enter") {
+				viewModel.togglePictureInPicture()
+			}
+		}
+
+		if !compact {
+			barButton(
+				systemName: viewModel.isZoomedToFill
+					? "arrow.down.right.and.arrow.up.left"
+					: "arrow.up.left.and.arrow.down.right"
+			) {
+				viewModel.toggleZoomToFill()
+			}
+		}
+
+		if !viewModel.isSyncPlayActive && !viewModel.episodeList.isEmpty {
+			barButton(systemName: "list.bullet") {
+				viewModel.showEpisodeList = true
+				viewModel.scheduleAutoHide()
+			}
+			.accessibilityLabel(viewModel.str("episodes", "Episodes"))
+		}
+
+		if !compact && !viewModel.isSyncPlayActive {
+			speedMenu
+		}
+
+		if !viewModel.audioMenu.isEmpty {
+			audioTracksMenu
+		}
+
+		if !viewModel.subtitleMenu.isEmpty {
+			subtitlesMenu
+		}
+
+		moreMenu
 	}
 
 	// MARK: - Menus
@@ -377,6 +381,32 @@ struct PlayerTopBar: View {
 			.foregroundStyle(.white)
 			.frame(width: buttonSize, height: buttonSize)
 			.contentShape(Rectangle())
+	}
+}
+
+/// Title, subtitle and SyncPlay group line for the player's top bar.
+struct PlayerTitleBlock: View {
+	@ObservedObject var viewModel: PlayerViewModel
+
+	var body: some View {
+		VStack(alignment: .leading, spacing: 2) {
+			if let title = viewModel.metadata?.title {
+				Text(title)
+					.font(.subheadline.weight(.semibold))
+					.foregroundStyle(.white)
+					.lineLimit(1)
+			}
+			if let subtitle = viewModel.metadata?.subtitle {
+				Text(subtitle)
+					.font(.caption)
+					.foregroundStyle(.white.opacity(0.7))
+					.lineLimit(1)
+			}
+			if let group = viewModel.syncPlay {
+				Text("\(group.groupName) · \(group.connected ? group.status : viewModel.syncStr("reconnecting", "Reconnecting"))")
+					.font(.caption).foregroundStyle(.white.opacity(0.7)).lineLimit(1)
+			}
+		}
 	}
 }
 #endif

@@ -9,6 +9,9 @@ import UIKit
 /// (avfoundation-composite-osd), so this overlay never has to dodge them.
 struct PlayerControlsRootView: View {
 	@ObservedObject var viewModel: PlayerViewModel
+	/// iPhone Duo hinge and fold (window coordinates).
+	@ObservedObject var posture: DuoPostureModel
+	@ObservedObject var sheen: PlayerSheenModel
 
 	private enum DragAxis { case horizontal, vertical }
 
@@ -34,31 +37,48 @@ struct PlayerControlsRootView: View {
 			// Portrait phones can't fit the full top-bar button row — late
 			// data pushes (episode list) add buttons after load, so the bar
 			// must adapt by width, not by content.
-			content(size: geometry.size, bottomSafeAreaInset: geometry.safeAreaInsets.bottom)
+			content(
+				size: geometry.size,
+				bottomSafeAreaInset: geometry.safeAreaInsets.bottom,
+				layout: DuoLayout(
+					origin: geometry.frame(in: .global).origin,
+					safeArea: geometry.safeAreaInsets,
+					posture: posture
+				)
+			)
 		}
 	}
 
-	private func content(size: CGSize, bottomSafeAreaInset: CGFloat) -> some View {
+	private func content(size: CGSize, bottomSafeAreaInset: CGFloat, layout: DuoLayout) -> some View {
 		ZStack {
-			// Tap-to-toggle catcher behind everything interactive; also the
-			// gesture surface — controls layered above receive their own
-			// touches first, so drags here only start on empty video area.
-			tapSurface(size: size)
-				.gesture(
-					surfaceDragGesture(size: size, bottomSafeAreaInset: bottomSafeAreaInset)
-				)
-				.gesture(holdSpeedGesture)
+			if let fold = layout.tabletopFold {
+				// Standing on a table: video on top, every control on the
+				// bottom half (TabletopDeck), over the video's reflection.
+				if !viewModel.controlsLocked {
+					TabletopDeck(viewModel: viewModel, sheen: sheen, fold: fold, size: size)
+						.zIndex(1)
+				}
+			} else {
+				// Tap-to-toggle catcher behind everything interactive; also the
+				// gesture surface — controls layered above receive their own
+				// touches first, so drags here only start on empty video area.
+				tapSurface(size: size)
+					.gesture(
+						surfaceDragGesture(size: size, bottomSafeAreaInset: bottomSafeAreaInset)
+					)
+					.gesture(holdSpeedGesture)
 
-			if viewModel.controlsVisible {
-				scrims
-				// zIndex lifts the bars above the center-controls layer below:
-				// the trickplay bubble pops up out of the bottom bar's scrubber
-				// and must cover the play/skip buttons in landscape, not duck
-				// under them. Hit-testing is unaffected — the layer's empty
-				// middle isn't tappable.
-				topChrome(compact: size.width < 500)
-					.transition(.opacity)
-					.zIndex(1)
+				if viewModel.controlsVisible {
+					scrims
+					// zIndex lifts the bars above the center-controls layer below:
+					// the trickplay bubble pops up out of the bottom bar's scrubber
+					// and must cover the play/skip buttons in landscape, not duck
+					// under them. Hit-testing is unaffected — the layer's empty
+					// middle isn't tappable.
+					topChrome(compact: size.width < 500, rail: layout.railEdge)
+						.transition(.opacity)
+						.zIndex(1)
+				}
 			}
 
 			if viewModel.showSubtitleScaleControl {
@@ -83,12 +103,18 @@ struct PlayerControlsRootView: View {
 					.tint(.white)
 			}
 
-			adaptivePlaybackChrome(bottomSafeAreaInset: bottomSafeAreaInset)
+			if layout.tabletopFold == nil {
+				adaptivePlaybackChrome(
+					bottomSafeAreaInset: bottomSafeAreaInset,
+					size: size,
+					bookFold: layout.bookFold
+				)
 
-			if viewModel.controlsVisible {
-				fullWidthBottomChrome
-					.transition(.opacity)
-					.zIndex(1)
+				if viewModel.controlsVisible {
+					fullWidthBottomChrome
+						.transition(.opacity)
+						.zIndex(1)
+				}
 			}
 
 			// Hold-to-speed feedback pill; lives outside controlsVisible so it
@@ -434,13 +460,35 @@ struct PlayerControlsRootView: View {
 		viewModel.scheduleAutoHide()
 	}
 
-	private func topChrome(compact: Bool) -> some View {
-		VStack(spacing: 0) {
-			PlayerTopBar(viewModel: viewModel, compact: compact)
-			Spacer()
+	@ViewBuilder
+	private func topChrome(compact: Bool, rail: HorizontalEdge?) -> some View {
+		if let rail {
+			// Folded iPhone Duo in landscape: the buttons run down the strip's
+			// side, the title takes the opposite corner.
+			HStack(alignment: .top, spacing: 12) {
+				if rail == .leading {
+					PlayerTopBar(viewModel: viewModel, compact: compact, vertical: true)
+					Spacer(minLength: 12)
+					PlayerTitleBlock(viewModel: viewModel)
+						.padding(.top, 10)
+				} else {
+					PlayerTitleBlock(viewModel: viewModel)
+						.padding(.top, 10)
+					Spacer(minLength: 12)
+					PlayerTopBar(viewModel: viewModel, compact: compact, vertical: true)
+				}
+			}
+			.frame(maxHeight: .infinity, alignment: .top)
+			.padding(.horizontal, 12)
+			.padding(.vertical, 8)
+		} else {
+			VStack(spacing: 0) {
+				PlayerTopBar(viewModel: viewModel, compact: compact)
+				Spacer()
+			}
+			.padding(.horizontal, 24)
+			.padding(.vertical, 8)
 		}
-		.padding(.horizontal, 24)
-		.padding(.vertical, 8)
 	}
 
 	private var brightnessSliderVisible: Bool {
@@ -453,7 +501,11 @@ struct PlayerControlsRootView: View {
 			&& (viewModel.controlsVisible || viewModel.volumeSliderRevealed)
 	}
 
-	private func adaptivePlaybackChrome(bottomSafeAreaInset: CGFloat) -> some View {
+	private func adaptivePlaybackChrome(
+		bottomSafeAreaInset: CGFloat,
+		size: CGSize,
+		bookFold: CGRect?
+	) -> some View {
 		HStack {
 			if brightnessSliderVisible {
 				BrightnessSliderView(
@@ -479,8 +531,17 @@ struct PlayerControlsRootView: View {
 
 			ZStack {
 				if viewModel.controlsVisible {
-					PlayerCenterControls(viewModel: viewModel, time: viewModel.time)
-						.transition(.opacity)
+					if let bookFold {
+						// Held like a book the fold runs down the middle, right
+						// under the play button: the row moves to the right page.
+						PlayerCenterControls(viewModel: viewModel, time: viewModel.time)
+							.frame(width: max(0, size.width - bookFold.maxX - 24))
+							.frame(maxWidth: .infinity, alignment: .trailing)
+							.transition(.opacity)
+					} else {
+						PlayerCenterControls(viewModel: viewModel, time: viewModel.time)
+							.transition(.opacity)
+					}
 				}
 				bottomChrome(bottomSafeAreaInset: bottomSafeAreaInset)
 					.zIndex(1)
@@ -602,6 +663,33 @@ struct PlayerControlsRootView: View {
 		.padding(32)
 		.frame(maxWidth: 420)
 		.background(.black.opacity(0.85), in: RoundedRectangle(cornerRadius: 20))
+	}
+}
+
+/// The iPhone Duo posture, in the root view's own coordinates.
+private struct DuoLayout {
+	/// Standing on a table: the fold runs across the screen.
+	let tabletopFold: CGRect?
+	/// Held like a book: the fold runs down the screen.
+	let bookFold: CGRect?
+	/// Folded in landscape the sensor strip leaves one side's inset much
+	/// bigger than the other's; the top bar's buttons stack down that side.
+	let railEdge: HorizontalEdge?
+
+	/// A side inset at least this much bigger than the other one means a
+	/// strip on that edge, not a notch both sides share.
+	private static let railMinAsymmetry: CGFloat = 20
+
+	init(origin: CGPoint, safeArea: EdgeInsets, posture: DuoPostureModel) {
+		let local = { (rect: CGRect) in rect.offsetBy(dx: -origin.x, dy: -origin.y) }
+		tabletopFold = posture.tabletopFold.map(local)
+		bookFold = posture.bookFold.map(local)
+		let difference = safeArea.trailing - safeArea.leading
+		if tabletopFold != nil || abs(difference) < Self.railMinAsymmetry {
+			railEdge = nil
+		} else {
+			railEdge = difference > 0 ? .trailing : .leading
+		}
 	}
 }
 

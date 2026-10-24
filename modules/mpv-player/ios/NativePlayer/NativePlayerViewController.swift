@@ -1,3 +1,4 @@
+import AVFoundation
 import Combine
 import SwiftUI
 import UIKit
@@ -30,6 +31,16 @@ final class NativePlayerViewController: UIViewController {
 	private let focusCoordinator = TVFocusCoordinator()
 	#else
 	private var hostingController: UIHostingController<PlayerControlsRootView>?
+	/// iPhone Duo hinge and fold.
+	private let posture = DuoPostureModel()
+	/// The tabletop deck's tilt- and light-driven sheen.
+	private let sheen = PlayerSheenModel()
+	/// Standing on a table, the display layer moves in here: the replicator
+	/// draws a mirrored copy of the live video below the fold, the way the
+	/// picture would reflect off a glossy table.
+	private let reflectionLayer = CAReplicatorLayer()
+	/// Blurs and darkens that mirrored copy into a soft reflection.
+	private let reflectionShade = TabletopReflectionShadeView()
 	#endif
 	private var cancellables: Set<AnyCancellable> = []
 	private var isViewVisible = false
@@ -166,7 +177,17 @@ final class NativePlayerViewController: UIViewController {
 			addOverlayLayer(AnyView(EmptyView()), zone: nil)
 		}
 		#else
-		let hosting = UIHostingController(rootView: PlayerControlsRootView(viewModel: viewModel))
+		// Above the video, below the controls.
+		reflectionShade.isHidden = true
+		reflectionShade.isUserInteractionEnabled = false
+		view.addSubview(reflectionShade)
+		posture.attach(to: view) { [weak self] in
+			self?.view.setNeedsLayout()
+		}
+
+		let hosting = UIHostingController(
+			rootView: PlayerControlsRootView(viewModel: viewModel, posture: posture, sheen: sheen)
+		)
 		hosting.view.backgroundColor = .clear
 		addChild(hosting)
 		hosting.view.translatesAutoresizingMaskIntoConstraints = false
@@ -318,8 +339,85 @@ final class NativePlayerViewController: UIViewController {
 		engine.displayLayer.contentsScale = view.window?.screen.scale ?? UIScreen.main.scale
 		engine.syncSubtitleLayerFrame()
 		CATransaction.commit()
+		#if os(iOS)
+		posture.refresh(in: view)
+		layoutTabletop()
+		#endif
 		viewModel.applySubtitleScale()
 	}
+
+	#if os(iOS)
+	/// iPhone Duo standing on a table (the fold runs across the screen): the
+	/// video takes the top half and a reflection of it falls onto the bottom
+	/// half, under the controls. Anything else puts the layer back.
+	private func layoutTabletop() {
+		guard
+			let windowFold = posture.tabletopFold,
+			case let fold = view.convert(windowFold, from: nil),
+			fold.minY > 80, fold.maxY < view.bounds.height - 80
+		else {
+			exitTabletop()
+			return
+		}
+
+		let videoSize = CGSize(
+			width: CGFloat(viewModel.videoWidth ?? 16),
+			height: CGFloat(max(viewModel.videoHeight ?? 9, 1))
+		)
+		let area = CGRect(x: 0, y: 0, width: view.bounds.width, height: fold.minY)
+		let fit = AVMakeRect(aspectRatio: videoSize, insideRect: area)
+
+		CATransaction.begin()
+		CATransaction.setDisableActions(true)
+		if engine.displayLayer.superlayer !== reflectionLayer {
+			videoContainerView.layer.addSublayer(reflectionLayer)
+			reflectionLayer.addSublayer(engine.displayLayer)
+			sheen.start()
+		}
+		reflectionLayer.frame = fit
+		engine.displayLayer.frame = reflectionLayer.bounds
+
+		// Mirror about the fold's centre line. Instance transforms apply
+		// about the replicator's centre: flip in place, then drop the copy
+		// by its own height plus twice the gap down to the mirror line.
+		let gap = fold.midY - fit.maxY
+		var mirror = CATransform3DIdentity
+		mirror = CATransform3DTranslate(mirror, 0, fit.height + 2 * gap, 0)
+		mirror = CATransform3DScale(mirror, 1, -1, 1)
+		reflectionLayer.instanceTransform = mirror
+		reflectionLayer.instanceCount = 2
+		reflectionLayer.instanceAlphaOffset = Float(reflectionAlpha() - 1)
+		engine.syncSubtitleLayerFrame()
+		CATransaction.commit()
+
+		reflectionShade.frame = CGRect(
+			x: 0, y: fold.maxY,
+			width: view.bounds.width, height: view.bounds.height - fold.maxY
+		)
+		reflectionShade.isHidden = false
+	}
+
+	private func exitTabletop() {
+		reflectionShade.isHidden = true
+		guard engine.displayLayer.superlayer === reflectionLayer else { return }
+		CATransaction.begin()
+		CATransaction.setDisableActions(true)
+		videoContainerView.layer.addSublayer(engine.displayLayer)
+		reflectionLayer.removeFromSuperlayer()
+		reflectionLayer.instanceCount = 1
+		engine.displayLayer.frame = zoomAwareLayerFrame()
+		engine.syncSubtitleLayerFrame()
+		CATransaction.commit()
+		sheen.stop()
+	}
+
+	/// Strongest with the halves near upright to each other, as a real
+	/// reflection would be, fading as the phone opens out flat.
+	private func reflectionAlpha() -> Double {
+		guard let angle = posture.hingeAngle else { return 0.45 }
+		return max(0, min(0.6, 0.6 * sin(angle)))
+	}
+	#endif
 
 	/// tvOS zoom-to-fill: AVSampleBufferDisplayLayer.videoGravity has a
 	/// history of silently not applying (and mpv's VO owns the layer), so
@@ -385,6 +483,7 @@ final class NativePlayerViewController: UIViewController {
 		// Hand the bar back visible — the app-level state persists past this
 		// VC, and the RN screens underneath expect the bar shown.
 		UIApplication.shared.setStatusBarHidden(false, with: .fade)
+		sheen.stop()
 		#endif
 		#if os(tvOS)
 		resetDisplayCriteria()
