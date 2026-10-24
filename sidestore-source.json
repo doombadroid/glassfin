@@ -1,14 +1,14 @@
 {
-  "name": "Streamyfin Next",
+  "name": "Sailfin",
   "identifier": "io.github.doombadroid.streamyfin-next",
-  "subtitle": "Streamyfin, redesigned for iPhone Duo",
+  "subtitle": "A Jellyfin player for iPhone Duo",
   "apps": [
     {
-      "name": "Streamyfin Next",
+      "name": "Sailfin",
       "bundleIdentifier": "com.doombadroid.streamyfinnext",
-      "developerName": "doombadroid (fork of streamyfin/streamyfin)",
+      "developerName": "doombadroid",
       "subtitle": "Jellyfin client",
-      "localizedDescription": "Fork of Streamyfin (MPL-2.0) with the Frost Liquid Glass redesign and iPhone Duo fold/unfold layouts.",
+      "localizedDescription": "Jellyfin player with a Liquid Glass design and iPhone Duo fold, tabletop and book layouts. MPL-2.0.",
       "iconURL": "https://raw.githubusercontent.com/doombadroid/streamyfin-next/develop/assets/images/icon.png",
       "tintColor": "8fe6cb",
       "versions": [

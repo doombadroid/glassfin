@@ -25,10 +25,6 @@ final class DuoPostureModel: ObservableObject {
 
 	/// The least either half can keep for the half-open layout to apply.
 	static let minPage: CGFloat = 80
-	/// Active occlusion regions (the cameras), in window coordinates. The
-	/// folded iPhone Duo's camera sits in the side strip the player's rail
-	/// moves into, so the rail keeps clear of it.
-	@Published private(set) var occlusions: [CGRect] = []
 
 	/// Starts listening for hinge changes on `view`'s hierarchy.
 	func attach(to view: UIView, onChange: @escaping () -> Void) {
@@ -45,8 +41,7 @@ final class DuoPostureModel: ObservableObject {
 		view.addInteraction(interaction)
 	}
 
-	/// Re-reads the fold and the cameras. Call after layout and on hinge
-	/// updates.
+	/// Re-reads the fold. Call after layout and on hinge updates.
 	func refresh(in view: UIView) {
 		guard let window = view.window else { return }
 		let next = Self.activeRegions(kind: "divisionRegionKind", in: window).first.flatMap {
@@ -55,13 +50,6 @@ final class DuoPostureModel: ObservableObject {
 		if next != fold {
 			duoLog.notice("fold \(next.map { NSCoder.string(for: $0) } ?? "none", privacy: .public)")
 			fold = next
-		}
-		let cameras = Self.activeRegions(kind: "occlusionRegionKind", in: window)
-		if cameras != occlusions {
-			duoLog.notice(
-				"occlusions \(cameras.map { NSCoder.string(for: $0) }.joined(separator: " "), privacy: .public)"
-			)
-			occlusions = cameras
 		}
 	}
 

@@ -122,10 +122,10 @@
       "disable": "Karussell desaktivéieren"
     },
     "intro": {
-      "welcome_to_streamyfin": "Wëllkomm bei Streamyfin",
+      "welcome_to_streamyfin": "Wëllkomm bei Sailfin",
       "a_free_and_open_source_client_for_jellyfin": "E fräien an Open-Source Client fir Jellyfin.",
       "features_title": "Featuren",
-      "features_description": "Streamyfin bitt vill Featuren a funktionéiert mat anerer Software. Du fënns se am Astellungsmenu:",
+      "features_description": "Sailfin bitt vill Featuren a funktionéiert mat anerer Software. Du fënns se am Astellungsmenu:",
       "seerr_feature_description": "Verbann dech mat denger Seerr-Instanz a fro Filmer direkt an der App un.",
       "downloads_feature_title": "Downloaden",
       "downloads_feature_description": "Lued Filmer a Serien erof, fir se offline unzekucken. Notz entweder d'Standardmethod oder installéier den optiméierte Server, fir Dateien am Hannergrond erofzelueden.",
@@ -135,8 +135,8 @@
       "done_button": "Färdeg",
       "go_to_settings_button": "Géi an d'Astellungen",
       "read_more": "Méi erfueren",
-      "crash_reports_title": "Hëllef, Streamyfin ze verbesseren",
-      "crash_reports_description": "Streamyfin schéckt den Entwéckler anonym Crash- a Feelerrapporten. Keng Accountdaten oder Serveradresse sinn derbäi. Du kanns dat hei oder jidderzäit an den Astellungen ofschalten."
+      "crash_reports_title": "Hëllef, Sailfin ze verbesseren",
+      "crash_reports_description": "Sailfin schéckt den Entwéckler anonym Crash- a Feelerrapporten. Keng Accountdaten oder Serveradresse sinn derbäi. Du kanns dat hei oder jidderzäit an den Astellungen ofschalten."
     },
     "settings": {
       "settings_title": "Astellungen",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "OpenSubtitles duerchsichen",
         "opensubtitles_enabled_hint": "Erlabt dësem Apparat, OpenSubtitles direkt ze duerchsichen, wann däi Jellyfin-Server keen Ënnertitel-Ubidder huet. Wann s du dat ausschals, bleiwt d'Ënnertitelsich op dengem Server an e gespäicherten API-Schlëssel ewéi en ass.",
         "crash_reports": "Crash-Rapporten",
-        "crash_reports_hint": "Anonym Crash- a Feelerrapporten iwwer Sentry un d'Streamyfin-Entwéckler schécken. D'Rapporten enthale keng Accountdaten; Serveradressen an Tokens ginn ewechgeholl, ier eppes geschéckt gëtt.",
+        "crash_reports_hint": "Anonym Crash- a Feelerrapporten iwwer Sentry un d'Sailfin-Entwéckler schécken. D'Rapporten enthale keng Accountdaten; Serveradressen an Tokens ginn ewechgeholl, ier eppes geschéckt gëtt.",
         "seerr": {
           "server_url": "Server-URL",
           "server_url_hint": "Beispill: http(s)://your-host.url\n(Port bäimaachen, falls erfuerderlech)",
@@ -766,7 +766,7 @@
     "still_watching": "Kucks du nach?",
     "error": "Feeler",
     "failed_to_get_stream_url": "Feeler beim Opruffe vun der Stream-URL",
-    "unsupported_item_type": "Streamyfin kann dësen Typ Element net ofspillen",
+    "unsupported_item_type": "Sailfin kann dësen Typ Element net ofspillen",
     "an_error_occurred_while_playing_the_video": "E Feeler ass beim Ofspille vum Video opgetrueden. Protokoller an den Astellungen iwwerpréiwen.",
     "client_error": "Client-Feeler",
     "could_not_create_stream_for_chromecast": "Konnt kee Stream fir Chromecast kreéieren",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "D'Televisioun verbënnt sech mat dengem Kont",
     "error_title": "Autoriséierung feelgeschloen",
     "error_invalid_qr": "Ongëltege QR-Code. Wgl. scann den TV-Kopplelungscode.",
-    "error_old_tv": "This TV runs an older version of Streamyfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Mat Telefon koppelen",
     "pair_with_phone_title": "Um TV umellen",
-    "scan_quick_connect": "Scan the QR code with the Streamyfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Streamyfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Umellen …",
     "logging_in_description": "Verbënnt mat dengem Server"

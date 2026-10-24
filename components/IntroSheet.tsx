@@ -9,7 +9,6 @@ import { Image } from "expo-image";
 import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  Linking,
   Platform,
   TouchableOpacity,
   useWindowDimensions,
@@ -187,21 +186,8 @@ export const IntroSheet = forwardRef<IntroSheetRef>((_, ref) => {
                 </Text>
                 <View className='flex-row flex-wrap items-baseline'>
                   <Text className='shrink text-xs'>
-                    {t(
-                      "home.intro.centralised_settings_plugin_description",
-                    )}{" "}
+                    {t("home.intro.centralised_settings_plugin_description")}
                   </Text>
-                  <TouchableOpacity
-                    onPress={() => {
-                      Linking.openURL(
-                        "https://github.com/streamyfin/jellyfin-plugin-streamyfin",
-                      );
-                    }}
-                  >
-                    <Text className='text-xs text-purple-600 underline'>
-                      {t("home.intro.read_more")}
-                    </Text>
-                  </TouchableOpacity>
                 </View>
               </View>
             </View>

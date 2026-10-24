@@ -122,10 +122,10 @@
       "disable": "Отключить карусель"
     },
     "intro": {
-      "welcome_to_streamyfin": "Добро пожаловать в Streamyfin",
+      "welcome_to_streamyfin": "Добро пожаловать в Sailfin",
       "a_free_and_open_source_client_for_jellyfin": "Бесплатный клиент для Jellyfin с открытым кодом.",
       "features_title": "Функции",
-      "features_description": "У Streamyfin много функций, и он работает с другим программным обеспечением. Вы найдёте их в меню настроек:",
+      "features_description": "У Sailfin много функций, и он работает с другим программным обеспечением. Вы найдёте их в меню настроек:",
       "seerr_feature_description": "Подключитесь к своему серверу Seerr и запрашивайте фильмы прямо в приложении.",
       "downloads_feature_title": "Загрузки",
       "downloads_feature_description": "Скачивайте фильмы и сериалы для просмотра без интернета. Используйте стандартный способ или установите сервер оптимизации для загрузки файлов в фоновом режиме.",
@@ -135,8 +135,8 @@
       "done_button": "Готово",
       "go_to_settings_button": "Перейти в настройки",
       "read_more": "Узнать больше",
-      "crash_reports_title": "Помогите улучшить Streamyfin",
-      "crash_reports_description": "Streamyfin отправляет разработчикам анонимные отчёты о сбоях и ошибках. Данные учётной записи и адреса серверов в них не входят. Это можно отключить здесь или в любой момент в настройках."
+      "crash_reports_title": "Помогите улучшить Sailfin",
+      "crash_reports_description": "Sailfin отправляет разработчикам анонимные отчёты о сбоях и ошибках. Данные учётной записи и адреса серверов в них не входят. Это можно отключить здесь или в любой момент в настройках."
     },
     "settings": {
       "settings_title": "Настройки",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Искать на OpenSubtitles",
         "opensubtitles_enabled_hint": "Разрешить этому устройству искать субтитры напрямую на OpenSubtitles, когда на вашем сервере Jellyfin нет поставщика субтитров. Если отключить, поиск субтитров останется на сервере, а сохранённый ключ API не будет затронут.",
         "crash_reports": "Отчёты о сбоях",
-        "crash_reports_hint": "Отправлять разработчикам Streamyfin анонимные отчёты о сбоях и ошибках через Sentry. Отчёты не содержат данных учётной записи; адреса серверов и токены удаляются перед отправкой.",
+        "crash_reports_hint": "Отправлять разработчикам Sailfin анонимные отчёты о сбоях и ошибках через Sentry. Отчёты не содержат данных учётной записи; адреса серверов и токены удаляются перед отправкой.",
         "seerr": {
           "server_url": "URL-адрес сервера",
           "server_url_hint": "Пример: http(s)://your-host.url\n(добавьте порт, если необходимо)",
@@ -766,7 +766,7 @@
     "still_watching": "Ещё смотрите?",
     "error": "Ошибка",
     "failed_to_get_stream_url": "Не удалось получить URL потока",
-    "unsupported_item_type": "Streamyfin не может воспроизводить элементы этого типа",
+    "unsupported_item_type": "Sailfin не может воспроизводить элементы этого типа",
     "an_error_occurred_while_playing_the_video": "Возникла Неожиданная ошибка во время воспроизведения. Проверьте логи в настройках.",
     "client_error": "Ошибка клиента",
     "could_not_create_stream_for_chromecast": "Не удалось создать поток для Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "Телевизор подключается к Вашей учётной записи",
     "error_title": "Ошибка авторизации",
     "error_invalid_qr": "Неверный QR-код, отсканируйте код подключения телевизора.",
-    "error_old_tv": "This TV runs an older version of Streamyfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Подключить телефон",
     "pair_with_phone_title": "Вход на ТВ",
-    "scan_quick_connect": "Scan the QR code with the Streamyfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Streamyfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Подключение...",
     "logging_in_description": "Подключение к Вашему серверу"

@@ -45,10 +45,10 @@
     "suggested_movies": "Filma të sugjeruar",
     "suggested_episodes": "Episodat të sugjeruara",
     "intro": {
-      "welcome_to_streamyfin": "Mirë se vini në Streamyfin",
+      "welcome_to_streamyfin": "Mirë se vini në Sailfin",
       "a_free_and_open_source_client_for_jellyfin": "Një klient falas dhe me burim të hapur për Jellyfin.",
       "features_title": "Karakteristikat",
-      "features_description": "Streamyfin ka shumë funksione dhe integron me shumë software tjera, të cilët mund ti gjeni në menynë e cilësimeve, përfshirë këto:",
+      "features_description": "Sailfin ka shumë funksione dhe integron me shumë software tjera, të cilët mund ti gjeni në menynë e cilësimeve, përfshirë këto:",
       "jellyseerr_feature_description": "Lidhu me instancën tuaj të Jellyseerr dhe kërko filma direkt në aplikacionin.",
       "downloads_feature_title": "Shkarkime",
       "downloads_feature_description": "Shkarkoni filma dhe seriale për shikim offline. Përdorni ose metodën standarde ose instaloni serverin e optimizuar për të shkarkuar skedarët në sfond.",

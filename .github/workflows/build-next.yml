@@ -1,6 +1,6 @@
-name: Build Streamyfin Next IPA
+name: Build Sailfin IPA
 
-# Unsigned Streamyfin Next IPA built with the iOS 27.1 SDK (the first SDK that lays apps out
+# Unsigned Sailfin IPA built with the iOS 27.1 SDK (the first SDK that lays apps out
 # edge to edge on iPhone Duo), published as a release plus a SideStore source feed.
 # The IPA is signed with your own Apple ID when it's installed (SideStore / AltStore).
 on:
@@ -63,13 +63,13 @@ jobs:
           bun run ios:unsigned-build
           ipa=$(ls build/*.ipa | head -1)
           test -s "$ipa"
-          mv "$ipa" "$RUNNER_TEMP/StreamyfinNext-unsigned.ipa"
+          mv "$ipa" "$RUNNER_TEMP/Sailfin-unsigned.ipa"
 
       - name: Check the IPA
         run: |
           cd "$RUNNER_TEMP"
           rm -rf check && mkdir check && cd check
-          unzip -q ../StreamyfinNext-unsigned.ipa
+          unzip -q ../Sailfin-unsigned.ipa
           app=$(ls -d Payload/*.app | head -1)
           exe=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Info.plist")
           test -f "$app/$exe"
@@ -88,8 +88,8 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: StreamyfinNext-unsigned-ipa
-          path: ${{ runner.temp }}/StreamyfinNext-unsigned.ipa
+          name: Sailfin-unsigned-ipa
+          path: ${{ runner.temp }}/Sailfin-unsigned.ipa
           if-no-files-found: error
 
       - name: Publish as a release
@@ -98,9 +98,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           sha=$(git rev-parse --short HEAD)
-          gh release create "next-${{ github.run_number }}" "$RUNNER_TEMP/StreamyfinNext-unsigned.ipa" \
-            --title "Streamyfin Next build ${{ github.run_number }} ($sha)" \
-            --notes "Unsigned IPA at $sha ($BUILD_TOOLCHAIN). Sign it with your own Apple ID: add the SideStore source https://raw.githubusercontent.com/${{ github.repository }}/develop/sidestore-source.json or open the IPA in SideStore. MPL-2.0, fork of streamyfin/streamyfin."
+          gh release create "next-${{ github.run_number }}" "$RUNNER_TEMP/Sailfin-unsigned.ipa" \
+            --title "Sailfin build ${{ github.run_number }} ($sha)" \
+            --notes "Unsigned IPA at $sha ($BUILD_TOOLCHAIN). Sign it with your own Apple ID: add the SideStore source https://raw.githubusercontent.com/${{ github.repository }}/develop/sidestore-source.json or open the IPA in SideStore. MPL-2.0; source at https://github.com/${{ github.repository }}."
 
       - name: Update the SideStore source feed
         if: github.event_name == 'push' || inputs.publish
@@ -111,20 +111,20 @@ jobs:
           run = "${{ github.run_number }}"
           repo = "${{ github.repository }}"
           path = "sidestore-source.json"
-          size = os.path.getsize(os.path.join(os.environ["RUNNER_TEMP"], "StreamyfinNext-unsigned.ipa"))
+          size = os.path.getsize(os.path.join(os.environ["RUNNER_TEMP"], "Sailfin-unsigned.ipa"))
           try:
               source = json.load(open(path))
           except FileNotFoundError:
               source = {
-                  "name": "Streamyfin Next",
+                  "name": "Sailfin",
                   "identifier": "io.github.doombadroid.streamyfin-next",
-                  "subtitle": "Streamyfin, redesigned for iPhone Duo",
+                  "subtitle": "A Jellyfin player for iPhone Duo",
                   "apps": [{
-                      "name": "Streamyfin Next",
+                      "name": "Sailfin",
                       "bundleIdentifier": "com.doombadroid.streamyfinnext",
-                      "developerName": "doombadroid (fork of streamyfin/streamyfin)",
+                      "developerName": "doombadroid",
                       "subtitle": "Jellyfin client",
-                      "localizedDescription": "Fork of Streamyfin (MPL-2.0) with the Frost Liquid Glass redesign and iPhone Duo fold/unfold layouts.",
+                      "localizedDescription": "Jellyfin player with a Liquid Glass design and iPhone Duo fold, tabletop and book layouts. MPL-2.0.",
                       "iconURL": f"https://raw.githubusercontent.com/{repo}/develop/assets/images/icon.png",
                       "tintColor": "8fe6cb",
                       "versions": [],
@@ -138,7 +138,7 @@ jobs:
               "buildVersion": run,
               "date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
               "localizedDescription": os.environ["BUILD_TOOLCHAIN"],
-              "downloadURL": f"https://github.com/{repo}/releases/download/next-{run}/StreamyfinNext-unsigned.ipa",
+              "downloadURL": f"https://github.com/{repo}/releases/download/next-{run}/Sailfin-unsigned.ipa",
               "size": size,
               "minOSVersion": os.environ["MIN_IOS"],
           })

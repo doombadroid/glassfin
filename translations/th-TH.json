@@ -122,10 +122,10 @@
       "disable": "ปิดใช้งานส่วนไฮไลต์"
     },
     "intro": {
-      "welcome_to_streamyfin": "ยินดีต้อนรับสู่ Streamyfin",
+      "welcome_to_streamyfin": "ยินดีต้อนรับสู่ Sailfin",
       "a_free_and_open_source_client_for_jellyfin": "ไคลเอนต์ Jellyfin แบบฟรีและโอเพนซอร์ส",
       "features_title": "คุณสมบัติ",
-      "features_description": "Streamyfin มีฟีเจอร์มากมายและทำงานร่วมกับซอฟต์แวร์อื่น ๆ ได้ คุณจะพบฟีเจอร์เหล่านี้ในเมนูการตั้งค่า:",
+      "features_description": "Sailfin มีฟีเจอร์มากมายและทำงานร่วมกับซอฟต์แวร์อื่น ๆ ได้ คุณจะพบฟีเจอร์เหล่านี้ในเมนูการตั้งค่า:",
       "seerr_feature_description": "เชื่อมต่อกับ Seerr ของคุณและขอภาพยนตร์ได้โดยตรงในแอป",
       "downloads_feature_title": "ดาวน์โหลด",
       "downloads_feature_description": "ดาวน์โหลดภาพยนตร์และซีรีส์เพื่อดูแบบออฟไลน์",
@@ -135,8 +135,8 @@
       "done_button": "เสร็จสิ้น",
       "go_to_settings_button": "ไปที่การตั้งค่า",
       "read_more": "อ่านเพิ่มเติม",
-      "crash_reports_title": "ช่วยปรับปรุง Streamyfin",
-      "crash_reports_description": "Streamyfin ส่งรายงานข้อผิดพลาดและการแคลชแบบไม่ระบุตัวตนไปยังผู้พัฒนา ข้อมูลบัญชีหรือที่อยู่เซิร์ฟเวอร์จะไม่ถูกส่งไปด้วย คุณสามารถปิดคุณสมบัตินี้ได้ที่นี่หรือในหน้าตั้งค่าได้ตลอดเวลา"
+      "crash_reports_title": "ช่วยปรับปรุง Sailfin",
+      "crash_reports_description": "Sailfin ส่งรายงานข้อผิดพลาดและการแคลชแบบไม่ระบุตัวตนไปยังผู้พัฒนา ข้อมูลบัญชีหรือที่อยู่เซิร์ฟเวอร์จะไม่ถูกส่งไปด้วย คุณสามารถปิดคุณสมบัตินี้ได้ที่นี่หรือในหน้าตั้งค่าได้ตลอดเวลา"
     },
     "settings": {
       "settings_title": "การตั้งค่า",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "ค้นหาใน OpenSubtitles",
         "opensubtitles_enabled_hint": "ให้อุปกรณ์นี้ค้นหาใน OpenSubtitles ได้โดยตรงเมื่อเซิร์ฟเวอร์ Jellyfin ของคุณไม่มีผู้ให้บริการคำบรรยาย เมื่อปิด การค้นหาคำบรรยายจะยังอยู่บนเซิร์ฟเวอร์ และคีย์ API ที่บันทึกไว้จะไม่ถูกแตะต้อง",
         "crash_reports": "รายงานการแครช",
-        "crash_reports_hint": "ส่งรายงานการแครชและข้อผิดพลาดแบบไม่ระบุตัวตนไปยังผู้พัฒนา Streamyfin ผ่าน Sentry รายงานไม่มีข้อมูลบัญชี และที่อยู่เซิร์ฟเวอร์กับโทเค็นจะถูกลบออกก่อนส่งข้อมูลใด ๆ",
+        "crash_reports_hint": "ส่งรายงานการแครชและข้อผิดพลาดแบบไม่ระบุตัวตนไปยังผู้พัฒนา Sailfin ผ่าน Sentry รายงานไม่มีข้อมูลบัญชี และที่อยู่เซิร์ฟเวอร์กับโทเค็นจะถูกลบออกก่อนส่งข้อมูลใด ๆ",
         "seerr": {
           "server_url": "URL เซิร์ฟเวอร์",
           "server_url_hint": "ตัวอย่าง: http(s)://your-host.url\n(เพิ่มพอร์ตหากจำเป็น)",
@@ -766,7 +766,7 @@
     "still_watching": "คุณยังรับชมอยู่หรือไม่?",
     "error": "ข้อผิดพลาด",
     "failed_to_get_stream_url": "ไม่สามารถรับ URL สตรีมได้",
-    "unsupported_item_type": "Streamyfin ไม่สามารถเล่นรายการประเภทนี้ได้",
+    "unsupported_item_type": "Sailfin ไม่สามารถเล่นรายการประเภทนี้ได้",
     "an_error_occurred_while_playing_the_video": "เกิดข้อผิดพลาดขณะเล่นวิดีโอ ตรวจสอบบันทึกในการตั้งค่า",
     "client_error": "ข้อผิดพลาดของไคลเอนต์",
     "could_not_create_stream_for_chromecast": "ไม่สามารถสร้างสตรีมสำหรับ Chromecast ได้",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "ทีวีกำลังเชื่อมต่อกับบัญชีของคุณ",
     "error_title": "การอนุญาตล้มเหลว",
     "error_invalid_qr": "โค้ด QR ไม่ถูกต้อง กรุณาสแกนรหัสจับคู่จากทีวี",
-    "error_old_tv": "This TV runs an older version of Streamyfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "จับคู่กับโทรศัพท์",
     "pair_with_phone_title": "เข้าสู่ระบบบนทีวี",
-    "scan_quick_connect": "Scan the QR code with the Streamyfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Streamyfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "กำลังเข้าสู่ระบบ...",
     "logging_in_description": "กำลังเชื่อมต่อกับเซิร์ฟเวอร์ของคุณ"

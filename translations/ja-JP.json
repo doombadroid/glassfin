@@ -122,10 +122,10 @@
       "disable": "ヒーローカルーセルを無効にする"
     },
     "intro": {
-      "welcome_to_streamyfin": "Streamyfinへようこそ",
+      "welcome_to_streamyfin": "Sailfinへようこそ",
       "a_free_and_open_source_client_for_jellyfin": "Jellyfinのためのフリーでオープンソースのクライアント。",
       "features_title": "特長",
-      "features_description": "Streamyfinには多くの機能があり、他のソフトウェアとも連携します。設定メニューで確認できます：",
+      "features_description": "Sailfinには多くの機能があり、他のソフトウェアとも連携します。設定メニューで確認できます：",
       "seerr_feature_description": "Seerrインスタンスに接続し、アプリ内で直接映画をリクエストします。",
       "downloads_feature_title": "ダウンロード",
       "downloads_feature_description": "映画やテレビ番組をダウンロードしてオフラインで視聴します。デフォルトの方法を使用するか、バックグラウンドでファイルをダウンロードするために最適化されたサーバーをインストールしてください。",
@@ -135,8 +135,8 @@
       "done_button": "完了",
       "go_to_settings_button": "設定に移動",
       "read_more": "続きを読む",
-      "crash_reports_title": "Streamyfinの改善にご協力ください",
-      "crash_reports_description": "Streamyfinは匿名のクラッシュレポートとエラーレポートを開発者に送信します。アカウント情報やサーバーのアドレスは含まれません。ここで、または設定からいつでもオフにできます。"
+      "crash_reports_title": "Sailfinの改善にご協力ください",
+      "crash_reports_description": "Sailfinは匿名のクラッシュレポートとエラーレポートを開発者に送信します。アカウント情報やサーバーのアドレスは含まれません。ここで、または設定からいつでもオフにできます。"
     },
     "settings": {
       "settings_title": "設定",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "OpenSubtitlesを検索",
         "opensubtitles_enabled_hint": "Jellyfinサーバーに字幕プロバイダーがない場合、このデバイスから直接OpenSubtitlesを検索できるようにします。オフにすると字幕検索はサーバー側のままになり、保存済みのAPIキーはそのまま残ります。",
         "crash_reports": "クラッシュレポート",
-        "crash_reports_hint": "Sentry経由で匿名のクラッシュレポートとエラーレポートをStreamyfinの開発者に送信します。レポートにアカウント情報は含まれず、サーバーのアドレスとトークンは送信前に削除されます。",
+        "crash_reports_hint": "Sentry経由で匿名のクラッシュレポートとエラーレポートをSailfinの開発者に送信します。レポートにアカウント情報は含まれず、サーバーのアドレスとトークンは送信前に削除されます。",
         "seerr": {
           "server_url": "サーバーURL",
           "server_url_hint": "例: http(s)://your-host.url\n(必要に応じてポートを追加)",
@@ -766,7 +766,7 @@
     "still_watching": "まだご覧になっていますか？",
     "error": "エラー",
     "failed_to_get_stream_url": "ストリームURLを取得できませんでした",
-    "unsupported_item_type": "Streamyfinではこの種類のアイテムを再生できません",
+    "unsupported_item_type": "Sailfinではこの種類のアイテムを再生できません",
     "an_error_occurred_while_playing_the_video": "動画の再生中にエラーが発生しました。設定でログを確認してください。",
     "client_error": "クライアントエラー",
     "could_not_create_stream_for_chromecast": "Chromecastのストリームを作成できませんでした",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "テレビがアカウントに接続しています",
     "error_title": "許可に失敗しました",
     "error_invalid_qr": "QRコードが無効です。テレビのペアリングコードをスキャンしてください。",
-    "error_old_tv": "This TV runs an older version of Streamyfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "スマートフォンとペアリング",
     "pair_with_phone_title": "テレビでログイン",
-    "scan_quick_connect": "Scan the QR code with the Streamyfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Streamyfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "ログイン中...",
     "logging_in_description": "サーバーに接続しています"

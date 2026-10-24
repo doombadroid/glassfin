@@ -20,6 +20,9 @@ struct PlayerTopBar: View {
 	var vertical = false
 	/// Just the buttons in a row, no title (it's shown elsewhere).
 	var buttonsOnly = false
+	/// With `buttonsOnly`, whether close leads the row (the dock puts it in
+	/// the top corner instead).
+	var includesClose = true
 
 	var body: some View {
 		if vertical {
@@ -29,7 +32,7 @@ struct PlayerTopBar: View {
 			}
 		} else if buttonsOnly {
 			HStack(spacing: 4) {
-				closeButton
+				if includesClose { closeButton }
 				trailingButtons
 			}
 		} else {

@@ -122,10 +122,10 @@
       "disable": "Disable hero"
     },
     "intro": {
-      "welcome_to_streamyfin": "Welcome to Streamyfin",
+      "welcome_to_streamyfin": "Welcome to Sailfin",
       "a_free_and_open_source_client_for_jellyfin": "A free and open-source client for Jellyfin.",
       "features_title": "Features",
-      "features_description": "Streamyfin has a bunch of features and works with other software. You'll find them in the settings menu:",
+      "features_description": "Sailfin has a bunch of features and works with other software. You'll find them in the settings menu:",
       "seerr_feature_description": "Connect to your Seerr instance and request movies directly in the app.",
       "downloads_feature_title": "Downloads",
       "downloads_feature_description": "Download movies and series to watch offline.",
@@ -135,8 +135,8 @@
       "done_button": "Done",
       "go_to_settings_button": "Go to Settings",
       "read_more": "Read more",
-      "crash_reports_title": "Help improve Streamyfin",
-      "crash_reports_description": "Streamyfin sends anonymous crash and error reports to the developers. No account data or server addresses are included. You can turn this off here or anytime in settings."
+      "crash_reports_title": "Help improve Sailfin",
+      "crash_reports_description": "Sailfin sends anonymous crash and error reports to the developers. No account data or server addresses are included. You can turn this off here or anytime in settings."
     },
     "settings": {
       "settings_title": "Settings",
@@ -446,7 +446,7 @@
         "opensubtitles_enabled": "Search OpenSubtitles",
         "opensubtitles_enabled_hint": "Let this device search OpenSubtitles directly when your Jellyfin server has no subtitle provider. Turning this off keeps subtitle searches on your server and leaves any saved API key alone.",
         "crash_reports": "Crash reports",
-        "crash_reports_hint": "Send anonymous crash and error reports to the Streamyfin developers via Sentry. Reports contain no account data; server addresses and tokens are removed before anything is sent.",
+        "crash_reports_hint": "Send anonymous crash and error reports to the Sailfin developers via Sentry. Reports contain no account data; server addresses and tokens are removed before anything is sent.",
         "seerr": {
           "server_url": "Server URL",
           "server_url_hint": "Example: http(s)://your-host.url\n(add port if required)",
@@ -587,7 +587,7 @@
           "paused": "Notifications paused for 8 hours",
           "muted": "Notifications for this show turned off"
         },
-        "unsupported": "Your server's Streamyfin plugin does not offer notification choices yet.",
+        "unsupported": "Your server's companion plugin does not offer notification choices yet.",
         "load_failed": "Couldn't load your notification choices.",
         "try_again": "Try again",
         "events": {
@@ -639,7 +639,7 @@
           "until": "Until {{when}}"
         },
         "blocked": {
-          "title": "Notifications are off for Streamyfin",
+          "title": "Notifications are off for Sailfin",
           "body": "Your phone blocks them, whatever you choose below.",
           "open": "Open Settings"
         },
@@ -890,7 +890,7 @@
     "still_watching": "Are you still watching?",
     "error": "Error",
     "failed_to_get_stream_url": "Failed to get the stream URL",
-    "unsupported_item_type": "Streamyfin can't play this type of item",
+    "unsupported_item_type": "Sailfin can't play this type of item",
     "an_error_occurred_while_playing_the_video": "An error occurred while playing the video. Check logs in settings.",
     "client_error": "Client error",
     "could_not_create_stream_for_chromecast": "Could not create a stream for Chromecast",
@@ -1367,7 +1367,7 @@
     "pairing_tv_connecting": "The TV is connecting to your account",
     "error_title": "Authorization failed",
     "error_invalid_qr": "Invalid QR code. Please scan the TV pairing code.",
-    "error_old_tv": "This TV runs an older version of Streamyfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1380,10 +1380,10 @@
   "pairing": {
     "pair_with_phone": "Pair with phone",
     "pair_with_phone_title": "Log in on TV",
-    "scan_quick_connect": "Scan the QR code with the Streamyfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Streamyfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Logging in...",
     "logging_in_description": "Connecting to your server"

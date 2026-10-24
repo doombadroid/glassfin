@@ -14,9 +14,6 @@ struct PlayerControlsRootView: View {
 	/// Not observed here: it ticks at 30 Hz, and only the capsules' glow
 	/// (CapsuleSheen) reads it.
 	let sheen: PlayerSheenModel
-	/// Whether the rail fitted the transport; when not, it rides in the row
-	/// by the scrubber. Set by the rail as it lays out.
-	@State private var railHoldsTransport = true
 
 	private enum DragAxis { case horizontal, vertical }
 
@@ -47,8 +44,6 @@ struct PlayerControlsRootView: View {
 				bottomSafeAreaInset: geometry.safeAreaInsets.bottom,
 				layout: DuoLayout(
 					origin: geometry.frame(in: .global).origin,
-					size: geometry.size,
-					safeArea: geometry.safeAreaInsets,
 					posture: posture
 				)
 			)
@@ -69,15 +64,18 @@ struct PlayerControlsRootView: View {
 					TabletopDeck(viewModel: viewModel, sheen: sheen, fold: fold, size: size)
 						.zIndex(1)
 					if volumeSliderVisible {
-						// A hardware volume press still shows its level.
-						HStack {
-							Spacer()
-							VolumeSliderView(
-								viewModel: viewModel,
-								controller: viewModel.volumeController
-							)
-						}
-						.padding(.horizontal)
+						// A hardware volume press still shows its level: in a
+						// glass pill on the video's half, clear of the fold
+						// and the controls.
+						VolumeSliderView(
+							viewModel: viewModel,
+							controller: viewModel.volumeController
+						)
+						.padding(.vertical, 12)
+						.padding(.horizontal, 5)
+						.background(.black.opacity(0.35), in: Capsule())
+						.overlay(Capsule().strokeBorder(.white.opacity(0.15), lineWidth: 1))
+						.position(halfOpenVolumePosition(fold: fold, size: size))
 						.transition(.opacity)
 						.zIndex(2)
 					}
@@ -99,7 +97,7 @@ struct PlayerControlsRootView: View {
 					// and must cover the play/skip buttons in landscape, not duck
 					// under them. Hit-testing is unaffected — the layer's empty
 					// middle isn't tappable.
-					railChrome(layout: layout)
+					dockTop
 						.transition(.opacity)
 						.zIndex(1)
 				}
@@ -129,10 +127,9 @@ struct PlayerControlsRootView: View {
 
 			if layout.halfOpenFold == nil {
 				adaptivePlaybackChrome(bottomSafeAreaInset: bottomSafeAreaInset)
-					.padding(edgeSet(layout.chromeEdge), layout.contentReserve)
 
 				if viewModel.controlsVisible {
-					fullWidthBottomChrome(layout: layout)
+					dockBottom
 						.transition(.opacity)
 						.zIndex(1)
 				}
@@ -452,35 +449,95 @@ struct PlayerControlsRootView: View {
 		viewModel.scheduleAutoHide()
 	}
 
-	private func edgeSet(_ edge: HorizontalEdge) -> Edge.Set {
-		edge == .leading ? .leading : .trailing
-	}
-
-	/// The edge rail: close and menus at the top, transport at the bottom.
-	/// With a side strip (the folded iPhone Duo) it sits in the strip, as
-	/// Netflix's does, clear of the camera; otherwise on the right, where iOS
-	/// puts its own vertical bar.
-	private func railChrome(layout: DuoLayout) -> some View {
-		HStack(spacing: 0) {
-			if layout.chromeEdge == .trailing { Spacer(minLength: 0) }
-			PlayerRail(viewModel: viewModel, holdsTransport: $railHoldsTransport)
-				.padding(.top, layout.railTopClear)
-				.padding(.bottom, layout.railBottomClear)
-			if layout.chromeEdge == .leading { Spacer(minLength: 0) }
+	/// Where the volume pill goes while half open: the middle of the video's
+	/// half, at its outer edge.
+	private func halfOpenVolumePosition(fold: CGRect, size: CGSize) -> CGPoint {
+		let inset: CGFloat = 36
+		if fold.width > fold.height {
+			return CGPoint(x: size.width - inset, y: max(fold.minY / 2, inset))
 		}
-		.padding(.horizontal, DuoLayout.railMargin)
-		.padding(.vertical, 8)
-		.offset(x: layout.railOffset)
+		return CGPoint(x: max(fold.minX - inset, inset), y: size.height / 2)
 	}
 
+	/// Close top-left; the title centred at the top of the screen.
+	private var dockTop: some View {
+		ZStack(alignment: .top) {
+			HStack {
+				Button {
+					viewModel.close()
+				} label: {
+					Image(systemName: "xmark")
+						.font(.system(size: 17, weight: .semibold))
+						.foregroundStyle(.white)
+						.frame(width: 44, height: 44)
+						.background {
+							GlassCapsule {
+								Color.clear.frame(width: 36, height: 36)
+							}
+						}
+						.contentShape(Circle())
+				}
+				.accessibilityLabel(viewModel.str("close", "Close"))
+				Spacer(minLength: 0)
+			}
+			.padding(.horizontal, 16)
+
+			DockTitle(viewModel: viewModel)
+				.frame(maxWidth: Self.dockTitleWidth)
+				.frame(maxWidth: .infinity)
+				.padding(.top, 2)
+				.ignoresSafeArea(.container, edges: .horizontal)
+		}
+		.padding(.top, 8)
+		.frame(maxHeight: .infinity, alignment: .top)
+	}
+
+	/// Narrow enough to stay clear of the close button and of the folded
+	/// iPhone Duo's camera in either top corner.
+	private static let dockTitleWidth: CGFloat = 280
+
+	/// The centred dock: the scrubber, then the transport, then one quiet row
+	/// of everything else. It spans the whole screen, not just the safe area,
+	/// so it centres on the phone (and on the video) rather than beside the
+	/// folded iPhone Duo's side strip, whose camera sits at the top.
+	private var dockBottom: some View {
+		VStack(spacing: 0) {
+			Spacer()
+			VStack(spacing: 12) {
+				PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
+				GlassCapsule(vertical: false) {
+					RailTransport(viewModel: viewModel, time: viewModel.time, compact: true)
+				}
+				.fixedSize()
+				PlayerTopBar(
+					viewModel: viewModel,
+					compact: true,
+					buttonsOnly: true,
+					includesClose: false
+				)
+				.opacity(0.9)
+			}
+			.background {
+				GeometryReader { geometry in
+					Color.clear.preference(
+						key: BottomBarHeightPreferenceKey.self,
+						value: geometry.size.height
+					)
+				}
+			}
+		}
+		.padding(.horizontal, 24)
+		.ignoresSafeArea(.container, edges: .horizontal)
+	}
+
+	// Only while in use (a swipe, a volume button), not with the rest of the
+	// controls: the dock stays uncluttered.
 	private var brightnessSliderVisible: Bool {
-		viewModel.showBrightnessSlider
-			&& (viewModel.controlsVisible || viewModel.brightnessSliderRevealed)
+		viewModel.showBrightnessSlider && viewModel.brightnessSliderRevealed
 	}
 
 	private var volumeSliderVisible: Bool {
-		viewModel.showVolumeSlider
-			&& (viewModel.controlsVisible || viewModel.volumeSliderRevealed)
+		viewModel.showVolumeSlider && viewModel.volumeSliderRevealed
 	}
 
 	private func adaptivePlaybackChrome(bottomSafeAreaInset: CGFloat) -> some View {
@@ -561,48 +618,6 @@ struct PlayerControlsRootView: View {
 		)
 	}
 
-	/// Bottom-left: the title badge, the current chapter and the scrubber,
-	/// beside the rail. When the rail couldn't fit the transport it sits by
-	/// the badge, or under it when the width runs out.
-	private func fullWidthBottomChrome(layout: DuoLayout) -> some View {
-		VStack(spacing: 0) {
-			Spacer()
-			VStack(alignment: .leading, spacing: 8) {
-				if railHoldsTransport {
-					NowPlayingBadge(viewModel: viewModel)
-				} else {
-					ViewThatFits(in: .horizontal) {
-						HStack(alignment: .center) {
-							NowPlayingBadge(viewModel: viewModel)
-							Spacer(minLength: 12)
-							TransportRow(viewModel: viewModel)
-						}
-						VStack(alignment: .leading, spacing: 10) {
-							NowPlayingBadge(viewModel: viewModel)
-							HStack {
-								Spacer(minLength: 0)
-								TransportRow(viewModel: viewModel)
-								Spacer(minLength: 0)
-							}
-						}
-					}
-				}
-				CurrentChapterLabel(viewModel: viewModel, time: viewModel.time)
-				PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
-			}
-			.background {
-				GeometryReader { geometry in
-					Color.clear.preference(
-						key: BottomBarHeightPreferenceKey.self,
-						value: geometry.size.height
-					)
-				}
-			}
-		}
-		.padding(.horizontal)
-		.padding(edgeSet(layout.chromeEdge), layout.contentReserve)
-	}
-
 	private func errorOverlay(message: String) -> some View {
 		VStack(spacing: 16) {
 			Image(systemName: "exclamationmark.triangle.fill")
@@ -634,81 +649,46 @@ struct PlayerControlsRootView: View {
 }
 
 /// The iPhone Duo posture, in the root view's own coordinates (the safe
-/// area's), and where the controls rail goes.
+/// area's).
 private struct DuoLayout {
 	/// The fold while half open: across the screen on a table, down it held
 	/// like a book.
 	let halfOpenFold: CGRect?
-	/// Folded, the system's side strip leaves one side's inset much bigger
-	/// than the other's; the rail runs down that side.
-	let railEdge: HorizontalEdge?
-	/// The side the rail runs down: the strip's when there is one, else the
-	/// right, where iOS puts its own vertical bar.
-	var chromeEdge: HorizontalEdge { railEdge ?? .trailing }
-	/// How far the rail moves sideways from its place inside the safe area:
-	/// into the middle of the strip when there's one wide enough for it.
-	let railOffset: CGFloat
-	/// Room the rail keeps above and below itself for the camera in the strip.
-	let railTopClear: CGFloat
-	let railBottomClear: CGFloat
-	/// Room the content (sliders, badge, scrubber) leaves on the rail's side:
-	/// the rail's width when the rail sits over the content, none when it sits
-	/// out in the strip.
-	let contentReserve: CGFloat
 
-	/// Gap between the rail and the safe area's edge.
-	static let railMargin: CGFloat = 12
-	/// A 44pt button plus the capsule's 4pt padding each side.
-	private static let railWidth: CGFloat = 52
-	/// A side inset at least this much bigger than the other one means a
-	/// strip on that edge, not a notch both sides share.
-	private static let railMinAsymmetry: CGFloat = 20
+	init(origin: CGPoint, posture: DuoPostureModel) {
+		halfOpenFold = posture.fold.map { $0.offsetBy(dx: -origin.x, dy: -origin.y) }
+	}
+}
 
-	init(origin: CGPoint, size: CGSize, safeArea: EdgeInsets, posture: DuoPostureModel) {
-		let local = { (rect: CGRect) in rect.offsetBy(dx: -origin.x, dy: -origin.y) }
-		halfOpenFold = posture.fold.map(local)
+/// The title, centred, with the episode and the current chapter under it.
+private struct DockTitle: View {
+	@ObservedObject var viewModel: PlayerViewModel
 
-		let difference = safeArea.trailing - safeArea.leading
-		let edge: HorizontalEdge? =
-			halfOpenFold == nil && abs(difference) >= Self.railMinAsymmetry
-			? (difference > 0 ? .trailing : .leading)
-			: nil
-		railEdge = edge
-
-		let stripWidth: CGFloat =
-			edge == .trailing ? safeArea.trailing : edge == .leading ? safeArea.leading : 0
-		guard let edge, stripWidth >= Self.railWidth + 8 else {
-			railOffset = 0
-			railTopClear = 0
-			railBottomClear = 0
-			contentReserve = Self.railMargin + Self.railWidth + 8
-			return
-		}
-
-		// From railMargin inside the safe area's edge to the strip's middle.
-		let shift = stripWidth / 2 + Self.railMargin + Self.railWidth / 2
-		railOffset = edge == .trailing ? shift : -shift
-		contentReserve = 0
-
-		// Keep clear of any camera in the strip's column. The rail already
-		// sits 8pt in from the top and bottom of the safe area.
-		let column = CGRect(
-			x: edge == .trailing ? size.width : -stripWidth,
-			y: -safeArea.top,
-			width: stripWidth,
-			height: size.height + safeArea.top + safeArea.bottom
-		)
-		var top: CGFloat = 0
-		var bottom: CGFloat = 0
-		for camera in posture.occlusions.map(local) where camera.intersects(column) {
-			if camera.midY < size.height / 2 {
-				top = max(top, camera.maxY)
-			} else {
-				bottom = max(bottom, size.height - camera.minY)
+	var body: some View {
+		VStack(spacing: 2) {
+			if let title = viewModel.metadata?.title {
+				Text(title)
+					.font(.headline)
+					.foregroundStyle(.white)
+					.lineLimit(1)
+			}
+			HStack(spacing: 4) {
+				if let subtitle = viewModel.metadata?.subtitle {
+					Text(subtitle)
+				}
+				CurrentChapterLabel(viewModel: viewModel, time: viewModel.time, prefix: "·")
+			}
+			.font(.caption)
+			.foregroundStyle(.white.opacity(0.7))
+			.lineLimit(1)
+			if let group = viewModel.syncPlay {
+				Text("\(group.groupName) · \(group.connected ? group.status : viewModel.syncStr("reconnecting", "Reconnecting"))")
+					.font(.caption)
+					.foregroundStyle(.white.opacity(0.7))
+					.lineLimit(1)
 			}
 		}
-		railTopClear = top
-		railBottomClear = bottom
+		.multilineTextAlignment(.center)
 	}
 }
 
@@ -723,10 +703,12 @@ private struct BottomBarHeightPreferenceKey: PreferenceKey {
 private struct CurrentChapterLabel: View {
 	@ObservedObject var viewModel: PlayerViewModel
 	@ObservedObject var time: PlaybackTimeModel
+	/// Written before the name, when there is one.
+	var prefix: String? = nil
 
 	var body: some View {
 		if let chapterName = viewModel.chapterName(at: time.displayPosition) {
-			Text(chapterName)
+			Text(prefix.map { "\($0) \(chapterName)" } ?? chapterName)
 				.font(.caption)
 				.foregroundStyle(.white.opacity(0.7))
 				.lineLimit(1)

@@ -45,10 +45,10 @@
     "suggested_movies": "Sugestitaj Filmoj",
     "suggested_episodes": "Sugestitaj Epizodoj",
     "intro": {
-      "welcome_to_streamyfin": "Bonvenon al Streamyfin",
+      "welcome_to_streamyfin": "Bonvenon al Sailfin",
       "a_free_and_open_source_client_for_jellyfin": "Senpaga kaj malfermfonta kliento por Jellyfin.",
       "features_title": "Trajtoj",
-      "features_description": "Streamyfin havas multajn trajtojn kaj integriĝas kun vasta gamo de programaroj, kiujn vi povas trovi en la agorda menuo, tiuj inkluzivas:",
+      "features_description": "Sailfin havas multajn trajtojn kaj integriĝas kun vasta gamo de programaroj, kiujn vi povas trovi en la agorda menuo, tiuj inkluzivas:",
       "jellyseerr_feature_description": "Konekti al via Jellyseerr-instanco kaj peti filmojn rekte en la aplikaĵo.",
       "downloads_feature_title": "Elŝutoj",
       "downloads_feature_description": "Elŝutu filmojn kaj televidajn seriojn por vidi senkonekte. Uzu aŭ la defaŭltan metodon aŭ instalu la optimumigan servilon por elŝuti dosierojn en la fono.",

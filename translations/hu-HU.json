@@ -122,10 +122,10 @@
       "disable": "Kiemelt körhinta kikapcsolása"
     },
     "intro": {
-      "welcome_to_streamyfin": "Üdvözöljük a Streamyfinben",
+      "welcome_to_streamyfin": "Üdvözöljük a Sailfinben",
       "a_free_and_open_source_client_for_jellyfin": "Egy Ingyenes és Nyílt Forráskódú Jellyfin Kliens.",
       "features_title": "Funkciók",
-      "features_description": "A Streamyfin számos funkcióval rendelkezik, és együttműködik más szoftverekkel is. Ezeket a beállítások menüben találod:",
+      "features_description": "A Sailfin számos funkcióval rendelkezik, és együttműködik más szoftverekkel is. Ezeket a beállítások menüben találod:",
       "seerr_feature_description": "Csatlakozz a Seerr-példányodhoz, és kérj filmeket közvetlenül az alkalmazásból.",
       "downloads_feature_title": "Letöltések",
       "downloads_feature_description": "Töltsd le a filmeket és sorozatokat az offline megtekintéshez. Használhatod az alapértelmezett módszert, vagy telepítheted az 'optimise server'-t a háttérben történő letöltéshez.",
@@ -135,8 +135,8 @@
       "done_button": "Kész",
       "go_to_settings_button": "Ugrás a Beállításokhoz",
       "read_more": "Bővebben",
-      "crash_reports_title": "Segíts jobbá tenni a Streamyfint",
-      "crash_reports_description": "A Streamyfin névtelen összeomlási és hibajelentéseket küld a fejlesztőknek. Ezek nem tartalmaznak fiókadatokat vagy kiszolgálócímeket. Ezt itt vagy később bármikor kikapcsolhatod a beállításokban."
+      "crash_reports_title": "Segíts jobbá tenni a Sailfint",
+      "crash_reports_description": "A Sailfin névtelen összeomlási és hibajelentéseket küld a fejlesztőknek. Ezek nem tartalmaznak fiókadatokat vagy kiszolgálócímeket. Ezt itt vagy később bármikor kikapcsolhatod a beállításokban."
     },
     "settings": {
       "settings_title": "Beállítások",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Keresés az OpenSubtitles-ön",
         "opensubtitles_enabled_hint": "Engedélyezi, hogy ez az eszköz közvetlenül az OpenSubtitles-ön keressen, ha a Jellyfin-kiszolgálódon nincs feliratszolgáltató. Kikapcsolva a feliratkeresés a kiszolgálón marad, és a mentett API-kulcs érintetlen marad.",
         "crash_reports": "Összeomlási jelentések",
-        "crash_reports_hint": "Névtelen összeomlási és hibajelentések küldése a Streamyfin fejlesztőinek a Sentryn keresztül. A jelentések nem tartalmaznak fiókadatokat; a kiszolgálócímek és a tokenek küldés előtt törlődnek belőlük.",
+        "crash_reports_hint": "Névtelen összeomlási és hibajelentések küldése a Sailfin fejlesztőinek a Sentryn keresztül. A jelentések nem tartalmaznak fiókadatokat; a kiszolgálócímek és a tokenek küldés előtt törlődnek belőlük.",
         "seerr": {
           "server_url": "Szerver URL",
           "server_url_hint": "Példa: http(s)://a-te-szolgáltatód.url\n(adj meg portot, ha szükséges)",
@@ -766,7 +766,7 @@
     "still_watching": "Még mindig nézed?",
     "error": "Hiba",
     "failed_to_get_stream_url": "Nem sikerült lekérni a stream URL-t",
-    "unsupported_item_type": "A Streamyfin nem tudja lejátszani az ilyen típusú elemeket",
+    "unsupported_item_type": "A Sailfin nem tudja lejátszani az ilyen típusú elemeket",
     "an_error_occurred_while_playing_the_video": "Hiba történt a videó lejátszása közben. Ellenőrizd a naplókat a beállításokban.",
     "client_error": "Kliens Hiba",
     "could_not_create_stream_for_chromecast": "A Chromecast stream létrehozása sikertelen volt",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "A tévé csatlakozik a fiókodhoz",
     "error_title": "Az engedélyezés sikertelen",
     "error_invalid_qr": "Érvénytelen QR-kód. Olvasd be a tévén megjelenő párosítási kódot.",
-    "error_old_tv": "This TV runs an older version of Streamyfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Párosítás telefonnal",
     "pair_with_phone_title": "Bejelentkezés a tévén",
-    "scan_quick_connect": "Scan the QR code with the Streamyfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Streamyfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "Bejelentkezés...",
     "logging_in_description": "Csatlakozás a kiszolgálódhoz"

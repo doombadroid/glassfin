@@ -122,10 +122,10 @@
       "disable": "Desactiva hero"
     },
     "intro": {
-      "welcome_to_streamyfin": "Benvingut a Streamyfin",
+      "welcome_to_streamyfin": "Benvingut a Sailfin",
       "a_free_and_open_source_client_for_jellyfin": "Un client gratuït i de codi obert per a Jellyfin.",
       "features_title": "Funcionalitats",
-      "features_description": "Streamyfin té moltes funcionalitats i funciona amb altre programari. Les trobareu al menú de configuració:",
+      "features_description": "Sailfin té moltes funcionalitats i funciona amb altre programari. Les trobareu al menú de configuració:",
       "seerr_feature_description": "Connecta't a la teva instància de Seerr i sol·licita pel·lícules directament des de l'aplicació.",
       "downloads_feature_title": "Descàrregues",
       "downloads_feature_description": "Descarregueu pel·lícules i sèries per veure-les sense connexió. Utilitzeu el mètode per defecte o instal·leu el servidor optimitzat per descarregar fitxers en segon pla.",
@@ -135,8 +135,8 @@
       "done_button": "Fet",
       "go_to_settings_button": "Ves a la configuració",
       "read_more": "Mostra més",
-      "crash_reports_title": "Ajuda a millorar Streamyfin",
-      "crash_reports_description": "Streamyfin envia informes anònims de fallades i errors als desenvolupadors. No s'hi inclouen dades del compte ni adreces de servidors. Pots desactivar-ho aquí o en qualsevol moment a la configuració."
+      "crash_reports_title": "Ajuda a millorar Sailfin",
+      "crash_reports_description": "Sailfin envia informes anònims de fallades i errors als desenvolupadors. No s'hi inclouen dades del compte ni adreces de servidors. Pots desactivar-ho aquí o en qualsevol moment a la configuració."
     },
     "settings": {
       "settings_title": "Configuració",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "Cerca a OpenSubtitles",
         "opensubtitles_enabled_hint": "Permet que aquest dispositiu cerqui directament a OpenSubtitles quan el teu servidor Jellyfin no té cap proveïdor de subtítols. Si ho desactives, les cerques de subtítols es mantenen al servidor i la clau API desada no es toca.",
         "crash_reports": "Informes de fallades",
-        "crash_reports_hint": "Envia informes anònims de fallades i errors als desenvolupadors de Streamyfin mitjançant Sentry. Els informes no contenen dades del compte; les adreces dels servidors i els testimonis s'eliminen abans d'enviar res.",
+        "crash_reports_hint": "Envia informes anònims de fallades i errors als desenvolupadors de Sailfin mitjançant Sentry. Els informes no contenen dades del compte; les adreces dels servidors i els testimonis s'eliminen abans d'enviar res.",
         "seerr": {
           "server_url": "URL del servidor",
           "server_url_hint": "Exemple: http(s)://el-teu-domini.url\n(afegeix el port si cal)",
@@ -766,7 +766,7 @@
     "still_watching": "Encara hi ets?",
     "error": "Error",
     "failed_to_get_stream_url": "No s'ha pogut obtenir l'URL del flux",
-    "unsupported_item_type": "Streamyfin no pot reproduir aquest tipus d'element",
+    "unsupported_item_type": "Sailfin no pot reproduir aquest tipus d'element",
     "an_error_occurred_while_playing_the_video": "S'ha produït un error en reproduir el vídeo. Consulteu els registres a la configuració.",
     "client_error": "Error del client",
     "could_not_create_stream_for_chromecast": "No s'ha pogut crear un flux per a Chromecast",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "El televisor s'està connectant al teu compte",
     "error_title": "Ha fallat l'autorització",
     "error_invalid_qr": "Codi QR no vàlid. Escaneja el codi de vinculació del televisor.",
-    "error_old_tv": "This TV runs an older version of Streamyfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "Vincula amb el telèfon",
     "pair_with_phone_title": "Inicia la sessió a la TV",
-    "scan_quick_connect": "Scan the QR code with the Streamyfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Streamyfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "S'està iniciant la sessió...",
     "logging_in_description": "S'està connectant al teu servidor"

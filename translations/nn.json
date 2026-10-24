@@ -45,10 +45,10 @@
     "suggested_movies": "Foreslåtte filmar",
     "suggested_episodes": "Foreslåtte episodar",
     "intro": {
-      "welcome_to_streamyfin": "Velkommen til Streamyfin",
+      "welcome_to_streamyfin": "Velkommen til Sailfin",
       "a_free_and_open_source_client_for_jellyfin": "Ein gratis og open kjeldekode-klient for Jellyfin.",
       "features_title": "Funksjonar",
-      "features_description": "Streamyfin har ei rekkje funksjonar og blir integrerte med eit breitt utval av programvare som du finn i innstillingsmenyen, desse inkluderer:",
+      "features_description": "Sailfin har ei rekkje funksjonar og blir integrerte med eit breitt utval av programvare som du finn i innstillingsmenyen, desse inkluderer:",
       "jellyseerr_feature_description": "Kopl til Jellyseerr-instansen din og be om filmar direkte i appen.",
       "downloads_feature_title": "Nedlastingar",
       "downloads_feature_description": "Last ned filmar og TV-seriar for å sjå dei offline. Bruk anten standardmetoden eller installer optimize-serveren for å lasta ned filer i bakgrunnen.",

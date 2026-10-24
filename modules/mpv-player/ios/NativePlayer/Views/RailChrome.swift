@@ -1,11 +1,9 @@
 #if os(iOS)
 import SwiftUI
 
-/// The player's chrome, after Netflix on iPhone Duo: no top bar and no centre
-/// transport over the picture. Controls live in slim glass capsules down one
-/// edge (the side the system keeps its own vertical bar on), and the title
-/// sits bottom-left with the scrubber. Glass takes its colour from the video
-/// behind it.
+/// Pieces of the player's chrome: slim Liquid Glass capsules (they take
+/// their colour from the video behind them), the transport, and the title
+/// badge used on the half-open deck.
 
 /// Slim Liquid Glass capsule holding a column (or row) of icon buttons.
 /// With a sheen model it also carries the light-reactive glow: a highlight
@@ -235,35 +233,4 @@ struct NowPlayingBadge: View {
 	}
 }
 
-/// The edge rail: close and the menus up top, transport at the bottom. When
-/// the rail is too short for both (folded, in landscape) the transport is left
-/// out, `holdsTransport` turns false, and the caller puts it in a row by the
-/// scrubber instead.
-struct PlayerRail: View {
-	@ObservedObject var viewModel: PlayerViewModel
-	var sheen: PlayerSheenModel?
-	@Binding var holdsTransport: Bool
-
-	var body: some View {
-		ViewThatFits(in: .vertical) {
-			column(withTransport: true)
-			column(withTransport: false)
-		}
-	}
-
-	private func column(withTransport: Bool) -> some View {
-		VStack(spacing: 12) {
-			GlassCapsule(sheen: sheen) {
-				PlayerTopBar(viewModel: viewModel, compact: true, vertical: true)
-			}
-			Spacer(minLength: 12)
-			if withTransport {
-				GlassCapsule(sheen: sheen) {
-					RailTransport(viewModel: viewModel, time: viewModel.time)
-				}
-			}
-		}
-		.onAppear { holdsTransport = withTransport }
-	}
-}
 #endif

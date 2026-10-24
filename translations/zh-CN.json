@@ -122,10 +122,10 @@
       "disable": "禁用主打轮播"
     },
     "intro": {
-      "welcome_to_streamyfin": "欢迎来到 Streamyfin",
+      "welcome_to_streamyfin": "欢迎来到 Sailfin",
       "a_free_and_open_source_client_for_jellyfin": "一个免费且开源的 Jellyfin 客户端。",
       "features_title": "功能",
-      "features_description": "Streamyfin 拥有许多功能，并与多种服务整合，您可以在设置菜单中找到这些功能，包括：",
+      "features_description": "Sailfin 拥有许多功能，并与多种服务整合，您可以在设置菜单中找到这些功能，包括：",
       "seerr_feature_description": "连接到你的 Seerr 实例，直接在应用中请求电影。",
       "downloads_feature_title": "下载",
       "downloads_feature_description": "下载电影和节目以离线观看。使用默认方法或安装 Optimized Server 以在后台下载文件。",
@@ -135,8 +135,8 @@
       "done_button": "完成",
       "go_to_settings_button": "前往设置",
       "read_more": "了解更多",
-      "crash_reports_title": "帮助改进 Streamyfin",
-      "crash_reports_description": "Streamyfin 会向开发者发送匿名的崩溃和错误报告，不包含任何账户数据或服务器地址。你可以在此处关闭此功能，也可以随时在设置中关闭。"
+      "crash_reports_title": "帮助改进 Sailfin",
+      "crash_reports_description": "Sailfin 会向开发者发送匿名的崩溃和错误报告，不包含任何账户数据或服务器地址。你可以在此处关闭此功能，也可以随时在设置中关闭。"
     },
     "settings": {
       "settings_title": "设置",
@@ -428,7 +428,7 @@
         "opensubtitles_enabled": "搜索 OpenSubtitles",
         "opensubtitles_enabled_hint": "当你的 Jellyfin 服务器没有字幕提供程序时，允许此设备直接搜索 OpenSubtitles。关闭后，字幕搜索仍在服务器上进行，已保存的 API 密钥不会被改动。",
         "crash_reports": "崩溃报告",
-        "crash_reports_hint": "通过 Sentry 向 Streamyfin 开发者发送匿名的崩溃和错误报告。报告不含账户数据；服务器地址和令牌会在发送前移除。",
+        "crash_reports_hint": "通过 Sentry 向 Sailfin 开发者发送匿名的崩溃和错误报告。报告不含账户数据；服务器地址和令牌会在发送前移除。",
         "seerr": {
           "server_url": "服务器网址",
           "server_url_hint": "示例：http(s)://your-host.url\n（如果需要，添加端口）",
@@ -766,7 +766,7 @@
     "still_watching": "您还在看吗？",
     "error": "错误",
     "failed_to_get_stream_url": "获取串流地址失败",
-    "unsupported_item_type": "Streamyfin 无法播放此类型的项目",
+    "unsupported_item_type": "Sailfin 无法播放此类型的项目",
     "an_error_occurred_while_playing_the_video": "播放视频时发生错误。请在设置中查看日志。",
     "client_error": "客户端错误",
     "could_not_create_stream_for_chromecast": "无法为 Chromecast 建立串流",
@@ -1185,7 +1185,7 @@
     "pairing_tv_connecting": "电视正在连接到你的账户",
     "error_title": "授权失败",
     "error_invalid_qr": "二维码无效。请扫描电视上的配对码。",
-    "error_old_tv": "This TV runs an older version of Streamyfin. Update it, then try again.",
+    "error_old_tv": "This TV runs an older version of Sailfin. Update it, then try again.",
     "error_code_not_waiting": "This code is not waiting on {{server}}. Check that the TV uses the same server as this phone, then start Quick Connect again on the TV.",
     "error_quick_connect_disabled": "Quick Connect is turned off on {{server}}. An administrator can turn it on in the server's dashboard.",
     "error_other_server": "This TV is connecting to another server, {{server}}. Sign in to that server in this app, then scan again.",
@@ -1198,10 +1198,10 @@
   "pairing": {
     "pair_with_phone": "与手机配对",
     "pair_with_phone_title": "在电视上登录",
-    "scan_quick_connect": "Scan the QR code with the Streamyfin app or your phone's camera.",
+    "scan_quick_connect": "Scan the QR code with the Sailfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",
-    "scan_with_app": "Scan the QR code with the Streamyfin app on your phone.",
+    "scan_with_app": "Scan the QR code with the Sailfin app on your phone.",
     "account_that_approves": "The account that approves the code",
     "logging_in": "登录中...",
     "logging_in_description": "正在连接到你的服务器"
