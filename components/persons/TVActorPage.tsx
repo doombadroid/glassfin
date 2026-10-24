@@ -35,6 +35,7 @@ import { useTVItemActionModal } from "@/hooks/useTVItemActionModal";
 import { apiAtom, userAtom } from "@/providers/JellyfinProvider";
 import { getBackdropUrl } from "@/utils/jellyfin/image/getBackdropUrl";
 import { getUserItemData } from "@/utils/jellyfin/user-library/getUserItemData";
+import { htmlToText } from "@/utils/textTools";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -448,7 +449,7 @@ export const TVActorPage: React.FC<TVActorPageProps> = ({ personId }) => {
                 }}
                 numberOfLines={4}
               >
-                {item.Overview}
+                {htmlToText(item.Overview)}
               </Text>
             )}
           </View>

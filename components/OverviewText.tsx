@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity, View, type ViewProps } from "react-native";
 import { Text } from "@/components/common/Text";
-import { tc } from "@/utils/textTools";
+import { htmlToText, tc } from "@/utils/textTools";
 
 interface Props extends ViewProps {
   text?: string | null;
@@ -10,13 +10,14 @@ interface Props extends ViewProps {
 }
 
 export const OverviewText: React.FC<Props> = ({
-  text,
+  text: overview,
   characterLimit = 100,
   ...props
 }) => {
   const [limit, setLimit] = useState(characterLimit);
   const { t } = useTranslation();
 
+  const text = overview ? htmlToText(overview) : "";
   if (!text) return null;
 
   return (
