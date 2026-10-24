@@ -51,6 +51,7 @@ import {
 } from "@/providers/JellyfinProvider";
 import { useSettings } from "@/utils/atoms/settings";
 import { eventBus } from "@/utils/eventBus";
+import { customSectionPageLimit } from "@/utils/home/customSectionPage";
 import { recentlyAddedSeeAllParams } from "@/utils/library/seeAll";
 import { storage } from "@/utils/mmkv";
 
@@ -449,10 +450,16 @@ const HomeMobile = () => {
         queryKey: ["home", "custom", String(index), section.title ?? null],
         queryFn: async ({ pageParam = 0 }) => {
           if (section.items) {
+            const limit = customSectionPageLimit(
+              pageParam,
+              pageSize,
+              section.items.limit,
+            );
+            if (!limit) return [];
             const response = await getItemsApi(api).getItems({
               userId: user?.Id,
               startIndex: pageParam,
-              limit: section.items?.limit || pageSize,
+              limit,
               recursive: true,
               includeItemTypes: section.items?.includeItemTypes,
               sortBy: section.items?.sortBy,
@@ -463,10 +470,16 @@ const HomeMobile = () => {
             return response.data.Items || [];
           }
           if (section.nextUp) {
+            const limit = customSectionPageLimit(
+              pageParam,
+              pageSize,
+              section.nextUp.limit,
+            );
+            if (!limit) return [];
             const response = await getTvShowsApi(api).getNextUp({
               userId: user?.Id,
               startIndex: pageParam,
-              limit: section.nextUp?.limit || pageSize,
+              limit,
               enableImageTypes: ["Primary", "Backdrop", "Thumb"],
               enableResumable: section.nextUp?.enableResumable,
               enableRewatching: section.nextUp?.enableRewatching,
