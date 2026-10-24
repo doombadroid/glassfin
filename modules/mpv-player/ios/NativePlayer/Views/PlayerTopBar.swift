@@ -18,10 +18,17 @@ struct PlayerTopBar: View {
 	/// strip, like the system's own vertical bar, and the title moves out to
 	/// `PlayerTitleBlock` on the other side.
 	var vertical = false
+	/// Just the buttons in a row, no title (it's shown elsewhere).
+	var buttonsOnly = false
 
 	var body: some View {
 		if vertical {
 			VStack(spacing: 4) {
+				closeButton
+				trailingButtons
+			}
+		} else if buttonsOnly {
+			HStack(spacing: 4) {
 				closeButton
 				trailingButtons
 			}

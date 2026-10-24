@@ -2,19 +2,17 @@
 import SwiftUI
 import UIKit
 
-/// iPhone Duo half open: every control on a glass deck over the video's
+/// iPhone Duo half open: every control in glass capsules over the video's
 /// reflection, on the bottom half standing on a table or the right page held
-/// like a book. The deck stays up the whole time, since that half has nothing
-/// else to show. Its sheen tilts with the phone and glows brighter as the
-/// room (the screen) dims.
+/// like a book. They stay up the whole time, since that half has nothing else
+/// to show. Their glow tilts with the phone and brightens as the room (the
+/// screen) dims.
 struct TabletopDeck: View {
 	@ObservedObject var viewModel: PlayerViewModel
 	@ObservedObject var sheen: PlayerSheenModel
 	/// The fold, in this view's coordinate space.
 	let fold: CGRect
 	let size: CGSize
-
-	private let corner: CGFloat = 28
 
 	/// The fold runs across the screen (on a table) rather than down it.
 	private var acrossScreen: Bool { fold.width > fold.height }
@@ -44,11 +42,30 @@ struct TabletopDeck: View {
 		}
 	}
 
+	/// No panel: the capsules float over the reflection, as on Netflix, and
+	/// carry the light-reactive glow themselves.
 	private func deck(compact: Bool) -> some View {
-		VStack(spacing: 14) {
-			PlayerTopBar(viewModel: viewModel, compact: compact)
-			PlayerCenterControls(viewModel: viewModel, time: viewModel.time)
+		VStack(alignment: .leading, spacing: 16) {
+			ViewThatFits(in: .horizontal) {
+				HStack(alignment: .center, spacing: 12) {
+					NowPlayingBadge(viewModel: viewModel)
+					Spacer(minLength: 12)
+					actions
+				}
+				VStack(alignment: .leading, spacing: 12) {
+					NowPlayingBadge(viewModel: viewModel)
+					actions
+				}
+			}
 			PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
+			HStack {
+				Spacer()
+				GlassCapsule(vertical: false, sheen: sheen) {
+					RailTransport(viewModel: viewModel, vertical: false)
+				}
+				.scaleEffect(compact ? 1 : 1.15)
+				Spacer()
+			}
 			if !viewModel.controlsLocked {
 				if let countdown = viewModel.countdownRemaining, let next = viewModel.nextEpisode {
 					NextEpisodeCountdownView(viewModel: viewModel, next: next, remaining: countdown)
@@ -57,63 +74,13 @@ struct TabletopDeck: View {
 				}
 			}
 		}
-		.padding(.horizontal, 18)
-		.padding(.vertical, 16)
-		.background { glass }
-		.overlay { sheenOverlay }
-		.overlay { rim }
-		.shadow(color: .black.opacity(0.35), radius: 18, y: 8)
+		.padding(.horizontal, 6)
 	}
 
-	@ViewBuilder
-	private var glass: some View {
-		let shape = RoundedRectangle(cornerRadius: corner, style: .continuous)
-		if #available(iOS 26.0, *) {
-			Color.clear.glassEffect(.regular, in: shape)
-		} else {
-			shape.fill(.ultraThinMaterial)
+	private var actions: some View {
+		GlassCapsule(vertical: false, sheen: sheen) {
+			PlayerTopBar(viewModel: viewModel, compact: true, buttonsOnly: true)
 		}
-	}
-
-	/// A soft band of light across the glass that slides as the phone tilts.
-	private var sheenOverlay: some View {
-		GeometryReader { geometry in
-			let width = geometry.size.width
-			LinearGradient(
-				colors: [
-					.white.opacity(0),
-					.white.opacity(0.16 * sheen.intensity),
-					.white.opacity(0),
-				],
-				startPoint: .leading, endPoint: .trailing
-			)
-			.frame(width: width * 0.55, height: geometry.size.height * 2)
-			.rotationEffect(.degrees(-20))
-			.offset(
-				x: width * 0.22 + CGFloat(sheen.tilt) * width * 0.35,
-				y: -geometry.size.height * 0.5
-			)
-		}
-		.blendMode(.plusLighter)
-		.clipShape(RoundedRectangle(cornerRadius: corner, style: .continuous))
-		.allowsHitTesting(false)
-	}
-
-	/// The glass edge catches the light on the side the phone leans toward.
-	private var rim: some View {
-		RoundedRectangle(cornerRadius: corner, style: .continuous)
-			.strokeBorder(
-				LinearGradient(
-					colors: [
-						.white.opacity(0.45 * sheen.intensity),
-						.white.opacity(0.06),
-					],
-					startPoint: UnitPoint(x: 0.5 - sheen.tilt * 0.5, y: 0),
-					endPoint: UnitPoint(x: 0.5 + sheen.tilt * 0.5, y: 1)
-				),
-				lineWidth: 1
-			)
-			.allowsHitTesting(false)
 	}
 }
 

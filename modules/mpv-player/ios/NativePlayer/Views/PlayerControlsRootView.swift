@@ -75,7 +75,7 @@ struct PlayerControlsRootView: View {
 					// and must cover the play/skip buttons in landscape, not duck
 					// under them. Hit-testing is unaffected — the layer's empty
 					// middle isn't tappable.
-					topChrome(compact: size.width < 500, rail: layout.railEdge)
+					railChrome(size: size, edge: layout.chromeEdge)
 						.transition(.opacity)
 						.zIndex(1)
 				}
@@ -105,11 +105,15 @@ struct PlayerControlsRootView: View {
 
 			if layout.halfOpenFold == nil {
 				adaptivePlaybackChrome(bottomSafeAreaInset: bottomSafeAreaInset)
+					.padding(edgeSet(layout.chromeEdge), Self.railReserve)
 
 				if viewModel.controlsVisible {
-					fullWidthBottomChrome
-						.transition(.opacity)
-						.zIndex(1)
+					fullWidthBottomChrome(
+						edge: layout.chromeEdge,
+						transportInRail: transportFitsRail(size: size)
+					)
+					.transition(.opacity)
+					.zIndex(1)
 				}
 			}
 
@@ -456,35 +460,30 @@ struct PlayerControlsRootView: View {
 		viewModel.scheduleAutoHide()
 	}
 
-	@ViewBuilder
-	private func topChrome(compact: Bool, rail: HorizontalEdge?) -> some View {
-		if let rail {
-			// Folded iPhone Duo in landscape: the buttons run down the strip's
-			// side, the title takes the opposite corner.
-			HStack(alignment: .top, spacing: 12) {
-				if rail == .leading {
-					PlayerTopBar(viewModel: viewModel, compact: compact, vertical: true)
-					Spacer(minLength: 12)
-					PlayerTitleBlock(viewModel: viewModel)
-						.padding(.top, 10)
-				} else {
-					PlayerTitleBlock(viewModel: viewModel)
-						.padding(.top, 10)
-					Spacer(minLength: 12)
-					PlayerTopBar(viewModel: viewModel, compact: compact, vertical: true)
-				}
-			}
-			.frame(maxHeight: .infinity, alignment: .top)
-			.padding(.horizontal, 12)
-			.padding(.vertical, 8)
-		} else {
-			VStack(spacing: 0) {
-				PlayerTopBar(viewModel: viewModel, compact: compact)
-				Spacer()
-			}
-			.padding(.horizontal, 24)
-			.padding(.vertical, 8)
+	/// Room kept clear on the rail's side for the rail: a 44pt button, the
+	/// capsule's padding, and a gap.
+	private static let railReserve: CGFloat = 44 + 8 + 20
+
+	private func edgeSet(_ edge: HorizontalEdge) -> Edge.Set {
+		edge == .leading ? .leading : .trailing
+	}
+
+	/// Whether the rail is tall enough to hold the transport as well.
+	private func transportFitsRail(size: CGSize) -> Bool {
+		size.height - 16 >= PlayerRail.heightWithTransport(viewModel: viewModel)
+	}
+
+	/// The edge rail: close and menus at the top, transport at the bottom, on
+	/// the side the system keeps its vertical bar (the right, unless the
+	/// folded iPhone Duo's strip is on the left).
+	private func railChrome(size: CGSize, edge: HorizontalEdge) -> some View {
+		HStack(spacing: 0) {
+			if edge == .trailing { Spacer(minLength: 0) }
+			PlayerRail(viewModel: viewModel, showsTransport: transportFitsRail(size: size))
+			if edge == .leading { Spacer(minLength: 0) }
 		}
+		.padding(.horizontal, 12)
+		.padding(.vertical, 8)
 	}
 
 	private var brightnessSliderVisible: Bool {
@@ -522,10 +521,6 @@ struct PlayerControlsRootView: View {
 			}
 
 			ZStack {
-				if viewModel.controlsVisible {
-					PlayerCenterControls(viewModel: viewModel, time: viewModel.time)
-						.transition(.opacity)
-				}
 				bottomChrome(bottomSafeAreaInset: bottomSafeAreaInset)
 					.zIndex(1)
 			}
@@ -603,20 +598,34 @@ struct PlayerControlsRootView: View {
 		)
 	}
 
-	private var fullWidthBottomChrome: some View {
-		VStack {
+	/// Bottom-left: the title badge over the scrubber, beside the rail. On a
+	/// screen too short for the transport in the rail, it sits in a row here.
+	private func fullWidthBottomChrome(edge: HorizontalEdge, transportInRail: Bool) -> some View {
+		VStack(spacing: 0) {
 			Spacer()
-			PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
-				.background {
-					GeometryReader { geometry in
-						Color.clear.preference(
-							key: BottomBarHeightPreferenceKey.self,
-							value: geometry.size.height
-						)
+			VStack(alignment: .leading, spacing: 10) {
+				HStack(alignment: .center) {
+					NowPlayingBadge(viewModel: viewModel)
+					Spacer(minLength: 12)
+					if !transportInRail {
+						GlassCapsule(vertical: false) {
+							RailTransport(viewModel: viewModel, vertical: false)
+						}
 					}
 				}
+				PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
+			}
+			.background {
+				GeometryReader { geometry in
+					Color.clear.preference(
+						key: BottomBarHeightPreferenceKey.self,
+						value: geometry.size.height
+					)
+				}
+			}
 		}
 		.padding(.horizontal)
+		.padding(edgeSet(edge), Self.railReserve - 16)
 	}
 
 	private func errorOverlay(message: String) -> some View {
@@ -657,6 +666,9 @@ private struct DuoLayout {
 	/// Folded in landscape the sensor strip leaves one side's inset much
 	/// bigger than the other's; the top bar's buttons stack down that side.
 	let railEdge: HorizontalEdge?
+	/// The side the controls rail runs down: the strip's side when there is
+	/// one, else the right, where iOS puts its own vertical bar.
+	var chromeEdge: HorizontalEdge { railEdge ?? .trailing }
 
 	/// A side inset at least this much bigger than the other one means a
 	/// strip on that edge, not a notch both sides share.
