@@ -8,11 +8,18 @@ import {
 import { Image } from "expo-image";
 import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, Platform, TouchableOpacity, View } from "react-native";
+import {
+  Linking,
+  Platform,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button } from "@/components/Button";
 import { SettingSwitch } from "@/components/common/SettingSwitch";
 import { Text } from "@/components/common/Text";
+import { SHEET_MAX_HEIGHT_RATIO } from "@/constants/Values";
 import useRouter from "@/hooks/useAppRouter";
 import { useSettings } from "@/utils/atoms/settings";
 import { storage } from "@/utils/mmkv";
@@ -26,6 +33,9 @@ export const IntroSheet = forwardRef<IntroSheetRef>((_, ref) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  // The intro is taller than a small phone. Uncapped, a dynamically sized sheet
+  // grows to the whole window and the welcome title lands under the status bar.
+  const { height: windowHeight } = useWindowDimensions();
   const router = useRouter();
   const { settings, updateSettings, pluginSettings } = useSettings();
   // An admin-locked toggle cannot take the write: updateSettings drops it and
@@ -66,6 +76,7 @@ export const IntroSheet = forwardRef<IntroSheetRef>((_, ref) => {
     <BottomSheetModal
       ref={bottomSheetRef}
       enableDynamicSizing
+      maxDynamicContentSize={windowHeight * SHEET_MAX_HEIGHT_RATIO}
       backdropComponent={renderBackdrop}
       backgroundStyle={{ backgroundColor: "#171717" }}
       handleIndicatorStyle={{ backgroundColor: "#737373" }}
