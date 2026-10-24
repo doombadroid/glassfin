@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import { useEffect } from "react";
-import { AppState } from "react-native";
+import { AppState, Platform } from "react-native";
 import { SystemBars } from "react-native-edge-to-edge";
 
 import { useOrientation } from "@/hooks/useOrientation";
@@ -30,7 +30,8 @@ export default function Layout() {
 
   return (
     <>
-      <SystemBars hidden />
+      {/* iOS hides it through the screen's statusBarHidden below. */}
+      {Platform.OS === "android" && <SystemBars hidden />}
       <Stack>
         <Stack.Screen
           name='direct-player'

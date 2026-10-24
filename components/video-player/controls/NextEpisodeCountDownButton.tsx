@@ -141,7 +141,8 @@ const NextEpisodeCountDownButton: React.FC<NextEpisodeCountDownButtonProps> = ({
       top: 0,
       bottom: 0,
       width: `${progress.value * 100}%`,
-      backgroundColor: Colors.primary,
+      // White label over it.
+      backgroundColor: Colors.primaryDeep,
     };
   });
 

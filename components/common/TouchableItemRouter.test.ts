@@ -40,6 +40,22 @@ describe("a playlist's route", () => {
       params: { libraryId: "pl-2" },
     });
   });
+  // Older and mixed playlists can carry no media type, or "Unknown"; they
+  // keep the music screen they always opened.
+  test.each([undefined, "Unknown"])(
+    "keeps a playlist with media type %p on the music screen",
+    (mediaType) => {
+      const untyped: BaseItemDto = {
+        Id: "pl-3",
+        Type: "Playlist",
+        MediaType: mediaType as BaseItemDto["MediaType"],
+      };
+      expect(getItemNavigation(untyped, "(libraries)")).toEqual({
+        pathname: "/music/playlist/[playlistId]",
+        params: { playlistId: "pl-3" },
+      });
+    },
+  );
 });
 
 describe("a studio's route", () => {

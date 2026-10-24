@@ -15,10 +15,10 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button } from "@/components/Button";
 import { SettingSwitch } from "@/components/common/SettingSwitch";
 import { Text } from "@/components/common/Text";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import { SHEET_MAX_HEIGHT_RATIO } from "@/constants/Values";
 import useRouter from "@/hooks/useAppRouter";
 import { useSettings } from "@/utils/atoms/settings";
@@ -32,7 +32,7 @@ export interface IntroSheetRef {
 export const IntroSheet = forwardRef<IntroSheetRef>((_, ref) => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   // The intro is taller than a small phone. Uncapped, a dynamically sized sheet
   // grows to the whole window and the welcome title lands under the status bar.
   const { height: windowHeight } = useWindowDimensions();

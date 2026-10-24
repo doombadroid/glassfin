@@ -67,7 +67,8 @@ export const HeaderControls: FC<HeaderControlsProps> = ({
   const insets = useControlsSafeAreaInsets();
   // Folded iPhone Duo in landscape: the buttons stack down the strip's side,
   // like the system's own vertical bar, and the menu takes the other corner.
-  const rail = Platform.isTV ? null : playerRailEdge(insets);
+  const rail =
+    Platform.OS === "ios" && !Platform.isTV ? playerRailEdge(insets) : null;
   const lightHapticFeedback = useHaptic("light");
   const { orientation, lockOrientation } = useOrientation();
   const [isTogglingOrientation, setIsTogglingOrientation] = useState(false);

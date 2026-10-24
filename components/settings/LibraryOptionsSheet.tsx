@@ -14,8 +14,8 @@ import {
   View,
   type ViewProps,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/common/Text";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 
 interface LibraryOptions {
   display: "row" | "list";
@@ -134,7 +134,7 @@ export const LibraryOptionsSheet: React.FC<Props> = ({
 }) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
 
   const handlePresentModal = useCallback(() => {
     bottomSheetModalRef.current?.present();

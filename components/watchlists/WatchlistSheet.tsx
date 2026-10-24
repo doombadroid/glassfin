@@ -20,8 +20,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/common/Text";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import useRouter from "@/hooks/useAppRouter";
 import {
   useAddToWatchlist,
@@ -110,7 +110,7 @@ const WatchlistSheetContent: React.FC<WatchlistSheetContentProps> = ({
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
 
   const { data: myWatchlists, isLoading: watchlistsLoading } =
     useMyWatchlistsQuery();
@@ -267,7 +267,7 @@ export const WatchlistSheet = forwardRef<WatchlistSheetRef, object>(
     const [currentItem, setCurrentItem] = React.useState<BaseItemDto | null>(
       null,
     );
-    const insets = useSafeAreaInsets();
+    const insets = useWindowSafeAreaInsets();
 
     useImperativeHandle(ref, () => ({
       open: (item: BaseItemDto) => {

@@ -15,8 +15,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DismissKeyboardArea } from "@/components/common/DismissKeyboardArea";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import { useHaptic } from "@/hooks/useHaptic";
 import { useSheetOpenState } from "@/hooks/useSheetOpenState";
 import { verifyAccountPIN } from "@/utils/secureCredentials";
@@ -44,7 +44,7 @@ export const PINEntryModal: React.FC<PINEntryModalProps> = ({
   username,
 }) => {
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [pinCode, setPinCode] = useState("");
   const [error, setError] = useState<string | null>(null);

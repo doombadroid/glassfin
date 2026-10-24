@@ -154,7 +154,11 @@ export const SeasonPicker: React.FC<Props> = ({
                     />
                   )
                 ) : chosen ? (
-                  <Ionicons name='checkmark' size={15} color='white' />
+                  <Ionicons
+                    name='checkmark'
+                    size={15}
+                    color={Colors.onPrimary}
+                  />
                 ) : null}
               </View>
               <View style={{ flex: 1 }}>

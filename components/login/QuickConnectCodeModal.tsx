@@ -10,8 +10,8 @@ import type React from "react";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { toast } from "sonner-native";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import type { QuickConnectStatus } from "@/hooks/useQuickConnect";
 import { Button } from "../Button";
 import { Text } from "../common/Text";
@@ -39,7 +39,7 @@ export const QuickConnectCodeModal: React.FC<Props> = ({
   onClose,
 }) => {
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ["50%"], []);
   const isPresentedRef = useRef(false);

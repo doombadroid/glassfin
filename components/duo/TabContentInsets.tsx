@@ -8,8 +8,10 @@ import {
 } from "react";
 import { Platform } from "react-native";
 import {
+  type EdgeInsets,
   SafeAreaInsetsContext,
   SafeAreaListener,
+  useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
 export interface HorizontalInsets {
@@ -20,6 +22,7 @@ export interface HorizontalInsets {
 const NONE: HorizontalInsets = { left: 0, right: 0 };
 
 const TabContentInsetsContext = createContext<HorizontalInsets>(NONE);
+const WindowInsetsContext = createContext<EdgeInsets | null>(null);
 
 /**
  * The left and right insets of a tab's content area: the status bar strip and
@@ -29,6 +32,18 @@ const TabContentInsetsContext = createContext<HorizontalInsets>(NONE);
  * bottom are left alone: screens already handle those their own way.
  */
 export const useTabContentInsets = () => useContext(TabContentInsetsContext);
+
+/**
+ * The window's safe-area insets, wherever this is called. For anything drawn
+ * across the whole window from inside a tab (bottom sheets, modals): there
+ * `useSafeAreaInsets()` reports zero at the sides, since the tab's screens
+ * are already padded, but a sheet isn't.
+ */
+export const useWindowSafeAreaInsets = (): EdgeInsets => {
+  const fromTab = useContext(WindowInsetsContext);
+  const here = useSafeAreaInsets();
+  return fromTab ?? here;
+};
 
 /**
  * `screenLayout` for the tab navigator. Each tab gets an invisible listener on
@@ -62,11 +77,13 @@ export function TabContentInsets({ children }: PropsWithChildren) {
 
   return (
     <SafeAreaListener style={{ flex: 1 }} onChange={onChange}>
-      <SafeAreaInsetsContext.Provider value={innerInsets}>
-        <TabContentInsetsContext.Provider value={insets}>
-          {children}
-        </TabContentInsetsContext.Provider>
-      </SafeAreaInsetsContext.Provider>
+      <WindowInsetsContext.Provider value={parentInsets}>
+        <SafeAreaInsetsContext.Provider value={innerInsets}>
+          <TabContentInsetsContext.Provider value={insets}>
+            {children}
+          </TabContentInsetsContext.Provider>
+        </SafeAreaInsetsContext.Provider>
+      </WindowInsetsContext.Provider>
     </SafeAreaListener>
   );
 }

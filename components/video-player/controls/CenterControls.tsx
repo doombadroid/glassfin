@@ -72,7 +72,9 @@ export const CenterControls: FC<CenterControlsProps> = ({
         justifyContent: "space-between",
         alignItems: "center",
         transform: [{ translateY: Platform.isTV ? -22.5 : -FROST_DISC / 2 }],
-        paddingHorizontal: hasChapters ? "18%" : "28%",
+        // Percentages resolve against the full-width parent, which would
+        // swallow the half-width row held like a book.
+        paddingHorizontal: bookFold ? 16 : hasChapters ? "18%" : "28%",
       }}
       pointerEvents={showControls ? "box-none" : "none"}
     >

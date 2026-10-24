@@ -499,10 +499,16 @@ function Layout() {
                                 <BottomSheetModalProvider>
                                   <IntroSheetProvider>
                                     <ThemeProvider value={DarkTheme}>
-                                      <SystemBars
-                                        style='light'
-                                        hidden={false}
-                                      />
+                                      {/* iOS: view controllers own the status
+                                          bar (iOS 27 SDK), and SystemBars
+                                          goes through RN's StatusBar module,
+                                          which only logs an error there. */}
+                                      {Platform.OS === "android" && (
+                                        <SystemBars
+                                          style='light'
+                                          hidden={false}
+                                        />
+                                      )}
                                       {JellyfinCastStopReporter && (
                                         <JellyfinCastStopReporter />
                                       )}

@@ -9,8 +9,9 @@ import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DismissKeyboardArea } from "@/components/common/DismissKeyboardArea";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
+import { Colors } from "@/constants/Colors";
 import type { AccountSecurityType } from "@/utils/secureCredentials";
 import { Button } from "./Button";
 import { Text } from "./common/Text";
@@ -58,7 +59,7 @@ export const SaveAccountModal: React.FC<SaveAccountModalProps> = ({
   username,
 }) => {
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [selectedType, setSelectedType] = useState<AccountSecurityType>("none");
   const [pinCode, setPinCode] = useState("");
@@ -229,7 +230,11 @@ export const SaveAccountModal: React.FC<SaveAccountModalProps> = ({
                       }`}
                     >
                       {selectedType === option.type && (
-                        <Ionicons name='checkmark' size={14} color='white' />
+                        <Ionicons
+                          name='checkmark'
+                          size={14}
+                          color={Colors.onPrimary}
+                        />
                       )}
                     </View>
                   </TouchableOpacity>

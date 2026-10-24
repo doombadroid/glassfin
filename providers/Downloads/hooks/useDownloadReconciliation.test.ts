@@ -10,10 +10,14 @@ jest.mock(
   () => jest.requireActual("@/test-utils/fileSystem").fileSystemModule,
 );
 let mockActive: ActiveDownload[] = [];
+let mockActiveError: Error | undefined;
 const mockEnqueue = jest.fn(async (..._args: unknown[]) => 12);
 jest.mock("@/modules", () => ({
   BackgroundDownloader: {
-    getActiveDownloads: async () => mockActive,
+    getActiveDownloads: async () => {
+      if (mockActiveError) throw mockActiveError;
+      return mockActive;
+    },
     enqueueDownload: (...args: unknown[]) => mockEnqueue(...args),
     cancelQueuedDownload: jest.fn(),
   },
@@ -81,6 +85,7 @@ const reconcile = async ({ rtl, hook }: Launch) => {
 
 beforeEach(() => {
   mockActive = [];
+  mockActiveError = undefined;
   mockEnqueue.mockClear();
   jest.spyOn(console, "log").mockImplementation(() => {});
 });
@@ -120,6 +125,20 @@ describe("download reconciliation at launch", () => {
       expect(jobs()).toEqual([["item-1", "downloading"]]),
     );
     expect(mockEnqueue).not.toHaveBeenCalled();
+  });
+
+  // Without native's list every transfer looks lost; re-enqueueing one that
+  // is in fact still running would start a second transfer of the same file.
+  test("leaves records alone when native's list can't be read", async () => {
+    const app = launch();
+    app.pending.savePendingDownload(record);
+    mockActiveError = new Error("bridge down");
+
+    await reconcile(app);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(mockEnqueue).not.toHaveBeenCalled();
+    expect(app.pending.getPendingDownload("item-1")?.taskId).toBe(7);
   });
 
   test("drops a record whose file name carries a path", async () => {

@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Platform, StyleSheet, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/common/Text";
+import { useTabContentInsets } from "@/components/duo/TabContentInsets";
 import { Loader } from "@/components/Loader";
 import { LibraryItemCard } from "@/components/library/LibraryItemCard";
 import { apiAtom, userAtom } from "@/providers/JellyfinProvider";
@@ -65,11 +66,16 @@ export const Libraries: React.FC = () => {
   }, [data, api, queryClient, user?.Id]);
 
   const insets = useSafeAreaInsets();
+  // Inside a tab the screen is padded by the tab's side insets, and `insets`
+  // reports zero at the sides there.
+  const tab = useTabContentInsets();
   const { width } = useWindowDimensions();
   const isRow = settings?.libraryOptions?.display === "row";
   const columns = isRow
     ? 1
-    : libraryCardColumns(width - insets.left - insets.right - 34);
+    : libraryCardColumns(
+        width - insets.left - insets.right - tab.left - tab.right - 34,
+      );
   // Half the gap between two columns, taken back from the side padding so the
   // outer cards still line up with the rest of the app.
   const cellPadding = columns > 1 ? 8 : 0;

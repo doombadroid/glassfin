@@ -14,9 +14,9 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Keyboard } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button } from "@/components/Button";
 import { Text } from "@/components/common/Text";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import { useCreatePlaylist } from "@/hooks/usePlaylistMutations";
 import { useSheetOpenState } from "@/hooks/useSheetOpenState";
 
@@ -34,7 +34,7 @@ export const CreatePlaylistModal: React.FC<Props> = ({
   initialTrackId,
 }) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const { t } = useTranslation();
   const createPlaylist = useCreatePlaylist();
 

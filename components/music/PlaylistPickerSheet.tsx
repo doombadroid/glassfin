@@ -23,10 +23,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Input } from "@/components/common/Input";
 import { Image } from "@/components/common/ServerImage";
 import { Text } from "@/components/common/Text";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import { useAddToPlaylist } from "@/hooks/usePlaylistMutations";
 import { useSheetOpenState } from "@/hooks/useSheetOpenState";
 import { apiAtom, userAtom } from "@/providers/JellyfinProvider";
@@ -47,7 +47,7 @@ export const PlaylistPickerSheet: React.FC<Props> = ({
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [api] = useAtom(apiAtom);
   const [user] = useAtom(userAtom);
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const { t } = useTranslation();
   const addToPlaylist = useAddToPlaylist();
 

@@ -9,7 +9,7 @@ import type React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Platform, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import { useHaptic } from "@/hooks/useHaptic";
 import { useSheetOpenState } from "@/hooks/useSheetOpenState";
 import { Button } from "./Button";
@@ -29,7 +29,7 @@ export const PasswordEntryModal: React.FC<PasswordEntryModalProps> = ({
   username,
 }) => {
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);

@@ -48,11 +48,15 @@ export const useControlsTimeout = ({
       if (controlsTimeoutRef.current) {
         clearTimeout(controlsTimeoutRef.current);
       }
+      // Same holds as the effect above: no countdown while scrubbing or with
+      // the episode list open (scrolling it is a touch on the player too);
+      // the effect starts one again when they end.
+      if (isSliding || episodeView) return;
       controlsTimeoutRef.current = setTimeout(() => {
         onHideControls();
       }, delay);
     },
-    [disabled, showControls, onHideControls],
+    [disabled, showControls, isSliding, episodeView, onHideControls],
   );
 
   // Takes no argument on purpose: callers hand it straight to onTouchStart.

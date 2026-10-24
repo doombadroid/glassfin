@@ -52,7 +52,7 @@ const getColorClasses = (
     switch (color) {
       case "purple":
         return focused
-          ? "bg-purple-500 border-2 border-white"
+          ? "bg-purple-600 border-2 border-white"
           : "bg-purple-600 border border-purple-700";
       case "red":
         return "bg-red-600";

@@ -10,7 +10,7 @@ import { useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Platform, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import { Colors } from "@/constants/Colors";
 import { useSheetOpenState } from "@/hooks/useSheetOpenState";
 import {
@@ -39,7 +39,7 @@ export const AccountsSheet: React.FC<AccountsSheetProps> = ({
   onAccountDeleted,
 }) => {
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const isAndroid = Platform.OS === "android";

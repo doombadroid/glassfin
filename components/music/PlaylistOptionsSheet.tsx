@@ -9,8 +9,8 @@ import type { BaseItemDto } from "@jellyfin/sdk/lib/generated-client/models";
 import React, { useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/common/Text";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import useRouter from "@/hooks/useAppRouter";
 import { useConfirmDelete } from "@/hooks/useConfirmDelete";
 import { useDeletePlaylist } from "@/hooks/usePlaylistMutations";
@@ -29,7 +29,7 @@ export const PlaylistOptionsSheet: React.FC<Props> = ({
 }) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const router = useRouter();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const { t } = useTranslation();
   const deletePlaylist = useDeletePlaylist();
   const confirmDelete = useConfirmDelete();

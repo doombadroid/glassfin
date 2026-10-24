@@ -14,6 +14,7 @@ import { useAtomValue } from "jotai";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useWindowDimensions } from "react-native";
+import { useTabContentInsets } from "@/components/duo/TabContentInsets";
 import useRouter from "@/hooks/useAppRouter";
 import { useHaptic } from "@/hooks/useHaptic";
 import { useHeadersForUrl } from "@/hooks/useHeadersForUrl";
@@ -312,7 +313,11 @@ export const HomeHeroCarousel = () => {
   const { settings, updateSettings, pluginSettings } = useSettings();
   const lightHapticFeedback = useHaptic("light");
   const { width: windowWidth } = useWindowDimensions();
-  const metrics = useMemo(() => heroMetrics(windowWidth), [windowWidth]);
+  // The carousel spans the screen, which inside a tab is padded by the tab's
+  // side insets (the iPhone Duo's side strip, the sidebar).
+  const tab = useTabContentInsets();
+  const screenWidth = windowWidth - tab.left - tab.right;
+  const metrics = useMemo(() => heroMetrics(screenWidth), [screenWidth]);
   const segments = useSegments();
   const from = (segments as string[])[2] || "(home)";
   const imageHeaders = useHeadersForUrl(api?.basePath);

@@ -1,6 +1,3 @@
-diff --git a/node_modules/react-native-bottom-tabs/.bun-tag-ef3ce6296afd079d b/.bun-tag-ef3ce6296afd079d
-new file mode 100644
-index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
 diff --git a/ios/TabViewImpl.swift b/ios/TabViewImpl.swift
 index 68053e1f17cbdd489f1712aac82f58e24ff4d892..cfe0cd3d2c85b31b6caa8dd044c33b1553333ff9 100644
 --- a/ios/TabViewImpl.swift

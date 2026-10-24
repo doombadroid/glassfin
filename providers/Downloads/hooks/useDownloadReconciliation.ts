@@ -117,9 +117,11 @@ export function useDownloadReconciliation({
       try {
         active = await BackgroundDownloader.getActiveDownloads();
       } catch (error) {
-        // An empty list here makes the loop below misclassify every
-        // in-flight download as lost or completed.
+        // Without the list, every in-flight download would look lost and be
+        // re-enqueued as a second transfer. Leave the records as they are;
+        // the next launch reconciles them.
         logAndCaptureError("Querying native downloads failed", error);
+        return;
       }
       const nativeByItemId = new Map(
         active

@@ -3,8 +3,8 @@ import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/common/Text";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import { useGlobalModal } from "@/providers/GlobalModalProvider";
 
 // @expo/ui's SwiftUI native module (ExpoUI) does not exist in tvOS builds.
@@ -147,7 +147,7 @@ const BottomSheetContent: React.FC<{
   onOptionSelect?: (value?: any) => void;
   onClose?: () => void;
 }> = ({ title, groups, onOptionSelect, onClose }) => {
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
 
   // Wrap the groups to call onOptionSelect when an option is pressed
   const wrappedGroups = groups.map((group) => ({

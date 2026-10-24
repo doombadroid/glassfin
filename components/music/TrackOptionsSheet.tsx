@@ -21,9 +21,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "@/components/common/ServerImage";
 import { Text } from "@/components/common/Text";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import useRouter from "@/hooks/useAppRouter";
 import { useFavorite } from "@/hooks/useFavorite";
 import { useSheetOpenState } from "@/hooks/useSheetOpenState";
@@ -63,7 +63,7 @@ export const TrackOptionsSheet: React.FC<Props> = ({
   const [user] = useAtom(userAtom);
   const router = useRouter();
   const { playNext, addToQueue } = useMusicPlayer();
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const { t } = useTranslation();
   const [isDownloadingTrack, setIsDownloadingTrack] = useState(false);
   // Counter to trigger re-evaluation of download status when storage changes

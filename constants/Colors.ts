@@ -5,6 +5,11 @@ export const Colors = {
   primary: "#8FE6CB",
   primaryRGB: "rgb(143 230 203)",
   primaryLightRGB: "rgb(194 243 227)",
+  // The accent is light, so white on it fails contrast (about 1.4:1). A
+  // fill that carries white text or icons uses the deep shade (5.4:1); a
+  // glyph drawn on the accent itself uses onPrimary.
+  primaryDeep: "#0E7A63",
+  onPrimary: "#062019",
   text: "#ECEDEE",
   background: "#151718",
   tint: "#fff",

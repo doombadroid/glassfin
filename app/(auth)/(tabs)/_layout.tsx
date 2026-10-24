@@ -152,7 +152,8 @@ export default function TabLayout() {
 
   return (
     <View style={{ flex: 1 }}>
-      <SystemBars hidden={false} style='light' />
+      {/* iOS: view controllers own the status bar (iOS 27 SDK). */}
+      {Platform.OS === "android" && <SystemBars hidden={false} style='light' />}
       <NativeTabs
         // Frost: on iOS the bar stays Liquid Glass (no fill), and a regular
         // width window (the unfolded iPhone Duo, iPad) gets the sidebar.

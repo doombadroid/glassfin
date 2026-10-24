@@ -8,8 +8,8 @@ import {
 import React, { useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/common/Text";
+import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import { useSheetOpenState } from "@/hooks/useSheetOpenState";
 
 export type PlaylistSortOption = "SortName" | "DateCreated";
@@ -45,7 +45,7 @@ export const PlaylistSortSheet: React.FC<Props> = ({
   onSortChange,
 }) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const insets = useSafeAreaInsets();
+  const insets = useWindowSafeAreaInsets();
   const { t } = useTranslation();
 
   const snapPoints = useMemo(() => ["40%"], []);

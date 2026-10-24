@@ -18,7 +18,7 @@ interface Props {
 // background over the request "+" through className.
 const TONE_CLASSES: Record<SeerrStatusTone, string> = {
   processing: "bg-indigo-500 border-indigo-400 ring-indigo-400 text-indigo-100",
-  available: "bg-purple-500 border-green-400 ring-green-400 text-green-100",
+  available: "bg-purple-600 border-green-400 ring-green-400 text-green-100",
   pending: "bg-yellow-500 border-yellow-400 ring-yellow-400 text-yellow-100",
   blocklisted: "bg-red-500 border-white-400 ring-white-400 text-white",
   partial: "bg-green-500 border-green-400 ring-green-400 text-green-100",

@@ -2,6 +2,7 @@ import type { BaseItemDto } from "@jellyfin/sdk/lib/generated-client/models";
 import { useCallback, useMemo } from "react";
 import { useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useTabContentInsets } from "@/components/duo/TabContentInsets";
 import { Card } from "./Card";
 import { CARD_LAYOUTS, type CardData, type CardKind } from "./CardData";
 import { useItemCardBehavior } from "./useItemCardBehavior";
@@ -36,6 +37,9 @@ export function useCardGrid({
 }: Options) {
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
+  // Inside a tab the screen is padded by the tab's side insets, and
+  // `insets` reports zero at the sides there.
+  const tab = useTabContentInsets();
 
   const layout = CARD_LAYOUTS[kind];
   const cardWidth = useMemo(() => {
@@ -44,10 +48,12 @@ export function useCardGrid({
       width -
       insets.left -
       insets.right -
+      tab.left -
+      tab.right -
       layout.contentInset * 2 -
       layout.spacing * (safeColumns - 1);
     return Math.floor(available / safeColumns);
-  }, [width, insets.left, insets.right, columns, layout]);
+  }, [width, insets.left, insets.right, tab.left, tab.right, columns, layout]);
 
   // The artwork is requested for the column width, not the kind's row width.
   const { cards, handlePress, handleLongPress, actionSheet } =
