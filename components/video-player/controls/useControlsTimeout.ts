@@ -41,18 +41,28 @@ export const useControlsTimeout = ({
     };
   }, [showControls, isSliding, episodeView, timeout, onHideControls, disabled]);
 
-  const handleControlsInteraction = useCallback(() => {
-    if (disabled || !showControls) return;
+  const keepControlsFor = useCallback(
+    (delay: number) => {
+      if (disabled || !showControls) return;
 
-    if (controlsTimeoutRef.current) {
-      clearTimeout(controlsTimeoutRef.current);
-    }
-    controlsTimeoutRef.current = setTimeout(() => {
-      onHideControls();
-    }, timeout);
-  }, [disabled, showControls, onHideControls, timeout]);
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+      controlsTimeoutRef.current = setTimeout(() => {
+        onHideControls();
+      }, delay);
+    },
+    [disabled, showControls, onHideControls],
+  );
+
+  // Takes no argument on purpose: callers hand it straight to onTouchStart.
+  const handleControlsInteraction = useCallback(
+    () => keepControlsFor(timeout),
+    [keepControlsFor, timeout],
+  );
 
   return {
     handleControlsInteraction,
+    keepControlsFor,
   };
 };

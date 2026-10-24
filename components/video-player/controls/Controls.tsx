@@ -723,14 +723,17 @@ export const Controls: FC<Props> = ({
   const openSubtitleScale = useCallback(() => setShowSubtitleScale(true), []);
   const closeSubtitleScale = useCallback(() => setShowSubtitleScale(false), []);
 
-  const { handleControlsInteraction } = useControlsTimeout({
+  const { handleControlsInteraction, keepControlsFor } = useControlsTimeout({
     showControls,
     isSliding: isSliding || isRemoteSliding,
     episodeView,
     onHideControls: hideControls,
     timeout: CONTROLS_CONSTANTS.TIMEOUT,
-    disabled: true,
   });
+  const handleMenuInteraction = useCallback(
+    () => keepControlsFor(CONTROLS_CONSTANTS.MENU_TIMEOUT),
+    [keepControlsFor],
+  );
 
   const switchOnEpisodeMode = useCallback(() => {
     setEpisodeView(true);
@@ -744,10 +747,12 @@ export const Controls: FC<Props> = ({
       style={styles.controlsContainer}
       pointerEvents='box-none'
       // Any touch on the player counts as "still watching": the idle half of
-      // the prompt's rule. The capture phase sees every touch before a child
-      // claims it, and returning false leaves the touch to that child.
+      // the prompt's rule, and restarts the auto-hide countdown. The capture
+      // phase sees every touch before a child claims it, and returning false
+      // leaves the touch to that child.
       onStartShouldSetResponderCapture={() => {
         markStillWatchingInput();
+        handleControlsInteraction();
         return false;
       }}
     >
@@ -813,6 +818,7 @@ export const Controls: FC<Props> = ({
               showTechnicalInfo={showTechnicalInfo}
               onToggleTechnicalInfo={onToggleTechnicalInfo}
               onOpenSubtitleScale={openSubtitleScale}
+              onMenuInteraction={handleMenuInteraction}
             />
           </Animated.View>
           <Animated.View
