@@ -1,4 +1,8 @@
-import { enterVideoSession, isVideoSessionOpen } from "./videoSession";
+import {
+  enterVideoSession,
+  isVideoSessionOpen,
+  onVideoSessionOpened,
+} from "./videoSession";
 
 describe("the video session", () => {
   test("is open from the moment a player enters until it leaves", () => {
@@ -23,5 +27,19 @@ describe("the video session", () => {
 
     leaveNative();
     expect(isVideoSessionOpen()).toBe(false);
+  });
+
+  test("tells its listeners when a player enters, until they unsubscribe", () => {
+    const opened = jest.fn();
+    const unsubscribe = onVideoSessionOpened(opened);
+
+    const leave = enterVideoSession();
+    expect(opened).toHaveBeenCalledTimes(1);
+    leave();
+    expect(opened).toHaveBeenCalledTimes(1);
+
+    unsubscribe();
+    enterVideoSession()();
+    expect(opened).toHaveBeenCalledTimes(1);
   });
 });

@@ -27,6 +27,7 @@ const mockNative = {
    * the answer, which is when another caller's edit can slip in.
    */
   afterQueueRead: undefined as (() => Promise<void>) | undefined,
+  playing: false,
 };
 
 // The package is installed from git with `main` pointing at a build output it
@@ -42,8 +43,12 @@ jest.mock(
       updateOptions: async () => undefined,
       setRepeatMode: async () => undefined,
       setVolume: async () => undefined,
-      play: async () => undefined,
-      pause: async () => undefined,
+      play: async () => {
+        mockNative.playing = true;
+      },
+      pause: async () => {
+        mockNative.playing = false;
+      },
       seekTo: async () => undefined,
       getProgress: async () => ({ position: 0, duration: 0, buffered: 0 }),
       getQueue: async () => {
@@ -273,6 +278,7 @@ beforeEach(() => {
   mockNative.queue = [];
   mockNative.activeIndex = undefined;
   mockNative.afterQueueRead = undefined;
+  mockNative.playing = false;
   getDefaultStore().set(userAtom, { Id: "user", ServerId: "server" });
   api.mock.reset();
   api.mock.onPost().reply(204);
@@ -706,5 +712,22 @@ describe("MusicPlayerProvider repeat and shuffle", () => {
 
     expect(screen.getByText("one sorted")).toBeTruthy();
     expect(api.mock.history.post).toEqual([]);
+  });
+});
+
+describe("MusicPlayerProvider and a video", () => {
+  // Upstream #1727. The music and the video play through the app's one audio
+  // session, so iOS does not interrupt the song when the video starts: both
+  // played at once.
+  test("pauses the song when a video starts", async () => {
+    await startPlaying();
+    expect(mockNative.playing).toBe(true);
+
+    const leaveVideo = enterVideoSession();
+    try {
+      expect(mockNative.playing).toBe(false);
+    } finally {
+      leaveVideo();
+    }
   });
 });

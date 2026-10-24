@@ -5,12 +5,15 @@ import { useEffect } from "react";
 // the other, and the first to leave must not clear it for both.
 let openSessions = 0;
 
+const openListeners = new Set<() => void>();
+
 /**
  * Marks a video player as on screen until the returned function is called.
  * Calling it more than once is harmless.
  */
 export const enterVideoSession = (): (() => void) => {
   openSessions += 1;
+  for (const listener of openListeners) listener();
   let left = false;
   return () => {
     if (left) return;
@@ -27,6 +30,18 @@ export const enterVideoSession = (): (() => void) => {
  * Module state, read when a command arrives: nothing renders from it.
  */
 export const isVideoSessionOpen = (): boolean => openSessions > 0;
+
+/**
+ * Calls `listener` whenever a video player comes on screen. The app's other
+ * audio plays through the same audio session as the video, so iOS does not
+ * interrupt it when the video starts: whoever plays it has to step aside.
+ */
+export const onVideoSessionOpened = (listener: () => void): (() => void) => {
+  openListeners.add(listener);
+  return () => {
+    openListeners.delete(listener);
+  };
+};
 
 /** Holds a video session open for as long as `active` and the caller live. */
 export const useVideoSession = (active = true) => {

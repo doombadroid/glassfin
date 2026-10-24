@@ -49,7 +49,7 @@ import {
   nativeInsertIndexFor,
 } from "@/utils/music/nativeQueue";
 import { toTrackNormalizationGains } from "@/utils/music/normalization";
-import { isVideoSessionOpen } from "@/utils/videoSession";
+import { isVideoSessionOpen, onVideoSessionOpened } from "@/utils/videoSession";
 
 // Conditionally import TrackPlayer only on non-TV platforms
 // This prevents the native module from being loaded on TV where it doesn't exist
@@ -589,6 +589,15 @@ const MobileMusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     };
 
     setupPlayer();
+  }, []);
+
+  // The song and the video share the app's audio session, so iOS does not
+  // interrupt one for the other: without this both play at once.
+  useEffect(() => {
+    if (!TrackPlayer) return;
+    return onVideoSessionOpened(() => {
+      TrackPlayer.pause().catch(() => {});
+    });
   }, []);
 
   // Update audio cache size when settings change
