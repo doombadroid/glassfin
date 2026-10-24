@@ -5,6 +5,7 @@ import { Text } from "react-native";
 import { userAtom } from "@/providers/JellyfinProvider";
 import type { makeApi } from "@/test-utils/jellyfinApi";
 import { clearMmkv } from "@/test-utils/mmkv";
+import { stubReactNative } from "@/test-utils/reactNative";
 import { storage } from "@/utils/mmkv";
 import { enterVideoSession } from "@/utils/videoSession";
 import { MusicPlayerProvider, useMusicPlayer } from "./MusicPlayerProvider";
@@ -27,6 +28,8 @@ const mockNative = {
    * the answer, which is when another caller's edit can slip in.
    */
   afterQueueRead: undefined as (() => Promise<void>) | undefined,
+  playing: false,
+  setupOptions: undefined as Record<string, unknown> | undefined,
 };
 
 // The package is installed from git with `main` pointing at a build output it
@@ -38,12 +41,18 @@ jest.mock(
     Capability: {},
     RepeatMode: { Off: 0, Track: 1, Queue: 2 },
     default: {
-      setupPlayer: async () => undefined,
+      setupPlayer: async (options: Record<string, unknown>) => {
+        mockNative.setupOptions = options;
+      },
       updateOptions: async () => undefined,
       setRepeatMode: async () => undefined,
       setVolume: async () => undefined,
-      play: async () => undefined,
-      pause: async () => undefined,
+      play: async () => {
+        mockNative.playing = true;
+      },
+      pause: async () => {
+        mockNative.playing = false;
+      },
       seekTo: async () => undefined,
       getProgress: async () => ({ position: 0, duration: 0, buffered: 0 }),
       getQueue: async () => {
@@ -273,6 +282,7 @@ beforeEach(() => {
   mockNative.queue = [];
   mockNative.activeIndex = undefined;
   mockNative.afterQueueRead = undefined;
+  mockNative.playing = false;
   getDefaultStore().set(userAtom, { Id: "user", ServerId: "server" });
   api.mock.reset();
   api.mock.onPost().reply(204);
@@ -706,5 +716,45 @@ describe("MusicPlayerProvider repeat and shuffle", () => {
 
     expect(screen.getByText("one sorted")).toBeTruthy();
     expect(api.mock.history.post).toEqual([]);
+  });
+});
+
+describe("MusicPlayerProvider and a video", () => {
+  // Upstream #1727. The music and the video play through the app's one audio
+  // session, so iOS does not interrupt the song when the video starts: both
+  // played at once.
+  test("pauses the song when a video starts", async () => {
+    await startPlaying();
+    expect(mockNative.playing).toBe(true);
+
+    const leaveVideo = enterVideoSession();
+    try {
+      expect(mockNative.playing).toBe(false);
+    } finally {
+      leaveVideo();
+    }
+  });
+});
+
+describe("MusicPlayerProvider and the player buffer", () => {
+  afterEach(() => stubReactNative());
+
+  // Upstream #1762. On iOS react-native-track-player turns minBuffer into
+  // AVPlayer's buffer duration, which switches off
+  // automaticallyWaitsToMinimizeStalling: the next song was started with
+  // nothing buffered, stalled at once, and nothing started it again.
+  test("leaves the buffering to AVPlayer on iOS", async () => {
+    stubReactNative({ OS: "ios" });
+    await mount();
+
+    expect(mockNative.setupOptions).toBeDefined();
+    expect(mockNative.setupOptions).not.toHaveProperty("minBuffer");
+  });
+
+  test("keeps the larger buffer on Android", async () => {
+    stubReactNative({ OS: "android" });
+    await mount();
+
+    expect(mockNative.setupOptions).toHaveProperty("minBuffer");
   });
 });

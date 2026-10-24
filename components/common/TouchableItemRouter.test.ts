@@ -13,6 +13,35 @@ jest.mock("@/hooks/useItemActionSheet", () => ({
 
 const studio: BaseItemDto = { Id: "studio-1", Type: "Studio", Name: "Pixar" };
 
+describe("a playlist's route", () => {
+  test("opens a music playlist on the music playlist screen", () => {
+    const music: BaseItemDto = {
+      Id: "pl-1",
+      Type: "Playlist",
+      MediaType: "Audio",
+    };
+    expect(getItemNavigation(music, "(libraries)")).toEqual({
+      pathname: "/music/playlist/[playlistId]",
+      params: { playlistId: "pl-1" },
+    });
+  });
+
+  // Upstream #1943. Every playlist opened the music screen, which played a
+  // movie as audio and downloaded it into the music storage, where the
+  // Downloads page never shows it.
+  test("opens a playlist of videos as a grid", () => {
+    const videos: BaseItemDto = {
+      Id: "pl-2",
+      Type: "Playlist",
+      MediaType: "Video",
+    };
+    expect(getItemNavigation(videos, "(libraries)")).toEqual({
+      pathname: "/[libraryId]",
+      params: { libraryId: "pl-2" },
+    });
+  });
+});
+
 describe("a studio's route", () => {
   // Without its own route a studio fell through to the item page, which has
   // nothing to show for one.

@@ -17,6 +17,10 @@ class MPVNowPlayingManager {
     private var position: TimeInterval = 0
     private var isPlaying: Bool = false
     private var isCommandsSetup = false
+    // The targets this manager added. react-native-track-player registers its
+    // own on the same shared command center, and removeTarget(nil) would take
+    // those too: the music then no longer answered headphones after a video.
+    private var commandTargets: [(MPRemoteCommand, Any)] = []
     
     private var artworkTask: URLSessionDataTask?
     
@@ -42,30 +46,30 @@ class MPVNowPlayingManager {
         let cc = MPRemoteCommandCenter.shared()
         
         cc.playCommand.isEnabled = true
-        cc.playCommand.addTarget { _ in playHandler(); return .success }
+        addTarget(cc.playCommand) { _ in playHandler(); return .success }
         
         cc.pauseCommand.isEnabled = true
-        cc.pauseCommand.addTarget { _ in pauseHandler(); return .success }
+        addTarget(cc.pauseCommand) { _ in pauseHandler(); return .success }
         
         cc.togglePlayPauseCommand.isEnabled = true
-        cc.togglePlayPauseCommand.addTarget { _ in toggleHandler(); return .success }
+        addTarget(cc.togglePlayPauseCommand) { _ in toggleHandler(); return .success }
         
         cc.skipForwardCommand.isEnabled = true
         cc.skipForwardCommand.preferredIntervals = [15]
-        cc.skipForwardCommand.addTarget { e in
+        addTarget(cc.skipForwardCommand) { e in
             if let ev = e as? MPSkipIntervalCommandEvent { skipForward(ev.interval) }
             return .success
         }
         
         cc.skipBackwardCommand.isEnabled = true
         cc.skipBackwardCommand.preferredIntervals = [15]
-        cc.skipBackwardCommand.addTarget { e in
+        addTarget(cc.skipBackwardCommand) { e in
             if let ev = e as? MPSkipIntervalCommandEvent { skipBackward(ev.interval) }
             return .success
         }
         
         cc.changePlaybackPositionCommand.isEnabled = true
-        cc.changePlaybackPositionCommand.addTarget { e in
+        addTarget(cc.changePlaybackPositionCommand) { e in
             if let ev = e as? MPChangePlaybackPositionCommandEvent { seekHandler(ev.positionTime) }
             return .success
         }
@@ -73,16 +77,20 @@ class MPVNowPlayingManager {
         print("[NowPlaying] Remote commands ready")
     }
     
+    private func addTarget(
+        _ command: MPRemoteCommand,
+        handler: @escaping (MPRemoteCommandEvent) -> MPRemoteCommandHandlerStatus
+    ) {
+        commandTargets.append((command, command.addTarget(handler: handler)))
+    }
+
     func cleanupRemoteCommands() {
         guard isCommandsSetup else { return }
-        
-        let cc = MPRemoteCommandCenter.shared()
-        cc.playCommand.removeTarget(nil)
-        cc.pauseCommand.removeTarget(nil)
-        cc.togglePlayPauseCommand.removeTarget(nil)
-        cc.skipForwardCommand.removeTarget(nil)
-        cc.skipBackwardCommand.removeTarget(nil)
-        cc.changePlaybackPositionCommand.removeTarget(nil)
+
+        for (command, target) in commandTargets {
+            command.removeTarget(target)
+        }
+        commandTargets.removeAll()
         
         DispatchQueue.main.async {
             UIApplication.shared.endReceivingRemoteControlEvents()

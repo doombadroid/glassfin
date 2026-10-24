@@ -49,7 +49,7 @@ import {
   nativeInsertIndexFor,
 } from "@/utils/music/nativeQueue";
 import { toTrackNormalizationGains } from "@/utils/music/normalization";
-import { isVideoSessionOpen } from "@/utils/videoSession";
+import { isVideoSessionOpen, onVideoSessionOpened } from "@/utils/videoSession";
 
 // Conditionally import TrackPlayer only on non-TV platforms
 // This prevents the native module from being loaded on TV where it doesn't exist
@@ -559,12 +559,20 @@ const MobileMusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
         // Initialize audio storage for caching
         await initAudioStorage();
 
-        await TrackPlayer.setupPlayer({
-          minBuffer: 120, // Minimum 2 minutes buffer for network resilience
-          maxBuffer: 240, // Maximum 4 minutes buffer
-          playBuffer: 5, // Start playback after 5 seconds buffered
-          backBuffer: 30, // Keep 30 seconds behind for seeking
-        });
+        // Android only. iOS reads minBuffer as AVPlayer's buffer duration,
+        // which switches off automaticallyWaitsToMinimizeStalling: each next
+        // song then started with nothing buffered, stalled at once, and
+        // nothing started it again (upstream #1762).
+        await TrackPlayer.setupPlayer(
+          Platform.OS === "android"
+            ? {
+                minBuffer: 120, // Minimum 2 minutes buffer for network resilience
+                maxBuffer: 240, // Maximum 4 minutes buffer
+                playBuffer: 5, // Start playback after 5 seconds buffered
+                backBuffer: 30, // Keep 30 seconds behind for seeking
+              }
+            : {},
+        );
         await TrackPlayer.updateOptions({
           capabilities: [
             Capability.Play,
@@ -589,6 +597,15 @@ const MobileMusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
     };
 
     setupPlayer();
+  }, []);
+
+  // The song and the video share the app's audio session, so iOS does not
+  // interrupt one for the other: without this both play at once.
+  useEffect(() => {
+    if (!TrackPlayer) return;
+    return onVideoSessionOpened(() => {
+      TrackPlayer.pause().catch(() => {});
+    });
   }, []);
 
   // Update audio cache size when settings change

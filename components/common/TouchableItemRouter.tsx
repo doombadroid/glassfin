@@ -144,7 +144,10 @@ export const getItemNavigation = (item: BaseItemDto, _from: string) => {
   }
 
   if (item.Type === "Playlist") {
-    if (Platform.isTV) {
+    // The music playlist screen plays its entries in the music player and
+    // downloads them as audio, so a playlist of videos opens as a grid, where
+    // each entry plays and downloads as itself.
+    if (Platform.isTV || item.MediaType !== "Audio") {
       return {
         pathname: "/[libraryId]" as const,
         params: { libraryId: item.Id! },
