@@ -35,6 +35,7 @@ const mockNavigation = {
 };
 const mockRouter = { setParams: jest.fn(), replace: jest.fn() };
 const mockReportProgress = jest.fn(async (_info: unknown) => {});
+const mockSaveLocalProgress = jest.fn((_info: unknown) => {});
 const mockPlayer = {
   destroy: jest.fn(async () => {}),
   seekTo: jest.fn(),
@@ -61,6 +62,8 @@ let mockSeekReaction:
 /** Set to have the server answer with a transcode instead of a direct stream. */
 let mockTranscodingUrl: string | undefined;
 const mockSettings = {};
+/** What the downloads database answers for the item, for offline playback. */
+let mockDownloadedItem: unknown;
 const mockNoop = () => {};
 
 jest.mock("expo-router", () => ({
@@ -93,7 +96,7 @@ jest.mock("@/providers/JellyfinProvider", () => {
 jest.mock("@/providers/DownloadProvider", () => ({
   useDownload: () => ({
     getDownloadedItems: () => [],
-    getDownloadedItemById: () => undefined,
+    getDownloadedItemById: () => mockDownloadedItem,
   }),
 }));
 jest.mock("@/providers/InactivityProvider", () => ({
@@ -123,6 +126,7 @@ jest.mock("@/hooks/useOrientation", () => ({
 jest.mock("@/hooks/usePlaybackManager", () => ({
   usePlaybackManager: () => ({
     reportPlaybackProgress: mockReportProgress,
+    saveLocalPlaybackProgress: mockSaveLocalProgress,
     nextItem: null,
     previousItem: null,
   }),
@@ -328,6 +332,7 @@ describe("direct player stop report", () => {
     mockRouter.setParams.mockClear();
     mockRouter.replace.mockClear();
     mockReportProgress.mockClear();
+    mockSaveLocalProgress.mockClear();
     api.mock.reset();
     api.mock.onGet(/\/Items\/item-1/).reply(200, {
       Id: "item-1",
@@ -637,5 +642,68 @@ describe("direct player stop report", () => {
     } finally {
       mockParams.playbackPosition = String(RESUME_TICKS);
     }
+  });
+
+  // Upstream #1325: the play button opens a download without a subtitle
+  // index, and the page read that as off, so a download made with a subtitle
+  // played without it.
+  describe("playing a download offline", () => {
+    beforeEach(() => {
+      mockParams.offline = "true";
+      mockDownloadedItem = {
+        item: {
+          Id: "item-1",
+          Type: "Episode",
+          RunTimeTicks: RUNTIME_TICKS,
+          UserData: { PlaybackPositionTicks: RESUME_TICKS },
+        },
+        mediaSource: { Id: "source-1", MediaStreams: [] },
+        videoFilePath: "file:///documents/item-1.mp4",
+        userData: {
+          audioStreamIndex: 1,
+          subtitleStreamIndex: 3,
+          isTranscoded: false,
+        },
+      };
+    });
+
+    /** The subtitle the session was opened with, as the page reports it. */
+    const startedSubtitle = () =>
+      JSON.parse(startReports()[0].data).SubtitleStreamIndex;
+
+    afterEach(() => {
+      mockParams.offline = "false";
+      mockParams.subtitleIndex = "";
+      mockDownloadedItem = undefined;
+    });
+
+    test("starts on the subtitle the download was made with", async () => {
+      await openPlayer();
+
+      expect(startedSubtitle()).toBe(3);
+    });
+
+    test("starts on the subtitle the route asks for, off included", async () => {
+      mockParams.subtitleIndex = "-1";
+      await openPlayer();
+
+      expect(startedSubtitle()).toBe(-1);
+    });
+
+    // Upstream #1445: the downloads database only got the position from the
+    // progress heartbeat, so leaving the player lost up to one interval of
+    // it. The stop report that carries the final position goes to the server
+    // alone, and offline it is not sent at all.
+    test("keeps where the player was left in the downloads database", async () => {
+      await openPlayer();
+      await tick(1200);
+      await tick(1205);
+      await leavePlayer();
+
+      expect(mockSaveLocalProgress).toHaveBeenLastCalledWith({
+        ItemId: "item-1",
+        PositionTicks: 12_050_000_000,
+      });
+    });
   });
 });

@@ -96,10 +96,10 @@ async function reEnqueue(
  * - still queued natively (iOS persists its queue and re-arms it on launch) → resurrect the UI
  *   process as queued; native starts it when its turn comes. Custom proxy headers don't survive
  *   that persistence, so a download that needs them is re-queued with them
- * - never started (`queued`) and native lost it (Android process death) → re-enqueue as a backstop
  * - video file exists → the download finished while JS was dead; finalize it into the database
- * - started but no task and no file → genuinely lost (e.g. force-quit cancels background
- *   transfers); drop the record
+ * - native lost it, queued (Android process death) or running (iOS force-quit cancels background
+ *   transfers, Android process death) → re-enqueue; a lost transfer starts over from zero
+ * - a stored file name with a path in it → drop the record
  */
 export function useDownloadReconciliation({
   setProcesses,
@@ -166,9 +166,10 @@ export function useDownloadReconciliation({
           continue;
         }
 
-        // A stored name with a path in it is never looked up: the record falls through and is
-        // dropped below.
-        const file = isPlainFileName(record.videoFileName)
+        // A stored name with a path in it is never looked up nor handed to native again: the
+        // record falls through and is dropped below.
+        const hasSafeName = isPlainFileName(record.videoFileName);
+        const file = hasSafeName
           ? new File(Paths.document, record.videoFileName)
           : undefined;
         if (file?.exists && (file.size ?? 0) > 0) {
@@ -180,9 +181,12 @@ export function useDownloadReconciliation({
           continue;
         }
 
-        if (record.status === "queued") {
-          // Backstop: native lost the queued item (Android queue dies with the process; on iOS
-          // this only fires if the persisted queue failed to restore).
+        if (hasSafeName) {
+          // Native lost it. A queued download dies with the Android process (on iOS only if the
+          // persisted queue failed to restore); a running one is cancelled by a force-quit on
+          // iOS and killed with the Android process. The record still says what to fetch, so it
+          // goes back in the queue and starts over, instead of vanishing from the list without
+          // a word (upstream #1701).
           console.log(`[RECONCILE] Re-enqueueing: ${record.item.Name}`);
           if (await reEnqueue(record, getHeadersForUrl(record.inputUrl, {}))) {
             restored.push(jobFromRecord(record, "queued"));

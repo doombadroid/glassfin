@@ -241,9 +241,9 @@ export default function DirectPlayerPage() {
   const audioIndexFromUrl = audioIndexStr
     ? Number.parseInt(audioIndexStr, 10)
     : undefined;
-  const subtitleIndex = subtitleIndexStr
+  const subtitleIndexFromUrl = subtitleIndexStr
     ? Number.parseInt(subtitleIndexStr, 10)
-    : -1;
+    : undefined;
   const bitrateValue = bitrateValueStr
     ? Number.parseInt(bitrateValueStr, 10)
     : BITRATES[0].value;
@@ -295,8 +295,12 @@ export default function DirectPlayerPage() {
   // api, and a handler captured while either was different would keep
   // reporting through the stale one for the rest of playback.
   const reportProgressRef = useRef(playbackManager.reportPlaybackProgress);
+  const saveLocalProgressRef = useRef(
+    playbackManager.saveLocalPlaybackProgress,
+  );
   useEffect(() => {
     reportProgressRef.current = playbackManager.reportPlaybackProgress;
+    saveLocalProgressRef.current = playbackManager.saveLocalPlaybackProgress;
   });
 
   // Resolve audio index: use URL param if provided, otherwise use stored index for offline playback
@@ -309,6 +313,15 @@ export default function DirectPlayerPage() {
     }
     return undefined;
   }, [audioIndexFromUrl, offline, downloadedItem?.userData?.audioStreamIndex]);
+
+  // Same order as the audio index, and as resolveTrackIndexes for the native
+  // player. Every way into a download (offline mode, the Downloads list, the
+  // "play downloaded file?" prompt) opens it without a subtitle index, and
+  // reading that as off dropped the subtitle the download was made with.
+  const subtitleIndex =
+    subtitleIndexFromUrl ??
+    (offline ? downloadedItem?.userData?.subtitleStreamIndex : undefined) ??
+    -1;
 
   // Initialize TV audio/subtitle indices from URL params.
   // No undefined guard: when a new episode's URL omits audioIndex, reset to
@@ -720,7 +733,16 @@ export default function DirectPlayerPage() {
   const reportedStopKeyRef = useRef<string | null>(null);
 
   const reportPlaybackStopped = useCallback(async () => {
-    if (!item?.Id || !stream || !api || !isConnected) return;
+    if (!item?.Id || !stream) return;
+    // The resume point of a download lives in the downloads database, and
+    // the last heartbeat that wrote it can be up to PROGRESS_REPORT_INTERVAL
+    // old. Write where the session stopped, server or not, as the native
+    // player does with its final progress report.
+    saveLocalProgressRef.current({
+      ItemId: item.Id,
+      PositionTicks: getSessionPositionTicks(),
+    });
+    if (!api || !isConnected) return;
     // Leaving the player reports "stopped" twice: once from the beforeRemove
     // listener (via stop()) and once from the unmount cleanup backstop. Dedupe
     // per session — not a plain boolean, since the component survives in-place
