@@ -36,6 +36,8 @@ interface HeaderControlsProps {
   showTechnicalInfo?: boolean;
   onToggleTechnicalInfo?: () => void;
   onOpenSubtitleScale?: () => void;
+  /** A touch on the playback menu, which closes with the controls on iOS. */
+  onMenuInteraction?: () => void;
 }
 
 export const HeaderControls: FC<HeaderControlsProps> = ({
@@ -57,6 +59,7 @@ export const HeaderControls: FC<HeaderControlsProps> = ({
   showTechnicalInfo = false,
   onToggleTechnicalInfo,
   onOpenSubtitleScale,
+  onMenuInteraction,
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -110,7 +113,11 @@ export const HeaderControls: FC<HeaderControlsProps> = ({
     >
       <View className='mr-auto' pointerEvents='box-none'>
         {shouldShowPlayerMenu({ isTV: Platform.isTV }) && (
-          <View pointerEvents='auto'>
+          <View
+            pointerEvents='auto'
+            testID='player-menu'
+            onTouchStart={onMenuInteraction}
+          >
             <DropdownView
               playbackSpeed={playbackSpeed}
               setPlaybackSpeed={setPlaybackSpeed}

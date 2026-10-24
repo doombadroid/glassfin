@@ -67,6 +67,9 @@ export const useVolumeAndBrightness = ({
         );
 
         await VolumeManager.setVolume(newVolume);
+        // The set can answer after the drag ended; reporting it then would
+        // re-show the drag feedback with nothing left to hide it.
+        if (initialVolume.current === null) return;
         const volumePercent = Math.round(newVolume * 100);
         onVolumeChange?.(volumePercent);
       } catch (error) {
@@ -122,6 +125,8 @@ export const useVolumeAndBrightness = ({
         );
 
         await Brightness.setBrightnessAsync(newBrightness);
+        // Same late answer as the volume set above.
+        if (initialBrightness.current === null) return;
         const brightnessPercent = Math.round(newBrightness * 100);
         onBrightnessChange?.(brightnessPercent);
       } catch (error) {

@@ -343,6 +343,10 @@ struct PlayerControlsRootView: View {
 
 				if dragAxis == nil {
 					if abs(value.translation.width) >= abs(value.translation.height) {
+						guard viewModel.swipeToSeekEnabled else {
+							dragSuppressed = true
+							return
+						}
 						dragAxis = .horizontal
 						if viewModel.duration > 0 {
 							viewModel.showControls()
@@ -350,8 +354,18 @@ struct PlayerControlsRootView: View {
 							dragStartFraction = viewModel.scrubPosition / viewModel.duration
 						}
 					} else {
+						let onLeftHalf = value.startLocation.x < size.width / 2
+						// A side whose swipe is turned off owns nothing: the
+						// rest of this drag stays dead until the finger lifts.
+						guard onLeftHalf
+							? viewModel.brightnessSwipeEnabled
+							: viewModel.volumeSwipeEnabled
+						else {
+							dragSuppressed = true
+							return
+						}
 						dragAxis = .vertical
-						dragOnLeftHalf = value.startLocation.x < size.width / 2
+						dragOnLeftHalf = onLeftHalf
 						if dragOnLeftHalf {
 							dragStartLevel = viewModel.brightnessController.brightness
 							viewModel.brightnessController.isUserInteracting = true
