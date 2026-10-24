@@ -78,7 +78,7 @@ jobs:
           done
           # iOS 27 SDK apps without a scene manifest die at launch (TN3187)
           /usr/libexec/PlistBuddy -c 'Print :UIApplicationSceneManifest' "$app/Info.plist"
-          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app/Info.plist")" = com.doombadroid.streamyfinnext
+          test "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app/Info.plist")" = com.doombadroid.sailfin
           sdk=$(xcrun vtool -show-build "$app/$exe" | awk '/sdk/ {print $2; exit}')
           echo "Built against iOS SDK $sdk"
           echo "BUILD_TOOLCHAIN=$(xcodebuild -version | tr '\n' ' ' | sed 's/ *$//'), iOS SDK $sdk" >> "$GITHUB_ENV"
@@ -117,11 +117,11 @@ jobs:
           except FileNotFoundError:
               source = {
                   "name": "Sailfin",
-                  "identifier": "io.github.doombadroid.streamyfin-next",
+                  "identifier": "io.github.doombadroid.sailfin",
                   "subtitle": "A Jellyfin player for iPhone Duo",
                   "apps": [{
                       "name": "Sailfin",
-                      "bundleIdentifier": "com.doombadroid.streamyfinnext",
+                      "bundleIdentifier": "com.doombadroid.sailfin",
                       "developerName": "doombadroid",
                       "subtitle": "Jellyfin client",
                       "localizedDescription": "Jellyfin player with a Liquid Glass design and iPhone Duo fold, tabletop and book layouts. MPL-2.0.",

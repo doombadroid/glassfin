@@ -5,7 +5,7 @@
     "version": "0.56.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
-    "scheme": "streamyfin",
+    "scheme": "sailfin",
     "userInterfaceStyle": "dark",
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -15,7 +15,7 @@
         "NSMicrophoneUsageDescription": "The app needs access to your microphone.",
         "UIBackgroundModes": ["audio", "fetch"],
         "NSLocalNetworkUsageDescription": "The app needs access to your local network to connect to your Jellyfin server.",
-        "NSLocationWhenInUseUsageDescription": "Streamyfin uses your location to detect your home WiFi network for automatic local server switching.",
+        "NSLocationWhenInUseUsageDescription": "Sailfin uses your location to detect your home WiFi network for automatic local server switching.",
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true
         },
@@ -34,7 +34,7 @@
       "entitlements": {
         "com.apple.developer.networking.wifi-info": true
       },
-      "bundleIdentifier": "com.doombadroid.streamyfinnext",
+      "bundleIdentifier": "com.doombadroid.sailfin",
       "icon": "./assets/images/icon-ios-liquid-glass.icon",
       "appleTeamId": "99SJ7X62CF"
     },
@@ -165,7 +165,7 @@
         "expo-notifications",
         {
           "icon": "./assets/images/notification.png",
-          "color": "#9333EA"
+          "color": "#8FE6CB"
         }
       ],
       "expo-web-browser",

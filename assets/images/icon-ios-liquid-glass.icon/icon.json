@@ -1,6 +1,6 @@
 {
   "fill": {
-    "solid": "display-p3:0.18039,0.18039,0.18039,1.00000"
+    "solid": "display-p3:0.08627,0.27059,0.29412,1.00000"
   },
   "groups": [
     {
@@ -14,38 +14,32 @@
             {
               "appearance": "tinted",
               "value": {
-                "automatic-gradient": "display-p3:0.76482,0.76482,0.76482,0.84903"
+                "automatic-gradient": "gray:0.85000,1.00000"
               }
             }
           ],
           "glass": true,
           "hidden": false,
-          "image-name": "streamyfin_logo_layer1.svg",
-          "name": "streamyfin_logo_layer1"
+          "image-name": "sailfin_play.svg",
+          "name": "sailfin_play"
         }
       ],
+      "name": "Play",
       "opacity": 1,
-      "position": {
-        "scale": 1.7,
-        "translation-in-points": [30, 0]
-      },
       "shadow": {
-        "kind": "none",
-        "opacity": 1
+        "kind": "layer-color",
+        "opacity": 0.45
       },
       "specular": true,
       "translucency": {
         "enabled": true,
-        "value": 0.6
+        "value": 0.3
       }
     },
     {
-      "blend-mode": "normal",
-      "blur-material": 0.8,
-      "hidden": false,
+      "blur-material": 0.6,
       "layers": [
         {
-          "blend-mode": "normal",
           "fill-specializations": [
             {
               "value": "none"
@@ -57,73 +51,18 @@
               }
             }
           ],
+          "glass": true,
           "hidden": false,
-          "image-name": "streamyfin_logo_layer2.svg",
-          "name": "streamyfin_logo_layer2",
-          "opacity": 1,
-          "position": {
-            "scale": 1,
-            "translation-in-points": [0, 0]
-          }
+          "image-name": "sailfin_sail.svg",
+          "name": "sailfin_sail"
         }
       ],
       "lighting": "individual",
-      "name": "Group",
+      "name": "Sail",
       "opacity": 1,
-      "position": {
-        "scale": 1.7,
-        "translation-in-points": [30, -0.01613253252572302]
-      },
       "shadow": {
-        "kind": "layer-color",
+        "kind": "neutral",
         "opacity": 0.35
-      },
-      "specular": true,
-      "translucency-specializations": [
-        {
-          "value": {
-            "enabled": true,
-            "value": 0.5
-          }
-        },
-        {
-          "appearance": "tinted",
-          "value": {
-            "enabled": true,
-            "value": 0.8
-          }
-        }
-      ]
-    },
-    {
-      "blend-mode": "normal",
-      "blur-material": 0.5,
-      "layers": [
-        {
-          "fill-specializations": [
-            {
-              "appearance": "tinted",
-              "value": {
-                "automatic-gradient": "gray:0.29000,1.00000"
-              }
-            }
-          ],
-          "glass": true,
-          "hidden": false,
-          "image-name": "streamyfin_logo_layer3.svg",
-          "name": "streamyfin_logo_layer3",
-          "opacity": 0.9
-        }
-      ],
-      "name": "Group",
-      "opacity": 0.8,
-      "position": {
-        "scale": 1.7,
-        "translation-in-points": [30, 0]
-      },
-      "shadow": {
-        "kind": "none",
-        "opacity": 0.5
       },
       "specular": true,
       "translucency": {
@@ -132,48 +71,36 @@
       }
     },
     {
-      "blur-material": 0.5,
-      "hidden": false,
+      "blur-material": 0.4,
       "layers": [
         {
-          "glass": true,
-          "hidden-specializations": [
+          "fill-specializations": [
             {
-              "value": false
+              "value": "none"
             },
             {
               "appearance": "tinted",
-              "value": true
+              "value": {
+                "automatic-gradient": "gray:0.55000,1.00000"
+              }
             }
           ],
-          "image-name": "streamyfin_logo_layer4.svg",
-          "name": "streamyfin_logo_layer4",
-          "opacity-specializations": [
-            {
-              "value": 1
-            },
-            {
-              "appearance": "tinted",
-              "value": 0
-            }
-          ]
+          "glass": true,
+          "hidden": false,
+          "image-name": "sailfin_hull.svg",
+          "name": "sailfin_hull"
         }
       ],
-      "lighting": "combined",
-      "name": "Group",
-      "opacity": 0.9,
-      "position": {
-        "scale": 1.7,
-        "translation-in-points": [30, 0]
-      },
+      "name": "Hull",
+      "opacity": 1,
       "shadow": {
         "kind": "neutral",
         "opacity": 0.5
       },
-      "specular": false,
+      "specular": true,
       "translucency": {
         "enabled": true,
-        "value": 0.5
+        "value": 0.4
       }
     }
   ],

@@ -1,63 +1,17 @@
 {
   "name": "Sailfin",
-  "identifier": "io.github.doombadroid.streamyfin-next",
+  "identifier": "io.github.doombadroid.sailfin",
   "subtitle": "A Jellyfin player for iPhone Duo",
   "apps": [
     {
       "name": "Sailfin",
-      "bundleIdentifier": "com.doombadroid.streamyfinnext",
+      "bundleIdentifier": "com.doombadroid.sailfin",
       "developerName": "doombadroid",
       "subtitle": "Jellyfin client",
       "localizedDescription": "Jellyfin player with a Liquid Glass design and iPhone Duo fold, tabletop and book layouts. MPL-2.0.",
-      "iconURL": "https://raw.githubusercontent.com/doombadroid/streamyfin-next/develop/assets/images/icon.png",
+      "iconURL": "https://raw.githubusercontent.com/doombadroid/sailfin/develop/assets/images/icon.png",
       "tintColor": "8fe6cb",
-      "versions": [
-        {
-          "version": "0.56.0.14",
-          "buildVersion": "14",
-          "date": "2026-10-24T18:07:28Z",
-          "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
-          "downloadURL": "https://github.com/doombadroid/streamyfin-next/releases/download/next-14/StreamyfinNext-unsigned.ipa",
-          "size": 60741873,
-          "minOSVersion": "16.4"
-        },
-        {
-          "version": "0.56.0.13",
-          "buildVersion": "13",
-          "date": "2026-10-24T17:30:10Z",
-          "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
-          "downloadURL": "https://github.com/doombadroid/streamyfin-next/releases/download/next-13/StreamyfinNext-unsigned.ipa",
-          "size": 60744303,
-          "minOSVersion": "16.4"
-        },
-        {
-          "version": "0.56.0.10",
-          "buildVersion": "10",
-          "date": "2026-10-24T17:09:01Z",
-          "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
-          "downloadURL": "https://github.com/doombadroid/streamyfin-next/releases/download/next-10/StreamyfinNext-unsigned.ipa",
-          "size": 60734786,
-          "minOSVersion": "16.4"
-        },
-        {
-          "version": "0.56.0.7",
-          "buildVersion": "7",
-          "date": "2026-10-24T16:33:01Z",
-          "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
-          "downloadURL": "https://github.com/doombadroid/streamyfin-next/releases/download/next-7/StreamyfinNext-unsigned.ipa",
-          "size": 60730571,
-          "minOSVersion": "16.4"
-        },
-        {
-          "version": "0.56.0.5",
-          "buildVersion": "5",
-          "date": "2026-10-24T15:50:10Z",
-          "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
-          "downloadURL": "https://github.com/doombadroid/streamyfin-next/releases/download/next-5/StreamyfinNext-unsigned.ipa",
-          "size": 60709016,
-          "minOSVersion": "16.4"
-        }
-      ],
+      "versions": [],
       "appPermissions": {
         "entitlements": [],
         "privacy": {}

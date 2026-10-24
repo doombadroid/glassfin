@@ -13,7 +13,7 @@ const P_IMDB_ID = "P345";
 const STALE_TIME_MS = 24 * 60 * 60 * 1000;
 
 /** Wikimedia asks that clients identify themselves. */
-const USER_AGENT = "Sailfin (https://github.com/doombadroid/streamyfin-next)";
+const USER_AGENT = "Sailfin (https://github.com/doombadroid/sailfin)";
 
 const SEARCH_TIMEOUT_MS = 15000;
 /** The awards query walks award statements and is routinely slower. */
