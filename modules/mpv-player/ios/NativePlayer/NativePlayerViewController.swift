@@ -90,8 +90,12 @@ final class NativePlayerViewController: UIViewController {
 		])
 	}
 
+	// Hidden for as long as the player is up, controls or not: an iPhone in
+	// landscape drops the status bar on its own, but the iPhone Duo keeps it
+	// (the side strip folded, the top bar unfolded), and battery and signal
+	// over the video are just noise.
 	override var prefersStatusBarHidden: Bool {
-		!viewModel.controlsVisible
+		true
 	}
 
 	override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -181,15 +185,14 @@ final class NativePlayerViewController: UIViewController {
 		viewModel.$controlsVisible
 			.removeDuplicates()
 			.receive(on: DispatchQueue.main)
-			.sink { [weak self] visible in
-				guard let self else { return }
+			.sink { [weak self] _ in
+				guard let self, self.isViewVisible else { return }
 				// Deprecated, and knowingly so: RN's required
 				// UIViewControllerBasedStatusBarAppearance=false disables
 				// prefersStatusBarHidden app-wide, so the app-level setter is
 				// the only working control — the same call RN's own StatusBar
-				// module makes. (iPhone landscape masks the whole issue: no
-				// status bar there ever.)
-				UIApplication.shared.setStatusBarHidden(!visible, with: .fade)
+				// module makes. Re-asserted here in case anything showed it.
+				UIApplication.shared.setStatusBarHidden(true, with: .none)
 				UIView.animate(withDuration: 0.2) {
 					self.setNeedsStatusBarAppearanceUpdate()
 					self.setNeedsUpdateOfHomeIndicatorAutoHidden()
@@ -349,13 +352,21 @@ final class NativePlayerViewController: UIViewController {
 		#endif
 	}
 
+	#if os(iOS)
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		// Before the presentation animates in, so the bar never flashes up.
+		UIApplication.shared.setStatusBarHidden(true, with: .fade)
+	}
+	#endif
+
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
 		isViewVisible = true
 		engine.setPictureInPictureHostVisible(true)
 		UIApplication.shared.isIdleTimerDisabled = viewModel.isPlaying
 		#if os(iOS)
-		UIApplication.shared.setStatusBarHidden(!viewModel.controlsVisible, with: .none)
+		UIApplication.shared.setStatusBarHidden(true, with: .none)
 		#endif
 		#if os(tvOS)
 		// The initial zone activation ran at viewDidLoad time, before the
