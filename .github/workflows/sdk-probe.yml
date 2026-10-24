@@ -11,6 +11,9 @@ on:
       context:
         description: Lines of context before each swiftinterface match
         default: '0'
+      all_frameworks:
+        description: Extended regex to grep across every framework's headers
+        default: ''
       headers:
         description: UIKit header files to print whole (space separated)
         default: ''
@@ -43,3 +46,11 @@ jobs:
         run: |
           sdk=$(xcrun --sdk iphoneos --show-sdk-path)
           for h in ${{ inputs.headers }}; do echo "===== $h"; cat "$sdk/System/Library/Frameworks/UIKit.framework/Headers/$h"; done
+      - name: Grep all framework headers
+        if: inputs.all_frameworks != ''
+        run: |
+          sdk=$(xcrun --sdk iphoneos --show-sdk-path)
+          grep -rnE "${{ inputs.all_frameworks }}" "$sdk/System/Library/Frameworks"/*/Headers | sed "s#$sdk/System/Library/Frameworks/##" | cut -c1-300 | head -200 || true
+          for f in "$sdk"/System/Library/Frameworks/CoreHaptics.framework/Modules/*.swiftmodule/arm64e-apple-ios.swiftinterface; do
+            [ -f "$f" ] && grep -nE "${{ inputs.all_frameworks }}" "$f" | cut -c1-300 | head -50
+          done
