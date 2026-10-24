@@ -1,0 +1,33 @@
+name: iOS SDK API probe
+
+# Greps the Xcode 27.1 iOS SDK for the iPhone Duo APIs (reserved regions, vertical bars,
+# tab bar placement) so the app code can use their exact names.
+on:
+  workflow_dispatch:
+    inputs:
+      pattern:
+        description: Extra grep pattern (extended regex)
+        default: ''
+
+jobs:
+  probe:
+    runs-on: xcode-27
+    timeout-minutes: 20
+    steps:
+      - uses: maxim-lobanov/setup-xcode@v1
+        with: { xcode-version: '27.1' }
+      - name: Grep the SDK
+        run: |
+          sdk=$(xcrun --sdk iphoneos --show-sdk-path)
+          echo "SDK: $sdk"
+          pat='ReservedRegion|reservedRegion|VerticalBar|verticalBar|toolbarVertical|AxisBehavior|preferredPlacement|defaultTabBarPlacement|TabBarPlacement|toolbarCompression|ArrangementStyle|Arrangement\b|isFolded|foldState|devicePosture|DevicePosture|hinge|Hinge'
+          [ -n "${{ inputs.pattern }}" ] && pat="$pat|${{ inputs.pattern }}"
+          echo "== UIKit headers"
+          grep -rnE "$pat" "$sdk/System/Library/Frameworks/UIKit.framework/Headers" | cut -c1-400 || true
+          echo "== SwiftUI / UIKit swiftinterfaces"
+          for fw in SwiftUI SwiftUICore UIKit; do
+            f=$(ls "$sdk/System/Library/Frameworks/$fw.framework/Modules/$fw.swiftmodule/"arm64e-apple-ios.swiftinterface 2>/dev/null | head -1)
+            [ -z "$f" ] && f=$(ls "$sdk/System/Library/Frameworks/$fw.framework/Modules/$fw.swiftmodule/"*ios.swiftinterface 2>/dev/null | head -1)
+            echo "-- $fw: $f"
+            [ -n "$f" ] && grep -nE "$pat" "$f" | cut -c1-400 | head -300
+          done
