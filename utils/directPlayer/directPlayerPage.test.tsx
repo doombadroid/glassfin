@@ -35,6 +35,7 @@ const mockNavigation = {
 };
 const mockRouter = { setParams: jest.fn(), replace: jest.fn() };
 const mockReportProgress = jest.fn(async (_info: unknown) => {});
+const mockSaveLocalProgress = jest.fn((_info: unknown) => {});
 const mockPlayer = {
   destroy: jest.fn(async () => {}),
   seekTo: jest.fn(),
@@ -125,6 +126,7 @@ jest.mock("@/hooks/useOrientation", () => ({
 jest.mock("@/hooks/usePlaybackManager", () => ({
   usePlaybackManager: () => ({
     reportPlaybackProgress: mockReportProgress,
+    saveLocalPlaybackProgress: mockSaveLocalProgress,
     nextItem: null,
     previousItem: null,
   }),
@@ -330,6 +332,7 @@ describe("direct player stop report", () => {
     mockRouter.setParams.mockClear();
     mockRouter.replace.mockClear();
     mockReportProgress.mockClear();
+    mockSaveLocalProgress.mockClear();
     api.mock.reset();
     api.mock.onGet(/\/Items\/item-1/).reply(200, {
       Id: "item-1",
@@ -685,6 +688,22 @@ describe("direct player stop report", () => {
       await openPlayer();
 
       expect(startedSubtitle()).toBe(-1);
+    });
+
+    // Upstream #1445: the downloads database only got the position from the
+    // progress heartbeat, so leaving the player lost up to one interval of
+    // it. The stop report that carries the final position goes to the server
+    // alone, and offline it is not sent at all.
+    test("keeps where the player was left in the downloads database", async () => {
+      await openPlayer();
+      await tick(1200);
+      await tick(1205);
+      await leavePlayer();
+
+      expect(mockSaveLocalProgress).toHaveBeenLastCalledWith({
+        ItemId: "item-1",
+        PositionTicks: 12_050_000_000,
+      });
     });
   });
 });
