@@ -8,6 +8,9 @@ on:
       pattern:
         description: Extra grep pattern (extended regex)
         default: ''
+      context:
+        description: Lines of context before each swiftinterface match
+        default: '0'
       headers:
         description: UIKit header files to print whole (space separated)
         default: ''
@@ -29,10 +32,11 @@ jobs:
           grep -rnE "$pat" "$sdk/System/Library/Frameworks/UIKit.framework/Headers" | cut -c1-400 || true
           echo "== SwiftUI / UIKit swiftinterfaces"
           for fw in SwiftUI SwiftUICore UIKit; do
+            ls "$sdk/System/Library/Frameworks/$fw.framework/Modules/" 2>/dev/null
             f=$(ls "$sdk/System/Library/Frameworks/$fw.framework/Modules/$fw.swiftmodule/"arm64e-apple-ios.swiftinterface 2>/dev/null | head -1)
             [ -z "$f" ] && f=$(ls "$sdk/System/Library/Frameworks/$fw.framework/Modules/$fw.swiftmodule/"*ios.swiftinterface 2>/dev/null | head -1)
             echo "-- $fw: $f"
-            [ -n "$f" ] && grep -nE "$pat" "$f" | cut -c1-400 | head -300
+            [ -n "$f" ] && grep -nE -B"${{ inputs.context || 0 }}" "$pat" "$f" | cut -c1-400 | head -400
           done
       - name: Print headers
         if: inputs.headers != ''
