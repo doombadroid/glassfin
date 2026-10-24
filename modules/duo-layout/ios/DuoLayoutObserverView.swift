@@ -114,7 +114,9 @@ class DuoLayoutObserverView: ExpoView {
 
     for region in regions {
       if let active = region.value(forKey: "active") as? Bool, !active { continue }
-      if let frame = (region.value(forKey: "frame") as? NSValue)?.cgRectValue {
+      if let frame = (region.value(forKey: "frame") as? NSValue)?.cgRectValue,
+        frame.width > 0, frame.height > 0
+      {
         return frame
       }
     }

@@ -13,9 +13,22 @@ private let duoLog = os.Logger(subsystem: "com.doombadroid.streamyfinnext", cate
 /// `fold` is in window coordinates. Held on a table the fold runs across the
 /// screen (tabletop); held like a book it runs down it.
 final class DuoPostureModel: ObservableObject {
+	/// Only a fold that leaves both halves usable (`minPage` each side); one
+	/// hugging an edge (mid-rotation, or barely folded) counts as none, so the
+	/// controller and the controls always agree on the layout.
 	@Published private(set) var fold: CGRect?
-	/// Radians; 0 when closed, π when flat. Nil until the hinge reports.
-	@Published private(set) var hingeAngle: Double?
+	/// Radians; 0 when closed, π when flat. Nil until the hinge reports. Not
+	/// published: it ticks continuously while folding, and only the
+	/// controller's reflection strength reads it, on the layout pass the
+	/// hinge update asks for.
+	private(set) var hingeAngle: Double?
+
+	/// The least either half can keep for the half-open layout to apply.
+	static let minPage: CGFloat = 80
+	/// Active occlusion regions (the cameras), in window coordinates. The
+	/// folded iPhone Duo's camera sits in the side strip the player's rail
+	/// moves into, so the rail keeps clear of it.
+	@Published private(set) var occlusions: [CGRect] = []
 
 	/// Starts listening for hinge changes on `view`'s hierarchy.
 	func attach(to view: UIView, onChange: @escaping () -> Void) {
@@ -32,37 +45,55 @@ final class DuoPostureModel: ObservableObject {
 		view.addInteraction(interaction)
 	}
 
-	/// Re-reads the fold. Call after layout and on hinge updates.
+	/// Re-reads the fold and the cameras. Call after layout and on hinge
+	/// updates.
 	func refresh(in view: UIView) {
-		let next = view.window.flatMap(Self.activeDivisionRegion(in:))
+		guard let window = view.window else { return }
+		let next = Self.activeRegions(kind: "divisionRegionKind", in: window).first.flatMap {
+			Self.usable(fold: $0, in: view.convert(view.bounds, to: nil))
+		}
 		if next != fold {
 			duoLog.notice("fold \(next.map { NSCoder.string(for: $0) } ?? "none", privacy: .public)")
 			fold = next
 		}
+		let cameras = Self.activeRegions(kind: "occlusionRegionKind", in: window)
+		if cameras != occlusions {
+			duoLog.notice(
+				"occlusions \(cameras.map { NSCoder.string(for: $0) }.joined(separator: " "), privacy: .public)"
+			)
+			occlusions = cameras
+		}
 	}
 
-	/// The active division region, in the window's coordinates.
+	private static func usable(fold: CGRect, in bounds: CGRect) -> CGRect? {
+		let acrossScreen = fold.width > fold.height
+		let fits =
+			acrossScreen
+			? fold.minY - bounds.minY > minPage && bounds.maxY - fold.maxY > minPage
+			: fold.minX - bounds.minX > minPage && bounds.maxX - fold.maxX > minPage
+		return fits ? fold : nil
+	}
+
+	/// Active reserved regions of one kind, in the window's coordinates.
 	/// `reservedRegionsOfKind:` is refined for Swift, so it's reached through
 	/// the Objective-C runtime instead of by a Swift name that may differ.
-	private static func activeDivisionRegion(in window: UIWindow) -> CGRect? {
-		guard #available(iOS 27.1, *) else { return nil }
+	private static func activeRegions(kind kindSelector: String, in window: UIWindow) -> [CGRect] {
+		guard #available(iOS 27.1, *) else { return [] }
 		let query = NSSelectorFromString("reservedRegionsOfKind:")
 		guard
 			window.responds(to: query),
 			let kindClass = NSClassFromString("UIViewReservedRegionKind") as? NSObject.Type,
-			let kind = kindClass.perform(NSSelectorFromString("divisionRegionKind"))?
+			let kind = kindClass.perform(NSSelectorFromString(kindSelector))?
 				.takeUnretainedValue(),
 			let regions = window.perform(query, with: kind)?.takeUnretainedValue() as? [NSObject]
-		else { return nil }
-		for region in regions {
-			if let active = region.value(forKey: "active") as? Bool, !active { continue }
-			if let frame = (region.value(forKey: "frame") as? NSValue)?.cgRectValue,
+		else { return [] }
+		return regions.compactMap { region in
+			if let active = region.value(forKey: "active") as? Bool, !active { return nil }
+			guard let frame = (region.value(forKey: "frame") as? NSValue)?.cgRectValue,
 				frame.width > 0, frame.height > 0
-			{
-				return frame
-			}
+			else { return nil }
+			return frame
 		}
-		return nil
 	}
 }
 
@@ -79,7 +110,9 @@ final class PlayerSheenModel: ObservableObject {
 	private let motion = CMMotionManager()
 	private var brightnessObserver: NSObjectProtocol?
 
+	/// Safe to call again while running.
 	func start() {
+		guard brightnessObserver == nil else { return }
 		updateIntensity()
 		brightnessObserver = NotificationCenter.default.addObserver(
 			forName: UIScreen.brightnessDidChangeNotification, object: nil, queue: .main

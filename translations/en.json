@@ -950,7 +950,13 @@
     "segment_skipped_outro": "Credits skipped",
     "segment_skipped_recap": "Recap skipped",
     "segment_skipped_commercial": "Commercial skipped",
-    "segment_skipped_preview": "Preview skipped"
+    "segment_skipped_preview": "Preview skipped",
+    "previous_episode": "Previous episode",
+    "previous_chapter": "Previous chapter",
+    "next_chapter": "Next chapter",
+    "seek_backward": "Skip back",
+    "seek_forward": "Skip forward",
+    "pause": "Pause"
   },
   "chapters": {
     "title": "Chapters",

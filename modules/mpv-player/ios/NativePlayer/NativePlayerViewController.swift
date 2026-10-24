@@ -357,18 +357,10 @@ final class NativePlayerViewController: UIViewController {
 			exitTabletop()
 			return
 		}
+		// DuoPostureModel only reports a fold that leaves both halves usable.
 		let fold = view.convert(windowFold, from: nil)
 		let bounds = view.bounds
 		let acrossScreen = fold.width > fold.height
-		let minPage: CGFloat = 80
-		guard
-			acrossScreen
-				? fold.minY > minPage && fold.maxY < bounds.height - minPage
-				: fold.minX > minPage && fold.maxX < bounds.width - minPage
-		else {
-			exitTabletop()
-			return
-		}
 
 		let videoSize = CGSize(
 			width: CGFloat(viewModel.videoWidth ?? 16),
@@ -385,8 +377,8 @@ final class NativePlayerViewController: UIViewController {
 		if engine.displayLayer.superlayer !== reflectionLayer {
 			videoContainerView.layer.addSublayer(reflectionLayer)
 			reflectionLayer.addSublayer(engine.displayLayer)
-			sheen.start()
 		}
+		if isViewVisible { sheen.start() }
 		reflectionLayer.frame = fit
 		engine.displayLayer.frame = reflectionLayer.bounds
 
@@ -475,6 +467,10 @@ final class NativePlayerViewController: UIViewController {
 		isViewVisible = true
 		engine.setPictureInPictureHostVisible(true)
 		UIApplication.shared.isIdleTimerDisabled = viewModel.isPlaying
+		#if os(iOS)
+		// Back from a sheet or the background while half open.
+		if engine.displayLayer.superlayer === reflectionLayer { sheen.start() }
+		#endif
 		#if os(tvOS)
 		// The initial zone activation ran at viewDidLoad time, before the
 		// view joined a window — no focus system existed and the kick was

@@ -11,7 +11,12 @@ struct PlayerControlsRootView: View {
 	@ObservedObject var viewModel: PlayerViewModel
 	/// iPhone Duo hinge and fold (window coordinates).
 	@ObservedObject var posture: DuoPostureModel
-	@ObservedObject var sheen: PlayerSheenModel
+	/// Not observed here: it ticks at 30 Hz, and only the capsules' glow
+	/// (CapsuleSheen) reads it.
+	let sheen: PlayerSheenModel
+	/// Whether the rail fitted the transport; when not, it rides in the row
+	/// by the scrubber. Set by the rail as it lays out.
+	@State private var railHoldsTransport = true
 
 	private enum DragAxis { case horizontal, vertical }
 
@@ -42,6 +47,7 @@ struct PlayerControlsRootView: View {
 				bottomSafeAreaInset: geometry.safeAreaInsets.bottom,
 				layout: DuoLayout(
 					origin: geometry.frame(in: .global).origin,
+					size: geometry.size,
 					safeArea: geometry.safeAreaInsets,
 					posture: posture
 				)
@@ -53,10 +59,28 @@ struct PlayerControlsRootView: View {
 		ZStack {
 			if let fold = layout.halfOpenFold {
 				// Half open: video on one half, every control on the other
-				// (TabletopDeck), over the video's reflection.
-				if !viewModel.controlsLocked {
+				// (TabletopDeck), over the video's reflection. Locked, taps
+				// only reveal the unlock pill, as they do full screen.
+				if viewModel.controlsLocked {
+					Color.clear
+						.contentShape(Rectangle())
+						.onTapGesture { handleSurfaceTap() }
+				} else {
 					TabletopDeck(viewModel: viewModel, sheen: sheen, fold: fold, size: size)
 						.zIndex(1)
+					if volumeSliderVisible {
+						// A hardware volume press still shows its level.
+						HStack {
+							Spacer()
+							VolumeSliderView(
+								viewModel: viewModel,
+								controller: viewModel.volumeController
+							)
+						}
+						.padding(.horizontal)
+						.transition(.opacity)
+						.zIndex(2)
+					}
 				}
 			} else {
 				// Tap-to-toggle catcher behind everything interactive; also the
@@ -75,7 +99,7 @@ struct PlayerControlsRootView: View {
 					// and must cover the play/skip buttons in landscape, not duck
 					// under them. Hit-testing is unaffected — the layer's empty
 					// middle isn't tappable.
-					railChrome(size: size, edge: layout.chromeEdge)
+					railChrome(layout: layout)
 						.transition(.opacity)
 						.zIndex(1)
 				}
@@ -105,15 +129,12 @@ struct PlayerControlsRootView: View {
 
 			if layout.halfOpenFold == nil {
 				adaptivePlaybackChrome(bottomSafeAreaInset: bottomSafeAreaInset)
-					.padding(edgeSet(layout.chromeEdge), Self.railReserve)
+					.padding(edgeSet(layout.chromeEdge), layout.contentReserve)
 
 				if viewModel.controlsVisible {
-					fullWidthBottomChrome(
-						edge: layout.chromeEdge,
-						transportInRail: transportFitsRail(size: size)
-					)
-					.transition(.opacity)
-					.zIndex(1)
+					fullWidthBottomChrome(layout: layout)
+						.transition(.opacity)
+						.zIndex(1)
 				}
 			}
 
@@ -229,35 +250,6 @@ struct PlayerControlsRootView: View {
 		.animation(.easeInOut(duration: 0.15), value: viewModel.doubleTapSeekForward)
 		.onPreferenceChange(BottomBarHeightPreferenceKey.self) { height in
 			bottomBarHeight = height
-		}
-		.overlayPreferenceValue(PlayerChromeAnchorPreferenceKey.self) { anchors in
-			GeometryReader { geometry in
-				if viewModel.controlsVisible,
-					let scrubberAnchor = anchors.scrubber {
-					let scrubberFrame = geometry[scrubberAnchor]
-					let chapterMinY = anchors.brightness.map { geometry[$0].maxY }
-						?? scrubberFrame.minY
-					let chapterHeight = max(scrubberFrame.midY - chapterMinY, 0)
-					let chapterMaxX = anchors.chapterObstructions
-						.map { geometry[$0].minX }
-						.min() ?? scrubberFrame.maxX
-					let chapterWidth = max(chapterMaxX - scrubberFrame.minX, 0)
-					if chapterWidth > 0, chapterHeight > 0 {
-						CurrentChapterLabel(viewModel: viewModel, time: viewModel.time)
-							.frame(
-								width: chapterWidth,
-								height: chapterHeight,
-								alignment: .leading
-							)
-							.clipped()
-							.position(
-								x: scrubberFrame.minX + chapterWidth / 2,
-								y: chapterMinY + chapterHeight / 2
-							)
-							.allowsHitTesting(false)
-					}
-				}
-			}
 		}
 		.animation(.easeInOut(duration: 0.2), value: viewModel.controlsVisible)
 		// SwiftUI never delivers onEnded when the SYSTEM cancels the touch
@@ -460,30 +452,25 @@ struct PlayerControlsRootView: View {
 		viewModel.scheduleAutoHide()
 	}
 
-	/// Room kept clear on the rail's side for the rail: a 44pt button, the
-	/// capsule's padding, and a gap.
-	private static let railReserve: CGFloat = 44 + 8 + 20
-
 	private func edgeSet(_ edge: HorizontalEdge) -> Edge.Set {
 		edge == .leading ? .leading : .trailing
 	}
 
-	/// Whether the rail is tall enough to hold the transport as well.
-	private func transportFitsRail(size: CGSize) -> Bool {
-		size.height - 16 >= PlayerRail.heightWithTransport(viewModel: viewModel)
-	}
-
-	/// The edge rail: close and menus at the top, transport at the bottom, on
-	/// the side the system keeps its vertical bar (the right, unless the
-	/// folded iPhone Duo's strip is on the left).
-	private func railChrome(size: CGSize, edge: HorizontalEdge) -> some View {
+	/// The edge rail: close and menus at the top, transport at the bottom.
+	/// With a side strip (the folded iPhone Duo) it sits in the strip, as
+	/// Netflix's does, clear of the camera; otherwise on the right, where iOS
+	/// puts its own vertical bar.
+	private func railChrome(layout: DuoLayout) -> some View {
 		HStack(spacing: 0) {
-			if edge == .trailing { Spacer(minLength: 0) }
-			PlayerRail(viewModel: viewModel, showsTransport: transportFitsRail(size: size))
-			if edge == .leading { Spacer(minLength: 0) }
+			if layout.chromeEdge == .trailing { Spacer(minLength: 0) }
+			PlayerRail(viewModel: viewModel, holdsTransport: $railHoldsTransport)
+				.padding(.top, layout.railTopClear)
+				.padding(.bottom, layout.railBottomClear)
+			if layout.chromeEdge == .leading { Spacer(minLength: 0) }
 		}
-		.padding(.horizontal, 12)
+		.padding(.horizontal, DuoLayout.railMargin)
 		.padding(.vertical, 8)
+		.offset(x: layout.railOffset)
 	}
 
 	private var brightnessSliderVisible: Bool {
@@ -503,12 +490,6 @@ struct PlayerControlsRootView: View {
 					viewModel: viewModel,
 					controller: viewModel.brightnessController
 				)
-				.anchorPreference(
-					key: PlayerChromeAnchorPreferenceKey.self,
-					value: .bounds
-				) { anchor in
-					PlayerChromeAnchors(brightness: anchor)
-				}
 				.transition(.opacity)
 			} else if viewModel.controlsVisible && volumeSliderVisible {
 				VolumeSliderView(
@@ -560,12 +541,6 @@ struct PlayerControlsRootView: View {
 						.padding(.vertical, 10)
 						.background(.ultraThinMaterial, in: Capsule())
 						.overlay(Capsule().stroke(.white.opacity(0.2), lineWidth: 1))
-						.anchorPreference(
-							key: PlayerChromeAnchorPreferenceKey.self,
-							value: .bounds
-						) { anchor in
-							PlayerChromeAnchors(chapterObstructions: [anchor])
-						}
 						.transition(.opacity)
 				}
 				Spacer()
@@ -574,20 +549,8 @@ struct PlayerControlsRootView: View {
 						NextEpisodeCountdownView(
 							viewModel: viewModel, next: next, remaining: countdown
 						)
-						.anchorPreference(
-							key: PlayerChromeAnchorPreferenceKey.self,
-							value: .bounds
-						) { anchor in
-							PlayerChromeAnchors(chapterObstructions: [anchor])
-						}
 					} else if let segment = viewModel.activeSegment, segment.skipMode != "auto" {
 						SkipSegmentButton(viewModel: viewModel, segment: segment)
-							.anchorPreference(
-								key: PlayerChromeAnchorPreferenceKey.self,
-								value: .bounds
-							) { anchor in
-								PlayerChromeAnchors(chapterObstructions: [anchor])
-							}
 					}
 				}
 			}
@@ -598,21 +561,33 @@ struct PlayerControlsRootView: View {
 		)
 	}
 
-	/// Bottom-left: the title badge over the scrubber, beside the rail. On a
-	/// screen too short for the transport in the rail, it sits in a row here.
-	private func fullWidthBottomChrome(edge: HorizontalEdge, transportInRail: Bool) -> some View {
+	/// Bottom-left: the title badge, the current chapter and the scrubber,
+	/// beside the rail. When the rail couldn't fit the transport it sits by
+	/// the badge, or under it when the width runs out.
+	private func fullWidthBottomChrome(layout: DuoLayout) -> some View {
 		VStack(spacing: 0) {
 			Spacer()
-			VStack(alignment: .leading, spacing: 10) {
-				HStack(alignment: .center) {
+			VStack(alignment: .leading, spacing: 8) {
+				if railHoldsTransport {
 					NowPlayingBadge(viewModel: viewModel)
-					Spacer(minLength: 12)
-					if !transportInRail {
-						GlassCapsule(vertical: false) {
-							RailTransport(viewModel: viewModel, vertical: false)
+				} else {
+					ViewThatFits(in: .horizontal) {
+						HStack(alignment: .center) {
+							NowPlayingBadge(viewModel: viewModel)
+							Spacer(minLength: 12)
+							TransportRow(viewModel: viewModel)
+						}
+						VStack(alignment: .leading, spacing: 10) {
+							NowPlayingBadge(viewModel: viewModel)
+							HStack {
+								Spacer(minLength: 0)
+								TransportRow(viewModel: viewModel)
+								Spacer(minLength: 0)
+							}
 						}
 					}
 				}
+				CurrentChapterLabel(viewModel: viewModel, time: viewModel.time)
 				PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
 			}
 			.background {
@@ -625,7 +600,7 @@ struct PlayerControlsRootView: View {
 			}
 		}
 		.padding(.horizontal)
-		.padding(edgeSet(edge), Self.railReserve - 16)
+		.padding(edgeSet(layout.chromeEdge), layout.contentReserve)
 	}
 
 	private func errorOverlay(message: String) -> some View {
@@ -658,31 +633,82 @@ struct PlayerControlsRootView: View {
 	}
 }
 
-/// The iPhone Duo posture, in the root view's own coordinates.
+/// The iPhone Duo posture, in the root view's own coordinates (the safe
+/// area's), and where the controls rail goes.
 private struct DuoLayout {
 	/// The fold while half open: across the screen on a table, down it held
 	/// like a book.
 	let halfOpenFold: CGRect?
-	/// Folded in landscape the sensor strip leaves one side's inset much
-	/// bigger than the other's; the top bar's buttons stack down that side.
+	/// Folded, the system's side strip leaves one side's inset much bigger
+	/// than the other's; the rail runs down that side.
 	let railEdge: HorizontalEdge?
-	/// The side the controls rail runs down: the strip's side when there is
-	/// one, else the right, where iOS puts its own vertical bar.
+	/// The side the rail runs down: the strip's when there is one, else the
+	/// right, where iOS puts its own vertical bar.
 	var chromeEdge: HorizontalEdge { railEdge ?? .trailing }
+	/// How far the rail moves sideways from its place inside the safe area:
+	/// into the middle of the strip when there's one wide enough for it.
+	let railOffset: CGFloat
+	/// Room the rail keeps above and below itself for the camera in the strip.
+	let railTopClear: CGFloat
+	let railBottomClear: CGFloat
+	/// Room the content (sliders, badge, scrubber) leaves on the rail's side:
+	/// the rail's width when the rail sits over the content, none when it sits
+	/// out in the strip.
+	let contentReserve: CGFloat
 
+	/// Gap between the rail and the safe area's edge.
+	static let railMargin: CGFloat = 12
+	/// A 44pt button plus the capsule's 4pt padding each side.
+	private static let railWidth: CGFloat = 52
 	/// A side inset at least this much bigger than the other one means a
 	/// strip on that edge, not a notch both sides share.
 	private static let railMinAsymmetry: CGFloat = 20
 
-	init(origin: CGPoint, safeArea: EdgeInsets, posture: DuoPostureModel) {
+	init(origin: CGPoint, size: CGSize, safeArea: EdgeInsets, posture: DuoPostureModel) {
 		let local = { (rect: CGRect) in rect.offsetBy(dx: -origin.x, dy: -origin.y) }
 		halfOpenFold = posture.fold.map(local)
+
 		let difference = safeArea.trailing - safeArea.leading
-		if halfOpenFold != nil || abs(difference) < Self.railMinAsymmetry {
-			railEdge = nil
-		} else {
-			railEdge = difference > 0 ? .trailing : .leading
+		let edge: HorizontalEdge? =
+			halfOpenFold == nil && abs(difference) >= Self.railMinAsymmetry
+			? (difference > 0 ? .trailing : .leading)
+			: nil
+		railEdge = edge
+
+		let stripWidth: CGFloat =
+			edge == .trailing ? safeArea.trailing : edge == .leading ? safeArea.leading : 0
+		guard let edge, stripWidth >= Self.railWidth + 8 else {
+			railOffset = 0
+			railTopClear = 0
+			railBottomClear = 0
+			contentReserve = Self.railMargin + Self.railWidth + 8
+			return
 		}
+
+		// From railMargin inside the safe area's edge to the strip's middle.
+		let shift = stripWidth / 2 + Self.railMargin + Self.railWidth / 2
+		railOffset = edge == .trailing ? shift : -shift
+		contentReserve = 0
+
+		// Keep clear of any camera in the strip's column. The rail already
+		// sits 8pt in from the top and bottom of the safe area.
+		let column = CGRect(
+			x: edge == .trailing ? size.width : -stripWidth,
+			y: -safeArea.top,
+			width: stripWidth,
+			height: size.height + safeArea.top + safeArea.bottom
+		)
+		var top: CGFloat = 0
+		var bottom: CGFloat = 0
+		for camera in posture.occlusions.map(local) where camera.intersects(column) {
+			if camera.midY < size.height / 2 {
+				top = max(top, camera.maxY)
+			} else {
+				bottom = max(bottom, size.height - camera.minY)
+			}
+		}
+		railTopClear = top
+		railBottomClear = bottom
 	}
 }
 
@@ -691,33 +717,6 @@ private struct BottomBarHeightPreferenceKey: PreferenceKey {
 
 	static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
 		value = max(value, nextValue())
-	}
-}
-
-private struct PlayerChromeAnchors {
-	var brightness: Anchor<CGRect>?
-	var scrubber: Anchor<CGRect>?
-	var chapterObstructions: [Anchor<CGRect>]
-
-	init(
-		brightness: Anchor<CGRect>? = nil,
-		scrubber: Anchor<CGRect>? = nil,
-		chapterObstructions: [Anchor<CGRect>] = []
-	) {
-		self.brightness = brightness
-		self.scrubber = scrubber
-		self.chapterObstructions = chapterObstructions
-	}
-}
-
-private struct PlayerChromeAnchorPreferenceKey: PreferenceKey {
-	static var defaultValue = PlayerChromeAnchors()
-
-	static func reduce(value: inout PlayerChromeAnchors, nextValue: () -> PlayerChromeAnchors) {
-		let next = nextValue()
-		value.brightness = next.brightness ?? value.brightness
-		value.scrubber = next.scrubber ?? value.scrubber
-		value.chapterObstructions.append(contentsOf: next.chapterObstructions)
 	}
 }
 
@@ -818,12 +817,6 @@ struct PlayerBottomBar: View {
 
 		VStack(alignment: .leading, spacing: 6) {
 			ScrubberView(viewModel: viewModel, time: time)
-				.anchorPreference(
-					key: PlayerChromeAnchorPreferenceKey.self,
-					value: .bounds
-				) { anchor in
-					PlayerChromeAnchors(scrubber: anchor)
-				}
 			HStack(alignment: .top) {
 				Text(formatTime(position))
 				Spacer()

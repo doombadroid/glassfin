@@ -9,7 +9,8 @@ import UIKit
 /// screen) dims.
 struct TabletopDeck: View {
 	@ObservedObject var viewModel: PlayerViewModel
-	@ObservedObject var sheen: PlayerSheenModel
+	/// Not observed here: only the capsules' glow reads its 30 Hz ticks.
+	let sheen: PlayerSheenModel
 	/// The fold, in this view's coordinate space.
 	let fold: CGRect
 	let size: CGSize
@@ -23,7 +24,7 @@ struct TabletopDeck: View {
 				Color.clear
 					.frame(height: max(0, fold.maxY))
 					.allowsHitTesting(false)
-				deck(compact: size.width < 500)
+				deck
 					.padding(.horizontal, 16)
 					.padding(.top, 14)
 				Spacer(minLength: 8)
@@ -34,7 +35,7 @@ struct TabletopDeck: View {
 				Color.clear
 					.frame(width: max(0, fold.maxX))
 					.allowsHitTesting(false)
-				deck(compact: size.width - fold.maxX < 500)
+				deck
 					.padding(.horizontal, 16)
 					.frame(maxHeight: .infinity)
 			}
@@ -44,7 +45,7 @@ struct TabletopDeck: View {
 
 	/// No panel: the capsules float over the reflection, as on Netflix, and
 	/// carry the light-reactive glow themselves.
-	private func deck(compact: Bool) -> some View {
+	private var deck: some View {
 		VStack(alignment: .leading, spacing: 16) {
 			ViewThatFits(in: .horizontal) {
 				HStack(alignment: .center, spacing: 12) {
@@ -59,12 +60,15 @@ struct TabletopDeck: View {
 			}
 			PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
 			HStack {
-				Spacer()
-				GlassCapsule(vertical: false, sheen: sheen) {
-					RailTransport(viewModel: viewModel, vertical: false)
-				}
-				.scaleEffect(compact ? 1 : 1.15)
-				Spacer()
+				Spacer(minLength: 0)
+				TransportRow(viewModel: viewModel, sheen: sheen)
+				Spacer(minLength: 0)
+			}
+			if let notice = viewModel.skippedSegmentNotice {
+				Text(notice)
+					.font(.subheadline.weight(.medium))
+					.foregroundStyle(.white)
+					.frame(maxWidth: .infinity, alignment: .center)
 			}
 			if !viewModel.controlsLocked {
 				if let countdown = viewModel.countdownRemaining, let next = viewModel.nextEpisode {

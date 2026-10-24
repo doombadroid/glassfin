@@ -89,27 +89,34 @@ private struct CapsuleSheen: View {
 
 /// Previous episode, previous chapter, back, play/pause, forward, next
 /// chapter, next episode: the episode and chapter jumps only where they
-/// apply. Play is the one filled control, in the app's accent.
+/// apply, and dropped in `compact` form where there's no room. Play is the
+/// one filled control, in the app's accent.
 struct RailTransport: View {
 	@ObservedObject var viewModel: PlayerViewModel
-	var vertical = true
+	/// The chapter jumps' enabled state follows the playback position, which
+	/// ticks on this model rather than the view model.
+	@ObservedObject var time: PlaybackTimeModel
+	var compact = false
 
 	private static let accent = Color(red: 0x8F / 255, green: 0xE6 / 255, blue: 0xCB / 255)
+	/// How far a jump with nowhere to go fades.
+	private static let unavailableOpacity = 0.35
 
 	var body: some View {
 		if showsEpisodeJumps {
 			button("backward.end") {
 				viewModel.playPreviousEpisode()
 			}
-			.disabled(viewModel.isSyncPlayActive && viewModel.syncPlay?.hasPrevious != true)
+			.opacity(hasPreviousEpisode ? 1 : Self.unavailableOpacity)
+			.disabled(!hasPreviousEpisode)
 			.accessibilityLabel(viewModel.str("previousEpisode", "Previous episode"))
 		}
 
-		if hasChapters {
+		if showsChapterJumps {
 			button("backward") {
 				viewModel.goToPreviousChapter()
 			}
-			.opacity(viewModel.hasPreviousChapter ? 1 : 0.35)
+			.opacity(viewModel.hasPreviousChapter ? 1 : Self.unavailableOpacity)
 			.disabled(!viewModel.hasPreviousChapter)
 			.accessibilityLabel(viewModel.str("previousChapter", "Previous chapter"))
 		}
@@ -140,11 +147,11 @@ struct RailTransport: View {
 		}
 		.accessibilityLabel(viewModel.str("seekForward", "Forward"))
 
-		if hasChapters {
+		if showsChapterJumps {
 			button("forward") {
 				viewModel.goToNextChapter()
 			}
-			.opacity(viewModel.hasNextChapter ? 1 : 0.35)
+			.opacity(viewModel.hasNextChapter ? 1 : Self.unavailableOpacity)
 			.disabled(!viewModel.hasNextChapter)
 			.accessibilityLabel(viewModel.str("nextChapter", "Next chapter"))
 		}
@@ -153,7 +160,7 @@ struct RailTransport: View {
 			button("forward.end") {
 				viewModel.playNextEpisode()
 			}
-			.opacity(hasNextEpisode ? 1 : 0.35)
+			.opacity(hasNextEpisode ? 1 : Self.unavailableOpacity)
 			.disabled(!hasNextEpisode)
 			.accessibilityLabel(viewModel.str("nextEpisode", "Next episode"))
 		}
@@ -161,23 +168,20 @@ struct RailTransport: View {
 
 	/// Same rule as the old centre row: episodes and SyncPlay queues.
 	private var showsEpisodeJumps: Bool {
-		viewModel.isSyncPlayActive || viewModel.metadata?.isEpisode == true
+		!compact && (viewModel.isSyncPlayActive || viewModel.metadata?.isEpisode == true)
 	}
 
-	private var hasChapters: Bool { !viewModel.chapters.isEmpty }
+	private var showsChapterJumps: Bool { !compact && !viewModel.chapters.isEmpty }
+
+	/// Outside SyncPlay the previous episode is always reachable, as before.
+	private var hasPreviousEpisode: Bool {
+		!viewModel.isSyncPlayActive || viewModel.syncPlay?.hasPrevious == true
+	}
 
 	private var hasNextEpisode: Bool {
 		viewModel.isSyncPlayActive
 			? viewModel.syncPlay?.hasNext == true
 			: viewModel.nextEpisode != nil
-	}
-
-	/// Buttons the transport shows for this item.
-	static func buttonCount(viewModel: PlayerViewModel) -> Int {
-		var count = 3 // back, play, forward
-		if viewModel.isSyncPlayActive || viewModel.metadata?.isEpisode == true { count += 2 }
-		if !viewModel.chapters.isEmpty { count += 2 }
-		return count
 	}
 
 	private func button(_ systemName: String, action: @escaping () -> Void) -> some View {
@@ -188,6 +192,27 @@ struct RailTransport: View {
 				.frame(width: 44, height: 44)
 				.contentShape(Rectangle())
 		}
+	}
+}
+
+/// The transport as a row, for the bottom of the screen or the tabletop deck:
+/// every jump when it fits the width, just back/play/forward when it doesn't.
+struct TransportRow: View {
+	@ObservedObject var viewModel: PlayerViewModel
+	var sheen: PlayerSheenModel?
+
+	var body: some View {
+		ViewThatFits(in: .horizontal) {
+			capsule(compact: false)
+			capsule(compact: true)
+		}
+	}
+
+	private func capsule(compact: Bool) -> some View {
+		GlassCapsule(vertical: false, sheen: sheen) {
+			RailTransport(viewModel: viewModel, time: viewModel.time, compact: compact)
+		}
+		.fixedSize()
 	}
 }
 
@@ -211,39 +236,34 @@ struct NowPlayingBadge: View {
 }
 
 /// The edge rail: close and the menus up top, transport at the bottom. When
-/// the screen is too short for both (folded, in landscape) the caller leaves
-/// the transport out of the rail (`heightWithTransport`) and puts it in a row
-/// by the scrubber.
+/// the rail is too short for both (folded, in landscape) the transport is left
+/// out, `holdsTransport` turns false, and the caller puts it in a row by the
+/// scrubber instead.
 struct PlayerRail: View {
 	@ObservedObject var viewModel: PlayerViewModel
 	var sheen: PlayerSheenModel?
-	let showsTransport: Bool
+	@Binding var holdsTransport: Bool
 
 	var body: some View {
+		ViewThatFits(in: .vertical) {
+			column(withTransport: true)
+			column(withTransport: false)
+		}
+	}
+
+	private func column(withTransport: Bool) -> some View {
 		VStack(spacing: 12) {
 			GlassCapsule(sheen: sheen) {
 				PlayerTopBar(viewModel: viewModel, compact: true, vertical: true)
 			}
 			Spacer(minLength: 12)
-			if showsTransport {
+			if withTransport {
 				GlassCapsule(sheen: sheen) {
-					RailTransport(viewModel: viewModel)
+					RailTransport(viewModel: viewModel, time: viewModel.time)
 				}
 			}
 		}
-	}
-
-	/// Points the rail needs with the transport in it, given the items it
-	/// shows. Each button is 44pt; capsules pad 4pt each end; 12pt between.
-	static func heightWithTransport(viewModel: PlayerViewModel) -> CGFloat {
-		var actions = 2 // close, More
-		if viewModel.isSyncPlayActive { actions += 1 }
-		if viewModel.engine?.isPictureInPictureSupported() == true { actions += 1 }
-		if !viewModel.isSyncPlayActive && !viewModel.episodeList.isEmpty { actions += 1 }
-		if !viewModel.audioMenu.isEmpty { actions += 1 }
-		if !viewModel.subtitleMenu.isEmpty { actions += 1 }
-		let transport = RailTransport.buttonCount(viewModel: viewModel)
-		return CGFloat(actions + transport) * 44 + 16 + 12 + 24
+		.onAppear { holdsTransport = withTransport }
 	}
 }
 #endif
