@@ -51,7 +51,7 @@ Navigation:
 - `introsheet-rendering-location` | IntroSheet in IntroSheetProvider affects native bottom tabs via nav state hooks
 - `intro-modal-trigger-location` | Trigger in Home.tsx, not tabs _layout.tsx
 - `expo-router-top-tabs-runtime-peers` | js-top-tabs requires react-native-tab-view (+ pager-view) at runtime; no import shows it, removing them crashes on launch
-- `ios27-sdk-tab-bar-items-display-order` | linked against the iOS 27 SDK, UITabBar.items is in display order (search last) and the detached button is TabRole.prominent; patched in react-native-bottom-tabs
+- `ios27-sdk-tab-bar-items-display-order` | linked against the iOS 27 SDK, UITabBar.items is in display order (search last), patched in react-native-bottom-tabs; keep the search role `.search`, `.prominent` loses the search field in the tab bar
 
 UI and headers:
 - `macos-header-buttons-fix` | macOS Catalyst: use RNGH Pressable, not RN TouchableOpacity
