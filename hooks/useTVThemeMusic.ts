@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { Platform } from "react-native";
 import { apiAtom, userAtom } from "@/providers/JellyfinProvider";
 import { useSettings } from "@/utils/atoms/settings";
+import { isVideoSessionOpen, onVideoSessionOpened } from "@/utils/videoSession";
 
 const TARGET_VOLUME = 0.3;
 const FADE_IN_DURATION = 2000;
@@ -84,7 +85,8 @@ async function teardownSharedPlayer(): Promise<void> {
       activeFade = fade;
       await fade.promise;
       activeFade = null;
-      player.pause();
+      // A video took the player off during the fade and stopped it already.
+      if (sharedPlayer === player) player.pause();
     }
   } catch {
     // ignore
@@ -95,6 +97,28 @@ async function teardownSharedPlayer(): Promise<void> {
     currentSongId = null;
   }
 }
+
+/**
+ * Playback opens over the item page, which stays mounted under the player, so
+ * nothing else stops the theme when a video starts. No fade, which would
+ * overlap the video, and no pause: 100 ms after a pause expo-audio deactivates
+ * the app's audio session, the one the video has just started on. remove()
+ * stops the player without that.
+ */
+function stopForVideo() {
+  const player = sharedPlayer;
+  if (!player) return;
+  activeFade?.cancel();
+  activeFade = null;
+  sharedPlayer = null;
+  currentSongId = null;
+  try {
+    player.remove();
+  } catch {
+    // ignore
+  }
+}
+onVideoSessionOpened(stopForVideo);
 
 /** Begin cleanup idempotently; returns the shared promise. */
 function beginCleanup(): Promise<void> {
@@ -158,7 +182,7 @@ export function useTVThemeMusic(itemId: string | undefined) {
         await beginCleanup();
       }
 
-      if (!mounted) return;
+      if (!mounted || isVideoSessionOpen()) return;
 
       const player = createAudioPlayer(null);
       sharedPlayer = player;
@@ -186,7 +210,8 @@ export function useTVThemeMusic(itemId: string | undefined) {
         player.replace({ uri: url });
 
         if (!mounted || sharedPlayer !== player) {
-          player.pause();
+          // Whoever took the player off stopped it already.
+          if (sharedPlayer === player) player.pause();
           return;
         }
 
