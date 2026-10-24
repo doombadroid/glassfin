@@ -7,13 +7,14 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Text } from "@/components/common/Text";
 import { Loader } from "@/components/Loader";
 import { LibraryItemCard } from "@/components/library/LibraryItemCard";
 import { apiAtom, userAtom } from "@/providers/JellyfinProvider";
 import { useSettings } from "@/utils/atoms/settings";
+import { libraryCardColumns } from "@/utils/library/libraryCardColumns";
 
 export const Libraries: React.FC = () => {
   const [api] = useAtom(apiAtom);
@@ -64,6 +65,14 @@ export const Libraries: React.FC = () => {
   }, [data, api, queryClient, user?.Id]);
 
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
+  const isRow = settings?.libraryOptions?.display === "row";
+  const columns = isRow
+    ? 1
+    : libraryCardColumns(width - insets.left - insets.right - 34);
+  // Half the gap between two columns, taken back from the side padding so the
+  // outer cards still line up with the rest of the app.
+  const cellPadding = columns > 1 ? 8 : 0;
 
   if (isLoading)
     return (
@@ -83,20 +92,26 @@ export const Libraries: React.FC = () => {
 
   return (
     <FlashList
+      key={columns}
+      numColumns={columns}
       extraData={settings}
       contentInsetAdjustmentBehavior='automatic'
       contentContainerStyle={{
         paddingTop: Platform.OS === "android" ? 17 : 0,
-        paddingHorizontal: settings?.libraryOptions?.display === "row" ? 0 : 17,
+        paddingHorizontal: isRow ? 0 : 17,
         paddingBottom: 150,
-        paddingLeft: insets.left + 17,
-        paddingRight: insets.right + 17,
+        paddingLeft: insets.left + 17 - cellPadding,
+        paddingRight: insets.right + 17 - cellPadding,
       }}
       data={libraries}
-      renderItem={({ item }) => <LibraryItemCard library={item} />}
+      renderItem={({ item }) => (
+        <View style={{ flex: 1, paddingHorizontal: cellPadding }}>
+          <LibraryItemCard library={item} />
+        </View>
+      )}
       keyExtractor={(item) => item.Id || ""}
       ItemSeparatorComponent={() =>
-        settings?.libraryOptions?.display === "row" ? (
+        isRow ? (
           <View
             style={{
               height: StyleSheet.hairlineWidth,
