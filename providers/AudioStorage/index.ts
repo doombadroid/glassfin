@@ -29,8 +29,8 @@ import type {
 } from "./types";
 
 // Directory names
-const AUDIO_CACHE_DIR = "streamyfin-audio-cache";
-const AUDIO_PERMANENT_DIR = "streamyfin-audio";
+const AUDIO_CACHE_DIR = "glassfin-audio-cache";
+const AUDIO_PERMANENT_DIR = "glassfin-audio";
 
 // Default limits
 const DEFAULT_MAX_CACHE_TRACKS = 10;

@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name           = 'TopShelfCache'
   s.version        = '1.0.0'
-  s.summary        = 'Shared Top Shelf cache writer for Streamyfin tvOS'
+  s.summary        = 'Shared Top Shelf cache writer for Glassfin tvOS'
   s.description    = 'Writes lightweight Top Shelf cache payloads to an App Group container for the tvOS extension.'
-  s.author         = 'Streamyfin'
-  s.homepage       = 'https://github.com/streamyfin/streamyfin'
+  s.author         = 'Glassfin'
+  s.homepage       = 'https://github.com/doombadroid/glassfin'
   s.platforms      = {
     :ios => '15.1',
     :tvos => '15.1'

@@ -70,7 +70,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       "expo-camera",
       {
         cameraPermission:
-          "Allow Streamyfin to access the camera to scan QR codes for TV login.",
+          "Allow Glassfin to access the camera to scan QR codes for TV login.",
       },
     ]);
   }

@@ -253,7 +253,7 @@ export default function SettingsTV() {
               storage.remove("downloadedSubtitles.json");
               const subtitlesDir = new Directory(
                 Paths.cache,
-                "streamyfin-subtitles",
+                "glassfin-subtitles",
               );
               if (subtitlesDir.exists) {
                 await subtitlesDir.delete();

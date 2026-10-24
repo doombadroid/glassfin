@@ -5,12 +5,12 @@ import os
 
 /// Shared logger for the TV focus machinery — read from the simulator with:
 /// xcrun simctl spawn booted log show --last 5m --info \
-///   --predicate 'subsystem == "com.fredrikburmester.streamyfin"'
+///   --predicate 'subsystem == "com.doombadroid.glassfin"'
 /// (`--info` is required: these are info-level records. os.Logger spelled
 /// out because this module has its own `Logger` type that shadows it.)
 enum TVFocusLog {
 	static let log = os.Logger(
-		subsystem: "com.fredrikburmester.streamyfin", category: "tvfocus")
+		subsystem: "com.doombadroid.glassfin", category: "tvfocus")
 }
 
 /// The focus zones of the TV player — one per hosted SwiftUI layer that can

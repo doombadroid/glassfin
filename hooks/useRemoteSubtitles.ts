@@ -229,7 +229,7 @@ export function useRemoteSubtitles({
       // Use cache directory for both platforms (tvOS has permission issues with documents)
       // TV: Uses itemId prefix for organization and persists metadata
       // Mobile: Simple filename, no persistence
-      const subtitlesDir = new Directory(Paths.cache, "streamyfin-subtitles");
+      const subtitlesDir = new Directory(Paths.cache, "glassfin-subtitles");
 
       // Ensure directory exists
       if (!subtitlesDir.exists) {

@@ -122,7 +122,7 @@
       "disable": "Wyłącz karuzelę główną"
     },
     "intro": {
-      "welcome_to_streamyfin": "Witamy w Glassfin",
+      "welcome": "Witamy w Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Darmowy i otwartoźródłowy klient dla Jellyfin.",
       "features_title": "Funkcje",
       "features_description": "Glassfin ma wiele funkcji i współpracuje z innym oprogramowaniem. Znajdziesz je w menu ustawień:",

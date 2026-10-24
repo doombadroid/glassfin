@@ -4,7 +4,7 @@
   import os
 
   private let liveActivityLog = Logger(
-    subsystem: "com.fredrikburmester.streamyfin",
+    subsystem: "com.doombadroid.glassfin",
     category: "LiveActivity"
   )
 
@@ -60,7 +60,7 @@
     }
 
     private let queue = DispatchQueue(
-      label: "com.fredrikburmester.streamyfin.downloadliveactivity"
+      label: "com.doombadroid.glassfin.downloadliveactivity"
     )
     private var tracker: Tracker?
     private var isEnabled = true

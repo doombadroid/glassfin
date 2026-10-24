@@ -29,7 +29,7 @@ const colors = {
 const border = "━".repeat(80);
 
 // Center the title within the border
-const title = "🔥 STREAMYFIN TYPESCRIPT CHECK";
+const title = "🔥 GLASSFIN TYPESCRIPT CHECK";
 const titlePadding = Math.floor((80 - title.length) / 2);
 const centeredTitle = " ".repeat(titlePadding) + title;
 

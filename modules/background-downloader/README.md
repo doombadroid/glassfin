@@ -198,7 +198,7 @@ interface ActiveDownload {
 ### iOS Background Downloads
 
 - Uses `NSURLSession` with background configuration
-- Session identifier: `com.fredrikburmester.streamyfin.backgrounddownloader`
+- Session identifier: `com.doombadroid.glassfin.backgrounddownloader`
 - Downloads continue when app is backgrounded or suspended
 - System may terminate downloads if app is force-quit
 

@@ -22,7 +22,7 @@ web-build/
 modules/*/android/build/
 
 # Generated Applications
-Streamyfin.app
+Glassfin.app
 *.apk
 *.ipa
 *.aab

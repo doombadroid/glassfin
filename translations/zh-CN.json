@@ -122,7 +122,7 @@
       "disable": "禁用主打轮播"
     },
     "intro": {
-      "welcome_to_streamyfin": "欢迎来到 Glassfin",
+      "welcome": "欢迎来到 Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "一个免费且开源的 Jellyfin 客户端。",
       "features_title": "功能",
       "features_description": "Glassfin 拥有许多功能，并与多种服务整合，您可以在设置菜单中找到这些功能，包括：",

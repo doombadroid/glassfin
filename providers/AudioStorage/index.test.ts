@@ -71,12 +71,12 @@ describe("where a track is downloaded to", () => {
     [
       "a permanent download",
       true,
-      "/documents/streamyfin-audio/0a1B2c3d4e5f60718293a4b5c6d7e8f9.flac",
+      "/documents/glassfin-audio/0a1B2c3d4e5f60718293a4b5c6d7e8f9.flac",
     ],
     [
       "a look-ahead cache entry",
       false,
-      "/cache/streamyfin-audio-cache/0a1b2c3d-4e5f-6071-8293-a4b5c6d7e8f9.flac",
+      "/cache/glassfin-audio-cache/0a1b2c3d-4e5f-6071-8293-a4b5c6d7e8f9.flac",
     ],
   ])(
     "is named after the item and its container, for %s",
@@ -89,7 +89,7 @@ describe("where a track is downloaded to", () => {
 
   it("falls back to m4a when the server names no container", async () => {
     expect(await destinationOf("no-container", undefined)).toBe(
-      "/documents/streamyfin-audio/no-container.m4a",
+      "/documents/glassfin-audio/no-container.m4a",
     );
   });
 
@@ -116,7 +116,7 @@ describe("where a track is downloaded to", () => {
     "is a plain file in the audio directory, given %s",
     async (_label, id, container, name) => {
       expect(await destinationOf(id, container)).toBe(
-        `/documents/streamyfin-audio/${name}`,
+        `/documents/glassfin-audio/${name}`,
       );
     },
   );
@@ -175,14 +175,14 @@ describe("a track stored before an iOS update moved the app's container", () => 
     storeIndex({
       "track-1": track(
         "track-1",
-        `${before}/Documents/streamyfin-audio/track-1.flac`,
+        `${before}/Documents/glassfin-audio/track-1.flac`,
         true,
       ),
     });
-    files.add(`file://${now}/Documents/streamyfin-audio/track-1.flac`);
+    files.add(`file://${now}/Documents/glassfin-audio/track-1.flac`);
 
     expect(audio.getLocalPath("track-1")).toBe(
-      `file://${now}/Documents/streamyfin-audio/track-1.flac`,
+      `file://${now}/Documents/glassfin-audio/track-1.flac`,
     );
     expect(audio.isPermanentlyDownloaded("track-1")).toBe(true);
   });
@@ -191,13 +191,11 @@ describe("a track stored before an iOS update moved the app's container", () => 
     storeIndex({
       "track-2": track(
         "track-2",
-        `${before}/Library/Caches/streamyfin-audio-cache/track-2.mp3`,
+        `${before}/Library/Caches/glassfin-audio-cache/track-2.mp3`,
         false,
       ),
     });
-    files.add(
-      `file://${now}/Library/Caches/streamyfin-audio-cache/track-2.mp3`,
-    );
+    files.add(`file://${now}/Library/Caches/glassfin-audio-cache/track-2.mp3`);
 
     // A cache entry whose file is missing is dropped from the index, so before the fix the
     // track was forgotten, not only unplayable.
@@ -211,14 +209,14 @@ describe("a track stored before an iOS update moved the app's container", () => 
       "no-path": { itemId: "no-path", permanent: true },
       "track-1": track(
         "track-1",
-        `${before}/Documents/streamyfin-audio/track-1.flac`,
+        `${before}/Documents/glassfin-audio/track-1.flac`,
         true,
       ),
     });
-    files.add(`file://${now}/Documents/streamyfin-audio/track-1.flac`);
+    files.add(`file://${now}/Documents/glassfin-audio/track-1.flac`);
 
     expect(audio.getLocalPath("track-1")).toBe(
-      `file://${now}/Documents/streamyfin-audio/track-1.flac`,
+      `file://${now}/Documents/glassfin-audio/track-1.flac`,
     );
   });
 
@@ -228,26 +226,26 @@ describe("a track stored before an iOS update moved the app's container", () => 
     storeIndex({
       "track-1": track(
         "track-1",
-        `${before}/Documents/streamyfin-audio/track-1.flac`,
+        `${before}/Documents/glassfin-audio/track-1.flac`,
         true,
       ),
       "track-2": track(
         "track-2",
-        `${before}/Documents/streamyfin-audio/track-2.flac`,
+        `${before}/Documents/glassfin-audio/track-2.flac`,
         true,
       ),
     });
-    files.add(`${now}/Documents/streamyfin-audio/track-1.flac`);
+    files.add(`${now}/Documents/glassfin-audio/track-1.flac`);
 
     await audio.deleteTrack("track-1");
 
     expect(files.deleted()).toEqual([
-      `${now}/Documents/streamyfin-audio/track-1.flac`,
+      `${now}/Documents/glassfin-audio/track-1.flac`,
     ]);
     expect(storedIndex().tracks).toEqual({
       "track-2": track(
         "track-2",
-        `${now}/Documents/streamyfin-audio/track-2.flac`,
+        `${now}/Documents/glassfin-audio/track-2.flac`,
         true,
       ),
     });
@@ -257,22 +255,22 @@ describe("a track stored before an iOS update moved the app's container", () => 
     storeIndex({
       "track-2": track(
         "track-2",
-        `${before}/Library/Caches/streamyfin-audio-cache/track-2.mp3`,
+        `${before}/Library/Caches/glassfin-audio-cache/track-2.mp3`,
         false,
       ),
     });
-    files.add(`${now}/Library/Caches/streamyfin-audio-cache/track-2.mp3`);
+    files.add(`${now}/Library/Caches/glassfin-audio-cache/track-2.mp3`);
 
     await audio.clearCache();
 
     expect(files.deleted()).toEqual([
-      `${now}/Library/Caches/streamyfin-audio-cache/track-2.mp3`,
+      `${now}/Library/Caches/glassfin-audio-cache/track-2.mp3`,
     ]);
   });
 
   it("evicts the oldest cached track from the current container", async () => {
     const cached = (n: number) =>
-      `/Library/Caches/streamyfin-audio-cache/cached-${n}.mp3`;
+      `/Library/Caches/glassfin-audio-cache/cached-${n}.mp3`;
     // Ten cached tracks fill the cache; the oldest goes when an eleventh one arrives.
     storeIndex(
       Object.fromEntries(
@@ -309,11 +307,11 @@ describe("a track stored before an iOS update moved the app's container", () => 
       "no-path": { itemId: "no-path", permanent: true },
       "track-1": track(
         "track-1",
-        `${before}/Documents/streamyfin-audio/track-1.flac`,
+        `${before}/Documents/glassfin-audio/track-1.flac`,
         true,
       ),
     });
-    files.add(`file://${now}/Documents/streamyfin-audio/track-1.flac`);
+    files.add(`file://${now}/Documents/glassfin-audio/track-1.flac`);
 
     expect(audio.getLocalPath("no-path")).toBeNull();
     expect(audio.getStorageStats()).toEqual({
@@ -331,7 +329,7 @@ describe("a track stored before an iOS update moved the app's container", () => 
     storeIndex({
       "track-2": {
         itemId: "track-2",
-        localPath: `${before}/Library/Caches/streamyfin-audio-cache/track-2.mp3`,
+        localPath: `${before}/Library/Caches/glassfin-audio-cache/track-2.mp3`,
         storedAt: 1,
         permanent: false,
       },
@@ -350,12 +348,12 @@ describe("a track stored before an iOS update moved the app's container", () => 
         broken: null,
         "track-1": track(
           "track-1",
-          `${now}/Documents/streamyfin-audio/track-1.flac`,
+          `${now}/Documents/glassfin-audio/track-1.flac`,
           true,
         ),
         "track-2": track(
           "track-2",
-          `${now}/Library/Caches/streamyfin-audio-cache/track-2.mp3`,
+          `${now}/Library/Caches/glassfin-audio-cache/track-2.mp3`,
           false,
         ),
       },
@@ -378,14 +376,14 @@ describe("a track stored before an iOS update moved the app's container", () => 
       "track-1": {
         ...track(
           "track-1",
-          `${now}/Library/Caches/streamyfin-audio-cache/track-1.mp3`,
+          `${now}/Library/Caches/glassfin-audio-cache/track-1.mp3`,
           false,
         ),
         itemId: "track-2",
       },
       "track-2": track(
         "track-2",
-        `${now}/Library/Caches/streamyfin-audio-cache/track-2.mp3`,
+        `${now}/Library/Caches/glassfin-audio-cache/track-2.mp3`,
         false,
       ),
     });
@@ -401,14 +399,14 @@ describe("a track stored before an iOS update moved the app's container", () => 
       "track-1": {
         ...track(
           "track-1",
-          `${now}/Library/Caches/streamyfin-audio-cache/track-1.mp3`,
+          `${now}/Library/Caches/glassfin-audio-cache/track-1.mp3`,
           false,
         ),
         size: -500,
       },
       "track-2": track(
         "track-2",
-        `${now}/Library/Caches/streamyfin-audio-cache/track-2.mp3`,
+        `${now}/Library/Caches/glassfin-audio-cache/track-2.mp3`,
         false,
       ),
     });
@@ -419,7 +417,7 @@ describe("a track stored before an iOS update moved the app's container", () => 
   // The index used to come back empty when the current directories could not be read, and the
   // next write saved that over every track.
   it("keeps the index as stored when the app's directories cannot be read", async () => {
-    const stored = `${before}/Documents/streamyfin-audio/track-1.flac`;
+    const stored = `${before}/Documents/glassfin-audio/track-1.flac`;
     storeIndex({ "track-1": track("track-1", stored, true) });
     mockPaths.unreadable = true;
 
@@ -442,11 +440,11 @@ describe("a track stored before an iOS update moved the app's container", () => 
       storeIndex({
         "track-1": track(
           "track-1",
-          "/data/user/0/com.other.app/files/streamyfin-audio/track-1.flac",
+          "/data/user/0/com.other.app/files/glassfin-audio/track-1.flac",
           true,
         ),
       });
-      files.add(`file://${app}/files/streamyfin-audio/track-1.flac`);
+      files.add(`file://${app}/files/glassfin-audio/track-1.flac`);
 
       expect(audio.getLocalPath("track-1")).toBeNull();
     } finally {

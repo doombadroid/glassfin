@@ -11,7 +11,7 @@ public class BackgroundDownloaderAppDelegate: ExpoAppDelegateSubscriber {
     backgroundDownloaderLog.notice(
       "handleEventsForBackgroundURLSession received for \(identifier, privacy: .public)"
     )
-    if identifier == "com.fredrikburmester.streamyfin.backgrounddownloader" {
+    if identifier == "com.doombadroid.glassfin.backgrounddownloader" {
       BackgroundDownloaderModule.setBackgroundCompletionHandler(completionHandler)
     }
   }

@@ -6,7 +6,7 @@
       "!node_modules",
       "!ios",
       "!android",
-      "!Streamyfin.app",
+      "!Glassfin.app",
       "!utils/seerr/generated",
       "!expo-env.d.ts",
       "!modules/**/android/build",

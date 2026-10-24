@@ -21,7 +21,7 @@ import AVFoundation
 final class PlayerAudioSession {
 	static let shared = PlayerAudioSession()
 
-	private let queue = DispatchQueue(label: "streamyfin.player.audio-session", qos: .userInitiated)
+	private let queue = DispatchQueue(label: "glassfin.player.audio-session", qos: .userInitiated)
 
 	private init() {}
 

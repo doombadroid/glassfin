@@ -6,10 +6,10 @@ import TVServices
 #endif
 
 public class TopShelfCacheModule: Module {
-  private let appGroupInfoPlistKey = "StreamyfinAppGroupIdentifier"
-  private let keychainAccessGroupInfoPlistKey = "StreamyfinKeychainAccessGroupIdentifier"
+  private let appGroupInfoPlistKey = "GlassfinAppGroupIdentifier"
+  private let keychainAccessGroupInfoPlistKey = "GlassfinKeychainAccessGroupIdentifier"
   private let cacheKey = "TopShelfCache"
-  private let apiKeyService = "StreamyfinTopShelf"
+  private let apiKeyService = "GlassfinTopShelf"
   private let apiKeyAccount = "JellyfinApiKey"
   private var appGroupIdentifier: String? {
     if let appGroupIdentifier = Bundle.main.object(

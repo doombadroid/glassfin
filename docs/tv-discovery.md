@@ -71,7 +71,7 @@ Apple TV uses a Top Shelf extension target, not the main app process.
 Relevant files:
 
 - [plugins/withTVOSTopShelf.ts](../plugins/withTVOSTopShelf.ts)
-- [targets/StreamyfinTopShelf/TopShelfProvider.swift](../targets/StreamyfinTopShelf/TopShelfProvider.swift)
+- [targets/GlassfinTopShelf/TopShelfProvider.swift](../targets/GlassfinTopShelf/TopShelfProvider.swift)
 - [modules/top-shelf-cache/ios/TopShelfCacheModule.swift](../modules/top-shelf-cache/ios/TopShelfCacheModule.swift)
 - [utils/topshelf/cache.ts](../utils/topshelf/cache.ts)
 

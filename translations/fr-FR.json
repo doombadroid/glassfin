@@ -122,7 +122,7 @@
       "disable": "Désactiver le carrousel"
     },
     "intro": {
-      "welcome_to_streamyfin": "Bienvenue sur Glassfin",
+      "welcome": "Bienvenue sur Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Un client gratuit et open-source pour Jellyfin.",
       "features_title": "Fonctionnalités",
       "features_description": "Glassfin propose de nombreuses fonctionnalités et fonctionne avec d'autres logiciels. Vous les trouverez dans le menu des paramètres :",

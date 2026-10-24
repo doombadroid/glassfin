@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Glassfin",
-    "slug": "streamyfin",
+    "slug": "glassfin",
     "version": "0.56.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
@@ -194,17 +194,10 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "e79219d1-797f-4fbe-9fa1-cfd360690a68"
       }
     },
-    "owner": "streamyfin",
     "runtimeVersion": {
       "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/e79219d1-797f-4fbe-9fa1-cfd360690a68"
     }
   }
 }

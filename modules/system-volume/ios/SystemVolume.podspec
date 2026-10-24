@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary        = 'Read and observe the system output volume'
   s.description    = 'Read-only KVO observation of AVAudioSession.outputVolume, iOS and tvOS.'
   s.author         = ''
-  s.homepage       = 'https://github.com/streamyfin/streamyfin'
+  s.homepage       = 'https://github.com/doombadroid/glassfin'
   s.platforms      = { :ios => '15.1', :tvos => '15.1' }
   s.source         = { git: '' }
   s.static_framework = true

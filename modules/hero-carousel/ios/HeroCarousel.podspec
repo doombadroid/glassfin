@@ -3,8 +3,8 @@ Pod::Spec.new do |s|
   s.version        = '1.0.0'
   s.summary        = 'Native SwiftUI hero carousel for iOS'
   s.description    = 'Paged hero carousel with parallax backdrops and glass info panels for the home tab'
-  s.author         = 'Streamyfin'
-  s.homepage       = 'https://github.com/streamyfin/streamyfin'
+  s.author         = 'Glassfin'
+  s.homepage       = 'https://github.com/doombadroid/glassfin'
   s.platforms      = {
     :ios => '15.1',
     :tvos => '15.1'

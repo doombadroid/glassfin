@@ -3,8 +3,8 @@ Pod::Spec.new do |s|
   s.version        = '1.0.0'
   s.summary        = 'iPhone Duo layout state for React Native'
   s.description    = 'Reports the vertical bar edge, hinge status and fold region (iOS 27.1) to JS'
-  s.author         = 'Streamyfin'
-  s.homepage       = 'https://github.com/streamyfin/streamyfin'
+  s.author         = 'Glassfin'
+  s.homepage       = 'https://github.com/doombadroid/glassfin'
   s.platforms      = {
     :ios => '15.1',
     :tvos => '15.1'

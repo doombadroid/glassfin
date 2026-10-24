@@ -122,7 +122,7 @@
       "disable": "Tắt băng chuyền nổi bật"
     },
     "intro": {
-      "welcome_to_streamyfin": "Chào mừng đến với Glassfin",
+      "welcome": "Chào mừng đến với Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Một ứng dụng miễn phí và mã nguồn mở cho Jellyfin.",
       "features_title": "Tính năng",
       "features_description": "Glassfin có nhiều tính năng và hoạt động cùng các phần mềm khác. Bạn sẽ thấy chúng trong mục cài đặt:",

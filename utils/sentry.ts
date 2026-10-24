@@ -17,12 +17,10 @@ import {
 } from "@/utils/storedSettings";
 import { getVersionInfo } from "@/utils/version";
 
-// Public Sentry DSN for org "streamyfin", project "react-native". A DSN only
-// allows submitting events, so shipping it in the client bundle is fine.
-// EXPO_PUBLIC_SENTRY_DSN overrides it (e.g. to point a fork at its own org).
-const PROJECT_SENTRY_DSN =
-  "https://5c548edf47663532bb529ba72b2ddbb1@o4509610343596032.ingest.de.sentry.io/4509610370728016";
-const SENTRY_DSN = process.env.EXPO_PUBLIC_SENTRY_DSN ?? PROJECT_SENTRY_DSN;
+// Glassfin ships without a DSN, so crash reporting stays off unless a build
+// sets EXPO_PUBLIC_SENTRY_DSN. The DSN inherited from Streamyfin is gone on
+// purpose: their project must not receive this fork's events.
+const SENTRY_DSN = process.env.EXPO_PUBLIC_SENTRY_DSN;
 
 // Dev builds stay out of Sentry entirely. Their frames carry local absolute
 // paths — the developer's username and worktree layout — Metro reloads throw
@@ -132,7 +130,9 @@ const reportsFromThisBuild = (): boolean =>
     debugOverride: sentryDebugInDev,
     applicationId: readNative(() => Application.applicationId),
     isDevice: readIsDevice(),
-    reportsToProject: SENTRY_DSN === PROJECT_SENTRY_DSN,
+    // Constant: with no built-in DSN, any DSN in use is one this build was
+    // given, so it reports under whatever identifier it runs as.
+    reportsToProject: false,
   });
 
 let initialized = false;

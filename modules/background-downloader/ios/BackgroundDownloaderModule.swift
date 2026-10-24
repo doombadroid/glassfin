@@ -6,7 +6,7 @@ import os
 /// these lines are readable from Console.app or `log show` on an untethered device — the only way
 /// to see whether iOS actually resumed the app for a background completion.
 let backgroundDownloaderLog = Logger(
-  subsystem: "com.fredrikburmester.streamyfin",
+  subsystem: "com.doombadroid.glassfin",
   category: "BackgroundDownloader"
 )
 
@@ -133,7 +133,7 @@ public class BackgroundDownloaderModule: Module {
   /// of them at once. Methods suffixed `Locked` assume they are already running on this queue and
   /// must not be called from anywhere else.
   private let stateQueue = DispatchQueue(
-    label: "com.fredrikburmester.streamyfin.backgrounddownloader.state"
+    label: "com.doombadroid.glassfin.backgrounddownloader.state"
   )
   private var session: URLSession?
   private var sessionDelegate: DownloadSessionDelegate?
@@ -358,7 +358,7 @@ public class BackgroundDownloaderModule: Module {
 
   private func initializeSessionLocked() {
     let config = URLSessionConfiguration.background(
-      withIdentifier: "com.fredrikburmester.streamyfin.backgrounddownloader"
+      withIdentifier: "com.doombadroid.glassfin.backgrounddownloader"
     )
     config.allowsCellularAccess = true
     config.sessionSendsLaunchEvents = true

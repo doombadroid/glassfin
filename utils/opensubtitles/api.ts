@@ -146,7 +146,7 @@ export class OpenSubtitlesApi {
   private apiKey: string;
   private userAgent: string;
 
-  constructor(apiKey: string, userAgent = "streamyfin v1.0") {
+  constructor(apiKey: string, userAgent = "Glassfin v1.0") {
     this.apiKey = apiKey;
     this.userAgent = userAgent;
   }

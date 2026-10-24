@@ -122,7 +122,7 @@
       "disable": "Dezactivează caruselul"
     },
     "intro": {
-      "welcome_to_streamyfin": "Bun venit la Glassfin",
+      "welcome": "Bun venit la Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Un client gratuit și open-source pentru Jellyfin.",
       "features_title": "Caracteristici",
       "features_description": "Glassfin are o mulțime de funcții și funcționează cu alte aplicații software. Le găsiți în meniul de setări:",

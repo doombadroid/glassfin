@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary        = 'Opens the app on its notification settings from the iOS Settings'
   s.description    = 'Relays userNotificationCenter(_:openSettingsFor:) to JavaScript, including a tap that launched the app.'
   s.author         = ''
-  s.homepage       = 'https://github.com/streamyfin/streamyfin'
+  s.homepage       = 'https://github.com/doombadroid/glassfin'
   # iOS only, from the version ExpoNotifications needs; tvOS has no notification settings.
   s.platforms      = { :ios => '16.4' }
   s.source         = { git: '' }

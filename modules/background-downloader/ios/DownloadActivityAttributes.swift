@@ -17,7 +17,7 @@ public enum DownloadActivityState: String, Codable, Hashable {
 
   /// Shared between two targets:
   ///   • the app, via the `BackgroundDownloader` pod (this whole `ios/` dir is `source_files`)
-  ///   • the `StreamyfinDownloadActivity` widget extension, which `plugins/withDownloadLiveActivity.ts`
+  ///   • the `GlassfinDownloadActivity` widget extension, which `plugins/withDownloadLiveActivity.ts`
   ///     adds to its Sources build phase by path
   ///
   /// ActivityKit matches activities on the *unqualified* type name, so it does not matter that the
@@ -103,9 +103,9 @@ public enum DownloadActivityState: String, Codable, Hashable {
 
   /// Resolves the App Group container both targets share. The identifier is written into each
   /// target's Info.plist by `plugins/withDownloadLiveActivity.ts`, mirroring how
-  /// `plugins/withTVOSTopShelf.ts` passes `StreamyfinAppGroupIdentifier` to the Top Shelf extension.
+  /// `plugins/withTVOSTopShelf.ts` passes `GlassfinAppGroupIdentifier` to the Top Shelf extension.
   public enum DownloadActivitySharedContainer {
-    public static let infoPlistKey = "StreamyfinDownloadsAppGroupIdentifier"
+    public static let infoPlistKey = "GlassfinDownloadsAppGroupIdentifier"
 
     public static var appGroupIdentifier: String? {
       Bundle.main.object(forInfoDictionaryKey: infoPlistKey) as? String

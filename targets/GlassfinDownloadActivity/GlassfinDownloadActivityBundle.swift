@@ -2,7 +2,7 @@ import SwiftUI
 import WidgetKit
 
 @main
-struct StreamyfinDownloadActivityBundle: WidgetBundle {
+struct GlassfinDownloadActivityBundle: WidgetBundle {
   var body: some Widget {
     DownloadActivityWidget()
   }

@@ -2,7 +2,7 @@
  * Downloaded Subtitles Storage
  *
  * Persists metadata about client-side downloaded subtitles (from OpenSubtitles).
- * Subtitle files are stored in Paths.cache/streamyfin-subtitles/ directory.
+ * Subtitle files are stored in Paths.cache/glassfin-subtitles/ directory.
  * Filenames are prefixed with itemId for organization: {itemId}_{filename}
  *
  * While files are in cache, metadata is persisted in MMKV so subtitles survive

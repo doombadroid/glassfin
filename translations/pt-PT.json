@@ -122,7 +122,7 @@
       "disable": "Desativar o carrossel principal"
     },
     "intro": {
-      "welcome_to_streamyfin": "Bem-vindo ao Glassfin",
+      "welcome": "Bem-vindo ao Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Um cliente gratuito e de código aberto para o Jellyfin.",
       "features_title": "Funcionalidades",
       "features_description": "O Glassfin tem várias funcionalidades e funciona com outro software. Encontra-as no menu de definições:",

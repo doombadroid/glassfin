@@ -15,7 +15,7 @@ jest.mock("@/utils/storedSettings", () => ({
   readStoredSettings: () => ({}),
   readStoredPluginSettings: () => ({}),
   SETTINGS_KEY: "settings",
-  PLUGIN_SETTINGS_KEY: "STREAMYFIN_PLUGIN_SETTINGS",
+  PLUGIN_SETTINGS_KEY: "GLASSFIN_PLUGIN_SETTINGS",
 }));
 jest.mock("@/utils/version", () => ({
   getVersionInfo: () => ({
@@ -54,7 +54,6 @@ import {
   applicationIdKind,
   type BuildIdentity,
   classifyOutgoingEvent,
-  initializeSentryIfConsented,
   isUserInteractionBreadcrumb,
   reportsFromBuild,
   scrubDeep,
@@ -229,21 +228,27 @@ describe("dev builds do not report", () => {
     (globalThis as { __DEV__?: boolean }).__DEV__ = value;
   };
 
-  test("a dev build never initializes the SDK", () => {
-    setDev(true);
-    initializeSentryIfConsented();
-    expect(initCalls).toHaveLength(0);
-  });
-
-  // A case that does initialize runs in a copy of the module of its own:
-  // initializeSentry latches on success, and the copy the other cases share
-  // must stay unlatched until the last of them.
-  const initializesOn = (OS: "ios" | "android"): unknown[] => {
+  // The DSN is read when the module loads and initializeSentry latches on
+  // success, so every case runs in a copy of the module of its own, loaded
+  // with the DSN the case says the build was given.
+  const TEST_DSN = "https://key@example.ingest.sentry.io/1";
+  const initializesOn = (
+    OS: "ios" | "android",
+    dsn: string | null = TEST_DSN,
+  ): unknown[] => {
     const before = initCalls.length;
-    jest.isolateModules(() => {
-      require("@/test-utils/reactNative").stubReactNative({ OS });
-      require("./sentry").initializeSentryIfConsented();
-    });
+    const saved = process.env.EXPO_PUBLIC_SENTRY_DSN;
+    if (dsn === null) delete process.env.EXPO_PUBLIC_SENTRY_DSN;
+    else process.env.EXPO_PUBLIC_SENTRY_DSN = dsn;
+    try {
+      jest.isolateModules(() => {
+        require("@/test-utils/reactNative").stubReactNative({ OS });
+        require("./sentry").initializeSentryIfConsented();
+      });
+    } finally {
+      if (saved === undefined) delete process.env.EXPO_PUBLIC_SENTRY_DSN;
+      else process.env.EXPO_PUBLIC_SENTRY_DSN = saved;
+    }
     return initCalls.splice(before);
   };
 
@@ -251,21 +256,32 @@ describe("dev builds do not report", () => {
     (options as { initialScope: { tags: Record<string, string> } }).initialScope
       .tags;
 
-  // Issues were filed under `production` from a tvOS simulator and from forks
-  // (com.gauvino.streamyfin), next to the ones from the store.
+  test("a dev build never initializes the SDK", () => {
+    setDev(true);
+    expect(initializesOn("ios")).toHaveLength(0);
+  });
+
+  // Glassfin ships no DSN of its own: Streamyfin's was removed so their
+  // project stops receiving this fork's events.
+  test("a release build given no DSN never initializes the SDK", () => {
+    setDev(false);
+    expect(initializesOn("ios", null)).toHaveLength(0);
+  });
+
   test("a release build on a simulator never initializes the SDK", () => {
     setDev(false);
     mockBuild.isDevice = false;
-    initializeSentryIfConsented();
-    expect(initCalls).toHaveLength(0);
+    expect(initializesOn("ios")).toHaveLength(0);
     mockBuild.isDevice = true;
   });
 
-  test("a release build under another identifier never initializes the SDK", () => {
+  // A DSN in the build is one this build was given, so it reports under any
+  // identifier, a renamed fork's included.
+  test("a release build given a DSN initializes under any identifier", () => {
     setDev(false);
     mockBuild.applicationId = "com.gauvino.streamyfin";
-    initializeSentryIfConsented();
-    expect(initCalls).toHaveLength(0);
+    const [options] = initializesOn("ios");
+    expect(tagsOf(options)["build.identifier"]).toBe("foreign");
     mockBuild.applicationId = "com.fredrikburmester.streamyfin";
   });
 
@@ -280,10 +296,8 @@ describe("dev builds do not report", () => {
     mockBuild.isDevice = true;
   });
 
-  // The IPAs handed to beta testers are sideloaded, and AltStore and
-  // Sideloadly sign them under the official identifier plus the signer's
-  // team id.
-  test("the official build re-signed for sideloading initializes, and says so", () => {
+  // Sideloading tools sign under the identifier plus the signer's team id.
+  test("a build re-signed for sideloading initializes, and says so", () => {
     setDev(false);
     mockBuild.applicationId = "com.fredrikburmester.streamyfin.ABCDE12345";
     const [options] = initializesOn("ios");
@@ -291,20 +305,19 @@ describe("dev builds do not report", () => {
     mockBuild.applicationId = "com.fredrikburmester.streamyfin";
   });
 
-  // Ordering matters: initializeSentry latches on success, so the release
-  // case runs last or it would mask the cases above.
-  test("the official release build initializes as normal", () => {
+  test("a release build initializes as normal", () => {
     setDev(false);
-    initializeSentryIfConsented();
-    expect(initCalls).toHaveLength(1);
-    expect(tagsOf(initCalls[0])["build.identifier"]).toBe("official");
+    const calls = initializesOn("ios");
+    expect(calls).toHaveLength(1);
+    expect(tagsOf(calls[0])["build.identifier"]).toBe("official");
   });
 
   // "App Hang Non Fully Blocked" kept arriving from a build that passed
   // `enableReportNonFullyBlockedAppHangs: false`: sentry-cocoa reads the key
   // as "Blocking" and ignores one it does not know.
   test("non fully blocking app hangs are switched off under the key sentry-cocoa reads", () => {
-    const options = initCalls[0] as Record<string, unknown>;
+    setDev(false);
+    const [options] = initializesOn("ios") as Record<string, unknown>[];
     expect(options.enableReportNonFullyBlockingAppHangs).toBe(false);
     expect(options).not.toHaveProperty("enableReportNonFullyBlockedAppHangs");
   });

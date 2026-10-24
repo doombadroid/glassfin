@@ -6,11 +6,11 @@ import {
   withXcodeProject,
 } from "expo/config-plugins";
 
-const EXTENSION_TARGET_NAME = "StreamyfinTopShelf";
-const TARGET_SOURCE_DIR = "../targets/StreamyfinTopShelf";
-const APP_GROUP_INFO_PLIST_KEY = "StreamyfinAppGroupIdentifier";
+const EXTENSION_TARGET_NAME = "GlassfinTopShelf";
+const TARGET_SOURCE_DIR = "../targets/GlassfinTopShelf";
+const APP_GROUP_INFO_PLIST_KEY = "GlassfinAppGroupIdentifier";
 const KEYCHAIN_ACCESS_GROUP_INFO_PLIST_KEY =
-  "StreamyfinKeychainAccessGroupIdentifier";
+  "GlassfinKeychainAccessGroupIdentifier";
 
 interface AppExtensionConfig {
   targetName: string;
@@ -22,7 +22,7 @@ interface AppExtensionConfig {
 }
 
 function getBundleIdentifier(config: ExpoConfig): string {
-  return config.ios?.bundleIdentifier || "com.fredrikburmester.streamyfin";
+  return config.ios?.bundleIdentifier || "com.doombadroid.glassfin";
 }
 
 function getAppGroupIdentifier(config: ExpoConfig): string {

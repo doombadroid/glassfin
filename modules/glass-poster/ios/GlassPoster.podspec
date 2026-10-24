@@ -3,8 +3,8 @@ Pod::Spec.new do |s|
   s.version        = '1.0.0'
   s.summary        = 'Native SwiftUI glass effect poster for tvOS'
   s.description    = 'Provides Liquid Glass effect poster cards for tvOS 26+'
-  s.author         = 'Streamyfin'
-  s.homepage       = 'https://github.com/streamyfin/streamyfin'
+  s.author         = 'Glassfin'
+  s.homepage       = 'https://github.com/doombadroid/glassfin'
   s.platforms      = {
     :ios => '15.1',
     :tvos => '15.1'

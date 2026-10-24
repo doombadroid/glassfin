@@ -2,10 +2,10 @@ import Foundation
 import Security
 import TVServices
 
-private let appGroupInfoPlistKey = "StreamyfinAppGroupIdentifier"
-private let keychainAccessGroupInfoPlistKey = "StreamyfinKeychainAccessGroupIdentifier"
+private let appGroupInfoPlistKey = "GlassfinAppGroupIdentifier"
+private let keychainAccessGroupInfoPlistKey = "GlassfinKeychainAccessGroupIdentifier"
 private let cacheKey = "TopShelfCache"
-private let apiKeyService = "StreamyfinTopShelf"
+private let apiKeyService = "GlassfinTopShelf"
 private let apiKeyAccount = "JellyfinApiKey"
 
 private struct TopShelfCachePayload: Decodable {

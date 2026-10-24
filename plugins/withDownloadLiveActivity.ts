@@ -6,14 +6,14 @@ import {
   withXcodeProject,
 } from "expo/config-plugins";
 
-const EXTENSION_TARGET_NAME = "StreamyfinDownloadActivity";
-const TARGET_SOURCE_DIR = "../targets/StreamyfinDownloadActivity";
+const EXTENSION_TARGET_NAME = "GlassfinDownloadActivity";
+const TARGET_SOURCE_DIR = "../targets/GlassfinDownloadActivity";
 // The ActivityAttributes declaration is shared with the app, where it is compiled into the
 // BackgroundDownloader pod. ActivityKit matches on the unqualified type name, so both targets
 // compiling the same file into different Swift modules is fine — and is Apple's documented approach.
 const SHARED_ATTRIBUTES_SOURCE =
   "../modules/background-downloader/ios/DownloadActivityAttributes.swift";
-const APP_GROUP_INFO_PLIST_KEY = "StreamyfinDownloadsAppGroupIdentifier";
+const APP_GROUP_INFO_PLIST_KEY = "GlassfinDownloadsAppGroupIdentifier";
 
 interface AppExtensionConfig {
   targetName: string;
@@ -24,7 +24,7 @@ interface AppExtensionConfig {
 }
 
 function getBundleIdentifier(config: ExpoConfig): string {
-  return config.ios?.bundleIdentifier || "com.fredrikburmester.streamyfin";
+  return config.ios?.bundleIdentifier || "com.doombadroid.glassfin";
 }
 
 function getAppGroupIdentifier(config: ExpoConfig): string {
@@ -175,7 +175,7 @@ const withDownloadLiveActivity: ConfigPlugin = (config) => {
 
     project.addBuildPhase(
       [
-        `${TARGET_SOURCE_DIR}/StreamyfinDownloadActivityBundle.swift`,
+        `${TARGET_SOURCE_DIR}/GlassfinDownloadActivityBundle.swift`,
         `${TARGET_SOURCE_DIR}/DownloadActivityWidget.swift`,
         SHARED_ATTRIBUTES_SOURCE,
       ],

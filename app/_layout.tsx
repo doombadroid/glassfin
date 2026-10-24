@@ -13,6 +13,7 @@ import {
 } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import * as BackgroundTask from "expo-background-task";
+import Constants from "expo-constants";
 import * as Device from "expo-device";
 import { Image } from "expo-image";
 import { DarkTheme, ThemeProvider } from "expo-router/react-navigation";
@@ -409,10 +410,14 @@ function Layout() {
       await registerBackgroundFetchAsyncSessions();
     }
 
-    // only create push token for real devices (pointless for emulators)
-    if (Device.isDevice) {
+    // only create push token for real devices (pointless for emulators).
+    // Expo push needs an EAS project holding this bundle's APNs key; Glassfin
+    // has none yet (Streamyfin's holds no key for this bundle), so it skips.
+    const easProjectId: string | undefined =
+      Constants.expoConfig?.extra?.eas?.projectId;
+    if (Device.isDevice && easProjectId) {
       Notifications?.getExpoPushTokenAsync({
-        projectId: "e79219d1-797f-4fbe-9fa1-cfd360690a68",
+        projectId: easProjectId,
       })
         .then((token: ExpoPushToken) => {
           if (token) {

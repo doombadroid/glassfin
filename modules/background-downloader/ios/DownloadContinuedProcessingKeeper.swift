@@ -23,10 +23,10 @@
     static let shared = DownloadContinuedProcessingKeeper()
 
     /// Must be declared in BGTaskSchedulerPermittedIdentifiers (see withDownloadLiveActivity.ts).
-    private static let taskIdentifier = "com.fredrikburmester.streamyfin.downloads"
+    private static let taskIdentifier = "com.doombadroid.glassfin.downloads"
 
     private let queue = DispatchQueue(
-      label: "com.fredrikburmester.streamyfin.downloadkeeper"
+      label: "com.doombadroid.glassfin.downloadkeeper"
     )
     private var task: BGContinuedProcessingTask?
     private var isRegistered = false

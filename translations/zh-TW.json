@@ -122,7 +122,7 @@
       "disable": "停用主打輪播"
     },
     "intro": {
-      "welcome_to_streamyfin": "歡迎來到 Glassfin",
+      "welcome": "歡迎來到 Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "一個免費且開源的 Jellyfin 客戶端。",
       "features_title": "功能",
       "features_description": "Glassfin 擁有許多功能，並與多種軟體整合，您可以在設置菜單中找到這些功能，包括：",

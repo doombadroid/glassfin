@@ -89,7 +89,7 @@ export const IntroSheet = forwardRef<IntroSheetRef>((_, ref) => {
         <View className={Platform.isTV ? "py-5 space-y-4" : "py-4 space-y-6"}>
           <View>
             <Text className='text-3xl font-bold text-center mb-2'>
-              {t("home.intro.welcome_to_streamyfin")}
+              {t("home.intro.welcome")}
             </Text>
             <Text className='text-center'>
               {t("home.intro.a_free_and_open_source_client_for_jellyfin")}

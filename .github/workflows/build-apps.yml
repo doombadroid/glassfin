@@ -360,7 +360,7 @@ jobs:
 
   build-ios-tv:
     # Disabled: EAS has no provisioning profiles / distribution cert for the tvOS
-    # targets (app + StreamyfinTopShelf extension), so non-interactive signed
+    # targets (app + GlassfinTopShelf extension), so non-interactive signed
     # builds fail. Set up tvOS credentials in EAS (`eas credentials`), then remove
     # the `false &&` prefix below. Unsigned tvOS builds run (see job below).
     if: false && (!contains(github.event.head_commit.message, '[skip ci]') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == 'streamyfin/streamyfin'))

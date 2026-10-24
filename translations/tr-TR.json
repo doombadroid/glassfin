@@ -122,7 +122,7 @@
       "disable": "Kapak bölümünü devre dışı bırak"
     },
     "intro": {
-      "welcome_to_streamyfin": "Glassfin'e Hoş Geldiniz",
+      "welcome": "Glassfin'e Hoş Geldiniz",
       "a_free_and_open_source_client_for_jellyfin": "Jellyfin için ücretsiz ve açık kaynak bir istemci.",
       "features_title": "Özellikler",
       "features_description": "Glassfin birçok özelliğe sahip ve başka yazılımlarla çalışabiliyor. Bunları ayarlar menüsünde bulabilirsiniz:",

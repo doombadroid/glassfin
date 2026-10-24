@@ -45,7 +45,7 @@
     "suggested_movies": "Filma të sugjeruar",
     "suggested_episodes": "Episodat të sugjeruara",
     "intro": {
-      "welcome_to_streamyfin": "Mirë se vini në Glassfin",
+      "welcome": "Mirë se vini në Glassfin",
       "a_free_and_open_source_client_for_jellyfin": "Një klient falas dhe me burim të hapur për Jellyfin.",
       "features_title": "Karakteristikat",
       "features_description": "Glassfin ka shumë funksione dhe integron me shumë software tjera, të cilët mund ti gjeni në menynë e cilësimeve, përfshirë këto:",

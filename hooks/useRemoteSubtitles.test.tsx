@@ -168,7 +168,7 @@ describe("useRemoteSubtitles — who may search on the server", () => {
 // one. Whatever already sits at the destination is deleted before the write, so a separator in
 // either used to delete, then replace, a file outside the subtitle cache.
 describe("useRemoteSubtitles — where an OpenSubtitles download is written", () => {
-  const SUBTITLES = `${CACHE}/streamyfin-subtitles`;
+  const SUBTITLES = `${CACHE}/glassfin-subtitles`;
   const link = "https://dl.opensubtitles.example/file";
   const found: SubtitleSearchResult = {
     id: "result-1",

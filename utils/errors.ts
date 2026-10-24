@@ -7,7 +7,7 @@ import { isAxiosError, isCancel } from "axios";
  * technical failure should already have been logged (writeErrorLog /
  * logAndCaptureError) before the marked error is thrown for the UI.
  */
-const EXPECTED_ERROR = Symbol.for("streamyfin.expectedError");
+const EXPECTED_ERROR = Symbol.for("glassfin.expectedError");
 
 export const markExpectedError = <T>(error: T): T => {
   if (error !== null && typeof error === "object") {
@@ -21,7 +21,7 @@ export const markExpectedError = <T>(error: T): T => {
  * so the global React Query handler doesn't report them a second time when
  * they're rethrown into a query/mutation.
  */
-const REPORTED_ERROR = Symbol.for("streamyfin.reportedError");
+const REPORTED_ERROR = Symbol.for("glassfin.reportedError");
 
 export const markErrorReported = <T>(error: T): T => {
   if (error !== null && typeof error === "object") {

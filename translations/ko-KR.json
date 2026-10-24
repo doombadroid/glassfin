@@ -122,7 +122,7 @@
       "disable": "상단 추천 영역 끄기"
     },
     "intro": {
-      "welcome_to_streamyfin": "Glassfin에 오신 것을 환영합니다",
+      "welcome": "Glassfin에 오신 것을 환영합니다",
       "a_free_and_open_source_client_for_jellyfin": "Jellyfin을 위한 무료 오픈소스 클라이언트입니다.",
       "features_title": "기능",
       "features_description": "Glassfin은 다양한 기능을 제공하며 다른 소프트웨어와도 연동됩니다. 설정 메뉴에서 확인할 수 있습니다:",

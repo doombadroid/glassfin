@@ -122,7 +122,7 @@
       "disable": "Kiemelt körhinta kikapcsolása"
     },
     "intro": {
-      "welcome_to_streamyfin": "Üdvözöljük a Glassfinben",
+      "welcome": "Üdvözöljük a Glassfinben",
       "a_free_and_open_source_client_for_jellyfin": "Egy Ingyenes és Nyílt Forráskódú Jellyfin Kliens.",
       "features_title": "Funkciók",
       "features_description": "A Glassfin számos funkcióval rendelkezik, és együttműködik más szoftverekkel is. Ezeket a beállítások menüben találod:",

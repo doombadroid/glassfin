@@ -4,7 +4,7 @@ import CoreMotion
 import os
 import UIKit
 
-private let duoLog = os.Logger(subsystem: "com.doombadroid.streamyfinnext", category: "duo")
+private let duoLog = os.Logger(subsystem: "com.doombadroid.glassfin", category: "duo")
 
 /// iPhone Duo posture for the presented player: where the fold is while the
 /// device is partly open, and the hinge angle. Everything here is iOS 27.1

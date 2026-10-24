@@ -239,13 +239,13 @@ describe("a stored location in a deeper directory of the app's container", () =>
   test.each([
     [
       "a cached track stored as a plain path",
-      `${before}/Library/Caches/streamyfin-audio-cache/t.mp3`,
-      `${now}/Library/Caches/streamyfin-audio-cache/t.mp3`,
+      `${before}/Library/Caches/glassfin-audio-cache/t.mp3`,
+      `${now}/Library/Caches/glassfin-audio-cache/t.mp3`,
     ],
     [
       "a cached track stored as a URI",
-      `file://${before}/Library/Caches/streamyfin-audio-cache/t.mp3`,
-      `file://${now}/Library/Caches/streamyfin-audio-cache/t.mp3`,
+      `file://${before}/Library/Caches/glassfin-audio-cache/t.mp3`,
+      `file://${now}/Library/Caches/glassfin-audio-cache/t.mp3`,
     ],
     [
       "a path that names the container through /private",
@@ -261,7 +261,7 @@ describe("a stored location in a deeper directory of the app's container", () =>
     // Each directory only takes what was in it: Documents is rebased by its own call.
     [
       "a file in another directory of the old container",
-      `${before}/Documents/streamyfin-audio/t.flac`,
+      `${before}/Documents/glassfin-audio/t.flac`,
     ],
     [
       "a directory of the same name elsewhere in the old container",

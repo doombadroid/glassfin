@@ -16,9 +16,9 @@ enum AppContainerPathTests {
         // A destination stored before an update moved the container follows it.
         expect("\(old)/Documents/show_s01e01.mp4", "\(now)/Documents/show_s01e01.mp4")
         // Music downloads go to Documents, the look-ahead cache two levels down.
-        expect("\(old)/Documents/streamyfin-audio/t.flac", "\(now)/Documents/streamyfin-audio/t.flac")
-        expect("\(old)/Library/Caches/streamyfin-audio-cache/t.mp3",
-               "\(now)/Library/Caches/streamyfin-audio-cache/t.mp3")
+        expect("\(old)/Documents/glassfin-audio/t.flac", "\(now)/Documents/glassfin-audio/t.flac")
+        expect("\(old)/Library/Caches/glassfin-audio-cache/t.mp3",
+               "\(now)/Library/Caches/glassfin-audio-cache/t.mp3")
         // "/private/var" and "/var" are one directory, on either side.
         expect("/private\(old)/Documents/a.mp4", "\(now)/Documents/a.mp4")
         expect("\(old)/Documents/a.mp4", "\(now)/Documents/a.mp4",
