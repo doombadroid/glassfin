@@ -8,6 +8,9 @@ on:
       pattern:
         description: Extra grep pattern (extended regex)
         default: ''
+      headers:
+        description: UIKit header files to print whole (space separated)
+        default: ''
 
 jobs:
   probe:
@@ -31,3 +34,8 @@ jobs:
             echo "-- $fw: $f"
             [ -n "$f" ] && grep -nE "$pat" "$f" | cut -c1-400 | head -300
           done
+      - name: Print headers
+        if: inputs.headers != ''
+        run: |
+          sdk=$(xcrun --sdk iphoneos --show-sdk-path)
+          for h in ${{ inputs.headers }}; do echo "===== $h"; cat "$sdk/System/Library/Frameworks/UIKit.framework/Headers/$h"; done
