@@ -1,4 +1,5 @@
 import { ItemFields } from "@jellyfin/sdk/lib/generated-client/models";
+import { useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 import type React from "react";
 import { useEffect } from "react";
@@ -13,6 +14,7 @@ import { Text } from "@/components/common/Text";
 import { ItemContent } from "@/components/ItemContent";
 import { useItemQuery } from "@/hooks/useItemQuery";
 import { OfflineModeProvider } from "@/providers/OfflineModeProvider";
+import { cachedSeasonEpisode } from "@/utils/query/cachedSeasonEpisode";
 
 const ItemContentSkeletonTV = Platform.isTV
   ? require("@/components/ItemContentSkeleton.tv").ItemContentSkeletonTV
@@ -25,17 +27,31 @@ const Page: React.FC = () => {
   const { offline } = useLocalSearchParams() as { offline?: string };
   const isOffline = offline === "true";
 
+  const queryClient = useQueryClient();
+
   // Exclude MediaSources/MediaStreams from initial fetch for faster loading
   // (especially important for plugins like Gelato)
   const {
     data: item,
     isError,
     isLoading,
-  } = useItemQuery(id, isOffline, undefined, [
-    ItemFields.MediaSources,
-    ItemFields.MediaSourceCount,
-    ItemFields.MediaStreams,
-  ]);
+  } = useItemQuery(
+    id,
+    isOffline,
+    undefined,
+    [
+      ItemFields.MediaSources,
+      ItemFields.MediaSourceCount,
+      ItemFields.MediaStreams,
+    ],
+    {
+      // An episode picked in the season carousel replaces this page's id in
+      // place. The carousel's copy of it keeps the page, and the carousel's
+      // scroll, up until the full item lands. Covered by
+      // utils/query/cachedSeasonEpisode.test.ts.
+      placeholderData: () => cachedSeasonEpisode(queryClient, id),
+    },
+  );
 
   // Lazily preload item with full media sources in background — never cache
   const { data: itemWithSources } = useItemQuery(id, isOffline, undefined, [], {

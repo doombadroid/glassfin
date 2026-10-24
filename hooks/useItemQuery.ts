@@ -1,4 +1,7 @@
-import { ItemFields } from "@jellyfin/sdk/lib/generated-client/models";
+import {
+  type BaseItemDto,
+  ItemFields,
+} from "@jellyfin/sdk/lib/generated-client/models";
 import { getItemsApi } from "@jellyfin/sdk/lib/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
@@ -16,6 +19,8 @@ export const excludeFields = (fieldsToExclude: ItemFields[]) => {
 type ExtraQueryOptions = {
   gcTime?: number;
   staleTime?: number;
+  /** What to show while an item not in the cache yet is fetched. */
+  placeholderData?: () => BaseItemDto | undefined;
 };
 
 export const useItemQuery = (
