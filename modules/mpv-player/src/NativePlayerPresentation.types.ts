@@ -252,6 +252,10 @@ export type NativePlayerUIOptions = {
   showVolumeSlider?: boolean;
   /** false hides the left-edge brightness slider (settings.hideBrightnessSlider). */
   showBrightnessSlider?: boolean;
+  /** false makes a vertical drag on the left half do nothing (settings.enableLeftSideBrightnessSwipe). */
+  brightnessSwipeEnabled?: boolean;
+  /** false makes a vertical drag on the right half do nothing (settings.enableRightSideVolumeSwipe). */
+  volumeSwipeEnabled?: boolean;
   /** false disables press-and-hold speed boosting (settings.enableHoldToSpeed). */
   holdToSpeedEnabled?: boolean;
   /** Speed applied while press-and-hold is held (settings.holdToSpeedRate). */

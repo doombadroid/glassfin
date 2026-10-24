@@ -169,3 +169,59 @@ describe("the native player's exit confirmation", () => {
     expect(await confirmExit(false)).toBe(false);
   });
 });
+
+describe("the native player's swipe gestures", () => {
+  // Upstream #2217 and #1960: the native chrome's drag surface never heard of
+  // the swipe settings, so turning them off changed nothing in that player.
+  const uiOptions = async (overrides: Partial<Settings>) => {
+    jest.mocked(getStreamUrl).mockResolvedValue({
+      url: `${SERVER}/Videos/1/stream.mkv`,
+      sessionId: "session-1",
+      mediaSource: { Id: "source-1", MediaStreams: [] },
+    } as Awaited<ReturnType<typeof getStreamUrl>>);
+
+    const built = await buildNativePlayerConfig({
+      api,
+      userId: "user-1",
+      settings: {
+        playbackSpeedPerShow: {},
+        playbackSpeedPerMedia: {},
+        enableHorizontalSwipeSkip: true,
+        enableLeftSideBrightnessSwipe: true,
+        enableRightSideVolumeSwipe: true,
+        ...overrides,
+      } as Settings,
+      req: { itemId: "item-1", offline: false },
+      getDownloadedItemById: () => undefined,
+      strings: {} as NativePlayerStrings,
+      originalLabel: "Original",
+      item,
+    });
+    return built?.config.ui;
+  };
+
+  test("are all on while the settings are", async () => {
+    expect(await uiOptions({})).toMatchObject({
+      brightnessSwipeEnabled: true,
+      volumeSwipeEnabled: true,
+    });
+  });
+
+  test("leave brightness alone once its swipe is off", async () => {
+    expect(
+      await uiOptions({ enableLeftSideBrightnessSwipe: false }),
+    ).toMatchObject({
+      brightnessSwipeEnabled: false,
+      volumeSwipeEnabled: true,
+    });
+  });
+
+  test("leave volume alone once its swipe is off", async () => {
+    expect(
+      await uiOptions({ enableRightSideVolumeSwipe: false }),
+    ).toMatchObject({
+      brightnessSwipeEnabled: true,
+      volumeSwipeEnabled: false,
+    });
+  });
+});

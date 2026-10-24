@@ -611,6 +611,9 @@ export async function buildNativePlayerConfig(params: {
       showVolumeSlider: !Platform.isTV && !settings.hideVolumeSlider,
       showBrightnessSlider: !Platform.isTV && !settings.hideBrightnessSlider,
       // Touch gestures — no equivalent on the Siri remote.
+      brightnessSwipeEnabled:
+        !Platform.isTV && settings.enableLeftSideBrightnessSwipe,
+      volumeSwipeEnabled: !Platform.isTV && settings.enableRightSideVolumeSwipe,
       holdToSpeedEnabled: !Platform.isTV && settings.enableHoldToSpeed,
       holdToSpeedRate: settings.holdToSpeedRate,
       pinchToZoomEnabled: !Platform.isTV && settings.enablePinchToZoom,
