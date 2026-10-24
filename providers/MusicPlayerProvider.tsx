@@ -559,12 +559,20 @@ const MobileMusicPlayerProvider: React.FC<MusicPlayerProviderProps> = ({
         // Initialize audio storage for caching
         await initAudioStorage();
 
-        await TrackPlayer.setupPlayer({
-          minBuffer: 120, // Minimum 2 minutes buffer for network resilience
-          maxBuffer: 240, // Maximum 4 minutes buffer
-          playBuffer: 5, // Start playback after 5 seconds buffered
-          backBuffer: 30, // Keep 30 seconds behind for seeking
-        });
+        // Android only. iOS reads minBuffer as AVPlayer's buffer duration,
+        // which switches off automaticallyWaitsToMinimizeStalling: each next
+        // song then started with nothing buffered, stalled at once, and
+        // nothing started it again (upstream #1762).
+        await TrackPlayer.setupPlayer(
+          Platform.OS === "android"
+            ? {
+                minBuffer: 120, // Minimum 2 minutes buffer for network resilience
+                maxBuffer: 240, // Maximum 4 minutes buffer
+                playBuffer: 5, // Start playback after 5 seconds buffered
+                backBuffer: 30, // Keep 30 seconds behind for seeking
+              }
+            : {},
+        );
         await TrackPlayer.updateOptions({
           capabilities: [
             Capability.Play,
