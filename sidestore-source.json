@@ -13,6 +13,15 @@
       "tintColor": "8fe6cb",
       "versions": [
         {
+          "version": "1.0.0.24",
+          "buildVersion": "24",
+          "date": "2026-10-25T18:21:02Z",
+          "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
+          "downloadURL": "https://github.com/doombadroid/glassfin/releases/download/next-24/Glassfin-unsigned.ipa",
+          "size": 59150888,
+          "minOSVersion": "16.4"
+        },
+        {
           "version": "1.0.0.23",
           "buildVersion": "23",
           "date": "2026-10-25T15:20:29Z",
@@ -46,15 +55,6 @@
           "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
           "downloadURL": "https://github.com/doombadroid/glassfin/releases/download/next-20/Glassfin-unsigned.ipa",
           "size": 59149237,
-          "minOSVersion": "16.4"
-        },
-        {
-          "version": "0.56.0.19",
-          "buildVersion": "19",
-          "date": "2026-10-25T00:41:36Z",
-          "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
-          "downloadURL": "https://github.com/doombadroid/glassfin/releases/download/next-19/Glassfin-unsigned.ipa",
-          "size": 59147307,
           "minOSVersion": "16.4"
         }
       ],
