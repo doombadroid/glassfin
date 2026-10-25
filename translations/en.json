@@ -154,9 +154,6 @@
         "switch_user": "Switch user on this server",
         "current": "current"
       },
-      "categories": {
-        "title": "Categories"
-      },
       "playback_controls": {
         "title": "Playback & controls"
       },
@@ -663,6 +660,37 @@
           "help": "For each kind of notification, in Android's settings"
         },
         "account_footer": "These choices follow your account on every device."
+      },
+      "search": {
+        "label": "Search settings",
+        "placeholder": "Search settings, e.g. subtitles",
+        "clear": "Clear search",
+        "no_match": "No settings match “{{query}}”.",
+        "sections": {
+          "account": "Account",
+          "watching": "Watching",
+          "library": "Library & downloads",
+          "app": "App"
+        },
+        "keywords": {
+          "user": "user server token version account",
+          "quick_connect": "authorize code device sign in",
+          "pair": "quick connect qr code tv pairing",
+          "playback": "player gestures skip seek speed controls",
+          "audio_subtitles": "language captions track subtitle size",
+          "music": "songs queue lyrics",
+          "syncplay": "watch together group sync",
+          "hide_libraries": "hidden library tab home",
+          "storage": "downloads delete space cache",
+          "appearance": "theme design home layout",
+          "notifications": "push alerts new episodes",
+          "integrations": "plugins seerr opensubtitles streamystats wikidata crash",
+          "network": "server address wifi lan proxy headers",
+          "intro": "welcome tour duo",
+          "logs": "debug errors diagnostics",
+          "acknowledgements": "licence license open source credits about",
+          "language": "translation"
+        }
       }
     },
     "sessions": {
@@ -1395,7 +1423,6 @@
   },
   "pairing": {
     "pair_with_phone": "Pair with phone",
-    "pair_with_phone_title": "Log in on TV",
     "scan_quick_connect": "Scan the QR code with the Glassfin app or your phone's camera.",
     "code_expired": "This code has expired.",
     "get_new_code": "Get a new code",

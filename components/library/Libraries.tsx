@@ -125,7 +125,7 @@ export const Libraries: React.FC = () => {
             className='bg-neutral-800 mx-2 my-4'
           />
         ) : (
-          <View className='h-4' />
+          <View className='h-3' />
         )
       }
     />
