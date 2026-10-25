@@ -128,7 +128,9 @@ change touches.
 - **Privacy Policy URL:** https://github.com/doombadroid/glassfin/blob/develop/docs/privacy.md
 - **Support URL:** https://github.com/doombadroid/glassfin/issues
 - **Copyright:** 2026 doombadroid
-- **Price:** Free. Only the Free Apps agreement is needed; no tax or banking.
+- **Price:** Free, with an optional tip jar (Settings › Support Glassfin). Tips unlock
+  nothing. In-app purchases need the **Paid Apps agreement** plus tax and banking forms,
+  and enrolling in the App Store Small Business Program (15% commission instead of 30%).
 - **Export compliance:** answered in the binary (`ITSAppUsesNonExemptEncryption`
   is false: HTTPS only).
 - **EU (Digital Services Act):** App Store Connect asks whether you're a
@@ -152,3 +154,28 @@ change touches.
    `ASC_KEY_ID` and `ASC_ISSUER_ID` to doombadroid/glassfin.
 5. Run the TestFlight workflow, install from TestFlight, check it on the Duo,
    then fill in the fields above and submit.
+
+## Tip jar (in-app purchases)
+
+The app asks the store for three consumables (`constants/TipJar.ts`) and shows whatever
+App Store Connect returns, priced in the buyer's currency. Until they exist, Settings ›
+Support Glassfin says tips aren't available.
+
+1. Agreements, Tax, and Banking: accept the Paid Apps agreement; add tax and bank details.
+2. Apps › Glassfin › Monetization › In-App Purchases › +, type **Consumable**, three times:
+
+   | Reference name | Product ID | Price | Display name |
+   | --- | --- | --- | --- |
+   | Small tip | `com.doombadroid.glassfin.tip.small` | $1.99 | Small tip |
+   | Medium tip | `com.doombadroid.glassfin.tip.medium` | $4.99 | Medium tip |
+   | Large tip | `com.doombadroid.glassfin.tip.large` | $9.99 | Large tip |
+
+   Each needs a description (for example "A tip to support Glassfin. Unlocks nothing."),
+   a review screenshot of the Support Glassfin screen, and review notes saying tips are
+   optional and unlock no features.
+3. The first in-app purchases must be submitted **with an app version**: on the version
+   page, add them under "In-App Purchases and Subscriptions" before Submit for Review.
+4. TestFlight builds buy tips in the sandbox (no real charge) once the products exist.
+
+App Privacy stays "Data Not Collected": Apple handles the payment and Glassfin stores
+nothing about it.

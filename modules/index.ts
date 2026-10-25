@@ -96,6 +96,9 @@ export {
   isSystemVolumeAvailable,
   isSystemVolumeFixed,
 } from "./system-volume";
+// Tip jar (iOS)
+export type { TipProduct, TipResult } from "./tip-jar";
+export { loadTipProducts, purchaseTip } from "./tip-jar";
 // Top Shelf cache (tvOS)
 export type {
   TopShelfCacheItem,

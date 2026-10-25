@@ -1,0 +1,8 @@
+{
+  "name": "tip-jar",
+  "version": "1.0.0",
+  "platforms": ["ios"],
+  "ios": {
+    "modules": ["TipJarModule"]
+  }
+}

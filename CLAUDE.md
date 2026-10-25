@@ -241,7 +241,7 @@ PersistQueryClientProvider
 `exoplayer-player`, `background-downloader`, `duo-layout` (iPhone Duo vertical bar edge,
 hinge and fold, iOS 27.1), `glass-poster`, `hero-carousel`,
 `notification-settings-link` (the iOS Settings link to the Notifications screen),
-`system-volume`, `top-shelf-cache`, `tv-recommendations`, `tv-search`, `tv-user-profile`,
+`system-volume`, `tip-jar` (optional tips through StoreKit 2 consumables, iOS), `top-shelf-cache`, `tv-recommendations`, `tv-search`, `tv-user-profile`,
 `wifi-ssid`.
 
 **Path aliases**: `@/` maps to the repo root.

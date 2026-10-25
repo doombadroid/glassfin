@@ -301,6 +301,19 @@ function SettingsMobile() {
           ),
         },
         {
+          id: "support",
+          title: t("home.settings.support.title"),
+          keywords: t("home.settings.search.keywords.support"),
+          node: (
+            <ListItem
+              key='support'
+              onPress={() => router.push("/settings/support/page")}
+              showArrow
+              title={t("home.settings.support.title")}
+            />
+          ),
+        },
+        {
           id: "acknowledgements",
           title: t("home.settings.acknowledgements.title"),
           keywords: t("home.settings.search.keywords.acknowledgements"),

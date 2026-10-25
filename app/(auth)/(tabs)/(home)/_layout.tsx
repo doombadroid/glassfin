@@ -231,6 +231,16 @@ export default function IndexLayout() {
         }}
       />
       <Stack.Screen
+        name='settings/support/page'
+        options={{
+          title: t("home.settings.support.title"),
+          headerShown: !Platform.isTV,
+          headerBlurEffect: "none",
+          headerTransparent: Platform.OS === "ios",
+          headerShadowVisible: false,
+        }}
+      />
+      <Stack.Screen
         name='settings/acknowledgements/page'
         options={{
           title: t("home.settings.acknowledgements.title"),

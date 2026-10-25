@@ -541,6 +541,16 @@
         "show_intro": "Show intro",
         "reset_intro": "Reset intro"
       },
+      "support": {
+        "title": "Support Glassfin",
+        "body": "Glassfin is free and stays free. If it makes your evenings better, a tip helps me keep building it. Tips are optional and unlock nothing.",
+        "tips": "Leave a tip",
+        "unavailable": "Tips aren't available in this copy of Glassfin.",
+        "thanks": "Thank you for supporting Glassfin!",
+        "pending": "Your tip is waiting for approval. Thank you!",
+        "failed": "The tip didn't go through. You haven't been charged.",
+        "note": "Payment is handled by Apple. Glassfin never sees your payment details."
+      },
       "acknowledgements": {
         "title": "Acknowledgements",
         "body": "Glassfin is an independent fork of Streamyfin, the open-source Jellyfin client created by Fredrik Burmester and its contributors. Much of what Glassfin does started there, and it is shared under the Mozilla Public License 2.0. Thank you.",
@@ -687,7 +697,8 @@
           "intro": "welcome tour duo",
           "logs": "debug errors diagnostics",
           "acknowledgements": "licence license open source credits about",
-          "language": "translation"
+          "language": "translation",
+          "support": "tip donate support thanks"
         }
       }
     },
