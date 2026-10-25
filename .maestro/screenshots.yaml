@@ -7,14 +7,12 @@ appId: com.doombadroid.glassfin
     clearState: true
 - tapOn: "http(s)://your-server.com"
 - inputText: "https://demo.jellyfin.org/stable"
-- hideKeyboard
 - tapOn: "Continue"
 - extendedWaitUntil:
     visible: "Username"
     timeout: 30000
 - tapOn: "Username"
 - inputText: "demo"
-- hideKeyboard
 - tapOn: "Log in"
 - extendedWaitUntil:
     visible: "Tonight"
