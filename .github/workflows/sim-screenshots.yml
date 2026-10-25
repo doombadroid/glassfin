@@ -5,9 +5,16 @@ name: Simulator screenshots
 on:
   workflow_dispatch:
     inputs:
+      app_run:
+        description: Reuse the simulator app from this earlier run id (skips the build)
+        default: ""
       device:
         description: Simulator device type (falls back to the newest Pro Max)
         default: iPhone 18 Pro Max
+
+permissions:
+  contents: read
+  actions: read
 
 concurrency:
   group: sim-screenshots
@@ -37,13 +44,25 @@ jobs:
           key: ${{ runner.os }}-${{ runner.arch }}-bun-${{ hashFiles('bun.lock') }}
           restore-keys: ${{ runner.os }}-${{ runner.arch }}-bun-
 
+      - name: Reuse an earlier build
+        if: inputs.app_run != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download "${{ inputs.app_run }}" -n glassfin-sim-app -D "$RUNNER_TEMP/app"
+          cd "$RUNNER_TEMP/app" && unzip -q Glassfin.app.zip
+          echo "APP=$RUNNER_TEMP/app/Glassfin.app" >> "$GITHUB_ENV"
+
       - name: Install dependencies
+        if: inputs.app_run == ''
         run: bun install --frozen-lockfile
 
       - name: Generate project files
+        if: inputs.app_run == ''
         run: bun run prebuild
 
       - name: Build for the simulator
+        if: inputs.app_run == ''
         env:
           EXPO_TV: 0
         run: |
@@ -53,19 +72,29 @@ jobs:
           [ -n "$app" ] || app=$(find build -name '*.app' -maxdepth 3 | head -1)
           test -d "$app"
           echo "APP=$app" >> "$GITHUB_ENV"
+          (cd "$(dirname "$app")" && zip -qry "$RUNNER_TEMP/Glassfin.app.zip" Glassfin.app)
+
+      - uses: actions/upload-artifact@v4
+        if: inputs.app_run == ''
+        with:
+          name: glassfin-sim-app
+          path: ${{ runner.temp }}/Glassfin.app.zip
 
       - name: Boot the simulator
         run: |
           want="${{ inputs.device }}"
-          types=$(xcrun simctl list devicetypes -j)
-          type=$(echo "$types" | python3 -c "import json,sys
-          want=sys.argv[1]; t=json.load(sys.stdin)['devicetypes']
-          exact=[d for d in t if d['name']==want]
-          pm=[d for d in t if d['name'].startswith('iPhone') and d['name'].endswith('Pro Max')]
-          print((exact or pm[-1:])[0]['identifier'])" "$want")
-          runtime=$(xcrun simctl list runtimes -j | python3 -c "import json,sys
-          r=[x for x in json.load(sys.stdin)['runtimes'] if x['platform']=='iOS' and x['isAvailable']]
-          print(r[-1]['identifier'])")
+          # Each runtime lists the device types it can run; pick the newest
+          # runtime that supports the wanted device, else that runtime's
+          # newest Pro Max.
+          read -r type runtime < <(xcrun simctl list runtimes -j | python3 -c "import json,sys
+          want=sys.argv[1]
+          rs=[r for r in json.load(sys.stdin)['runtimes'] if r['platform']=='iOS' and r['isAvailable']]
+          for r in reversed(rs):
+              names={d['name']:d['identifier'] for d in r.get('supportedDeviceTypes',[])}
+              if want in names: print(names[want], r['identifier']); break
+          else:
+              r=rs[-1]; pm=[d for d in r['supportedDeviceTypes'] if d['name'].startswith('iPhone') and d['name'].endswith('Pro Max')]
+              print(pm[-1]['identifier'], r['identifier'])" "$want")
           echo "device type $type, runtime $runtime"
           udid=$(xcrun simctl create shots "$type" "$runtime")
           xcrun simctl boot "$udid"
