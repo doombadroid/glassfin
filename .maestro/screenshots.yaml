@@ -63,9 +63,15 @@ appId: com.doombadroid.glassfin
 # Let playback run: the video keeps animating, so this waits the full time.
 - waitForAnimationToEnd:
     timeout: 20000
+# A tap toggles the controls; shoot after each of two taps and keep the one
+# that shows them.
 - tapOn:
     point: "50%,45%"
-# Let the controls fade in (the video itself never stops animating).
 - waitForAnimationToEnd:
     timeout: 800
-- takeScreenshot: 07-player
+- takeScreenshot: 07-player-a
+- tapOn:
+    point: "50%,45%"
+- waitForAnimationToEnd:
+    timeout: 800
+- takeScreenshot: 07-player-b
