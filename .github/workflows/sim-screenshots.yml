@@ -126,10 +126,11 @@ jobs:
 
       - name: Take the screenshots
         run: |
-          mkdir -p "$RUNNER_TEMP/shots"
-          maestro --device "$UDID" test .maestro/screenshots.yaml \
-            -e OUT="$RUNNER_TEMP/shots" -e MOVIE_ID="$MOVIE_ID" -e SERIES_ID="$SERIES_ID"
-          ls -la "$RUNNER_TEMP/shots"
+          # takeScreenshot writes plain names relative to the working directory.
+          mkdir -p "$RUNNER_TEMP/shots" && cd "$RUNNER_TEMP/shots"
+          maestro --device "$UDID" test "$GITHUB_WORKSPACE/.maestro/screenshots.yaml" \
+            -e MOVIE_ID="$MOVIE_ID" -e SERIES_ID="$SERIES_ID"
+          ls -la
 
       - uses: actions/upload-artifact@v4
         if: always()

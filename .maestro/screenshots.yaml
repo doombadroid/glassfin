@@ -22,7 +22,7 @@ appId: com.doombadroid.glassfin
     timeout: 45000
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: ${OUT}/00-intro
+- takeScreenshot: 00-intro
 - tapOn:
     point: "50%,86%"
 - extendedWaitUntil:
@@ -32,7 +32,7 @@ appId: com.doombadroid.glassfin
     direction: DOWN
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: ${OUT}/01-home
+- takeScreenshot: 01-home
 
 - openLink: "glassfin://items/page?id=${MOVIE_ID}"
 - tapOn:
@@ -40,7 +40,7 @@ appId: com.doombadroid.glassfin
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: ${OUT}/04-details
+- takeScreenshot: 04-details
 
 - openLink: "glassfin://series/${SERIES_ID}"
 - tapOn:
@@ -48,7 +48,7 @@ appId: com.doombadroid.glassfin
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
-- takeScreenshot: ${OUT}/05-series
+- takeScreenshot: 05-series
 
 - openLink: "glassfin://items/page?id=${MOVIE_ID}"
 - waitForAnimationToEnd:
@@ -61,4 +61,4 @@ appId: com.doombadroid.glassfin
     timeout: 20000
 - tapOn:
     point: "50%,45%"
-- takeScreenshot: ${OUT}/07-player
+- takeScreenshot: 07-player
