@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "ยินดีต้อนรับสู่ Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "ไคลเอนต์ Jellyfin แบบฟรีและโอเพนซอร์ส",
-      "features_title": "คุณสมบัติ",
-      "features_description": "Glassfin มีฟีเจอร์มากมายและทำงานร่วมกับซอฟต์แวร์อื่น ๆ ได้ คุณจะพบฟีเจอร์เหล่านี้ในเมนูการตั้งค่า:",
-      "seerr_feature_description": "เชื่อมต่อกับ Seerr ของคุณและขอภาพยนตร์ได้โดยตรงในแอป",
-      "downloads_feature_title": "ดาวน์โหลด",
-      "downloads_feature_description": "ดาวน์โหลดภาพยนตร์และซีรีส์เพื่อดูแบบออฟไลน์",
-      "chromecast_feature_description": "แคสต์ภาพยนตร์และซีรีส์ไปยังอุปกรณ์ Chromecast ของคุณ",
-      "centralised_settings_plugin_title": "ปลั๊กอินตั้งค่าแบบรวมศูนย์",
-      "centralised_settings_plugin_description": "ตั้งค่าแบบรวมศูนย์บนเซิร์ฟเวอร์ Jellyfin ของคุณ การตั้งค่าไคลเอนต์ของผู้ใช้ทุกคนจะซิงค์กันโดยอัตโนมัติ.",
       "done_button": "เสร็จสิ้น",
       "go_to_settings_button": "ไปที่การตั้งค่า",
-      "read_more": "อ่านเพิ่มเติม",
       "crash_reports_title": "ช่วยปรับปรุง Glassfin",
       "crash_reports_description": "Glassfin ส่งรายงานข้อผิดพลาดและการแคลชแบบไม่ระบุตัวตนไปยังผู้พัฒนา ข้อมูลบัญชีหรือที่อยู่เซิร์ฟเวอร์จะไม่ถูกส่งไปด้วย คุณสามารถปิดคุณสมบัตินี้ได้ที่นี่หรือในหน้าตั้งค่าได้ตลอดเวลา"
     },

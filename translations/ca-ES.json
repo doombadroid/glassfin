@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Benvingut a Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "Un client gratuït i de codi obert per a Jellyfin.",
-      "features_title": "Funcionalitats",
-      "features_description": "Glassfin té moltes funcionalitats i funciona amb altre programari. Les trobareu al menú de configuració:",
-      "seerr_feature_description": "Connecta't a la teva instància de Seerr i sol·licita pel·lícules directament des de l'aplicació.",
-      "downloads_feature_title": "Descàrregues",
-      "downloads_feature_description": "Descarregueu pel·lícules i sèries per veure-les sense connexió. Utilitzeu el mètode per defecte o instal·leu el servidor optimitzat per descarregar fitxers en segon pla.",
-      "chromecast_feature_description": "Envieu pel·lícules i sèries als vostres dispositius Chromecast.",
-      "centralised_settings_plugin_title": "Plugin de configuració centralitzada",
-      "centralised_settings_plugin_description": "Configureu els ajustos de manera centralitzada al vostre servidor Jellyfin. Els ajustos de client de cada usuari se sincronitzen automàticament.",
       "done_button": "Fet",
       "go_to_settings_button": "Ves a la configuració",
-      "read_more": "Mostra més",
       "crash_reports_title": "Ajuda a millorar Glassfin",
       "crash_reports_description": "Glassfin envia informes anònims de fallades i errors als desenvolupadors. No s'hi inclouen dades del compte ni adreces de servidors. Pots desactivar-ho aquí o en qualsevol moment a la configuració."
     },

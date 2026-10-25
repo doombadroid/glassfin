@@ -115,6 +115,8 @@ export const buildNativePlayerStrings = (
   audio: t("player.menu.audio"),
   subtitles: t("player.menu.subtitles"),
   chapters: t("chapters.title"),
+  controls: t("player.controls"),
+  upNext: t("player.up_next"),
   technicalInfo: t("player.menu.show_technical_info"),
   playbackError: t("player.error"),
   close: t("common.close"),

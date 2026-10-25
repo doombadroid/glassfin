@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Velkommen til Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "En gratis og Open-Source klient for Jellyfin.",
-      "features_title": "Funksjoner",
-      "features_description": "Glassfin har en haug med funksjoner og fungerer med annen programvare. Du finner dem i innstillingsmenyen:",
-      "seerr_feature_description": "Koble til Seerr-instansen din og be om filmer direkte i appen.",
-      "downloads_feature_title": "Nedlastinger",
-      "downloads_feature_description": "Last ned filmer og serier for å se dem offline.",
-      "chromecast_feature_description": "Kast filmer og tv-viser til Chromecast-enhetene dine.",
-      "centralised_settings_plugin_title": "Programtillegg for sentraliserte innstillinger",
-      "centralised_settings_plugin_description": "Konfigurer innstillinger sentralt på din Jellyfin-server. Alle brukeres klientinnstillinger synkroniseres automatisk.",
       "done_button": "Ferdig",
       "go_to_settings_button": "Gå til innstillinger",
-      "read_more": "Les mer",
       "crash_reports_title": "Bidra til å forbedre Glassfin",
       "crash_reports_description": "Glassfin sender anonyme krasj- og feilrapporter til utviklerne. Ingen kontodata eller serveradresser blir sendt med. Du kan slå dette av her eller når som helst i innstillingene."
     },

@@ -46,18 +46,9 @@
     "suggested_episodes": "Sugestitaj Epizodoj",
     "intro": {
       "welcome": "Bonvenon al Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "Senpaga kaj malfermfonta kliento por Jellyfin.",
-      "features_title": "Trajtoj",
-      "features_description": "Glassfin havas multajn trajtojn kaj integriĝas kun vasta gamo de programaroj, kiujn vi povas trovi en la agorda menuo, tiuj inkluzivas:",
       "jellyseerr_feature_description": "Konekti al via Jellyseerr-instanco kaj peti filmojn rekte en la aplikaĵo.",
-      "downloads_feature_title": "Elŝutoj",
-      "downloads_feature_description": "Elŝutu filmojn kaj televidajn seriojn por vidi senkonekte. Uzu aŭ la defaŭltan metodon aŭ instalu la optimumigan servilon por elŝuti dosierojn en la fono.",
-      "chromecast_feature_description": "Ĵetu filmojn kaj televidajn seriojn al viaj Chromecast-aparatoj.",
-      "centralised_settings_plugin_title": "Centralizita Agorda Kromprogramo",
-      "centralised_settings_plugin_description": "Agordu agordojn de centralizita loko sur via Jellyfin-servilo. Ĉiuj klientaj agordoj por ĉiuj uzantoj estos sinkronigitaj aŭtomate.",
       "done_button": "Farite",
-      "go_to_settings_button": "Iri al agordoj",
-      "read_more": "Legu pli"
+      "go_to_settings_button": "Iri al agordoj"
     },
     "settings": {
       "settings_title": "Agordoj",

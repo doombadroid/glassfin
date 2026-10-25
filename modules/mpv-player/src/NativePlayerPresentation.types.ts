@@ -213,6 +213,8 @@ export type NativePlayerStrings = Partial<
     | "audio"
     | "subtitles"
     | "chapters"
+    | "controls"
+    | "upNext"
     | "technicalInfo"
     | "playbackError"
     | "close"

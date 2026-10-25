@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "ברוך הבא ל-Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "קליינט חינמי ובקוד פתוח לשרתי Jellyfin.",
-      "features_title": "תכונות",
-      "features_description": "ל-Glassfin יש הרבה תכונות והוא עובד עם תוכנות נוספות. תוכל למצוא אותן בתפריט ההגדרות:",
-      "seerr_feature_description": "התחברות עם שרת Seerr כך שניתן לבקש סרטים ישירות מתוך האפליקציה.",
-      "downloads_feature_title": "הורדות",
-      "downloads_feature_description": "הורדת סרטים וסדרות לצפייה במצב לא-מקוון. השתמשו בדרך ברירת המחדל או התקינו את הגרסה האופטימלית של השרת כדי להוריד ברקע.",
-      "chromecast_feature_description": "הקרן סרטים וסדרות למכשרי הChromecast שברשותך.",
-      "centralised_settings_plugin_title": "תוסף הגדרות מרוכז",
-      "centralised_settings_plugin_description": "הגדר את ההגדרות באופן מרוכז בשרת ה-Jellyfin שלך. הגדרות הקליינט של כל משתמש מסונכרנות אוטומטית.",
       "done_button": "בוצע",
       "go_to_settings_button": "עבור להגדרות",
-      "read_more": "קרא עוד",
       "crash_reports_title": "עזרו לשפר את Glassfin",
       "crash_reports_description": "דוחות קריסה ושגיאות אנונימיים נשלחים מ-Glassfin למפתחים. הם אינם כוללים נתוני חשבון או כתובות שרתים. אפשר לכבות זאת כאן או בכל עת בהגדרות."
     },

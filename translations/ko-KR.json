@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Glassfin에 오신 것을 환영합니다",
-      "a_free_and_open_source_client_for_jellyfin": "Jellyfin을 위한 무료 오픈소스 클라이언트입니다.",
-      "features_title": "기능",
-      "features_description": "Glassfin은 다양한 기능을 제공하며 다른 소프트웨어와도 연동됩니다. 설정 메뉴에서 확인할 수 있습니다:",
-      "seerr_feature_description": "Seerr 서버에 연결하여 앱에서 바로 영화를 요청할 수 있습니다.",
-      "downloads_feature_title": "다운로드된 컨텐츠",
-      "downloads_feature_description": "영화와 시리즈를 다운로드하여 오프라인으로 시청.",
-      "chromecast_feature_description": "영화와 TV 프로그램을 Chromecast 기기로 전송하기",
-      "centralised_settings_plugin_title": "중앙 설정 플러그인",
-      "centralised_settings_plugin_description": "Jellyfin 서버에서 설정을 중앙 관리할 수 있습니다. 모든 사용자의 클라이언트 설정이 자동으로 동기화됩니다.",
       "done_button": "완료",
       "go_to_settings_button": "설정으로 이동",
-      "read_more": "자세히 보기",
       "crash_reports_title": "Glassfin 개선에 참여하기",
       "crash_reports_description": "Glassfin은 앱 개선을 위해 익명으로 충돌 및 오류 보고서를 개발자에게 전송합니다. 계정 정보나 서버 주소는 포함되지 않습니다. 이 기능은 여기에서 끄거나 언제든지 설정에서 변경할 수 있습니다."
     },

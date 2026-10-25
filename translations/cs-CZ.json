@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Vítejte v Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "Volný a Open-Source klient pro Jellyfin.",
-      "features_title": "Vlastnosti",
-      "features_description": "Glassfin má spoustu funkcí a spolupracuje s dalším softwarem. Najdete je v nabídce nastavení:",
-      "seerr_feature_description": "Připojte se ke své instanci Seerr a žádejte o filmy přímo v aplikaci.",
-      "downloads_feature_title": "Stahování",
-      "downloads_feature_description": "Stáhněte si filmy a tv-show pro zobrazení v režimu offline. Použijte buď výchozí metodu nebo nainstalujte optimalizovaný server ke stažení souborů na pozadí.",
-      "chromecast_feature_description": "Přenášejte filmy a tv-show do vašich zařízení Chromecast.",
-      "centralised_settings_plugin_title": "Centralizovaný plugin nastavení",
-      "centralised_settings_plugin_description": "Nakonfigurujte nastavení centrálně na serveru Jellyfin. Klientská nastavení každého uživatele se synchronizují automaticky.",
       "done_button": "Hotovo",
       "go_to_settings_button": "Přejít do nastavení",
-      "read_more": "Číst více",
       "crash_reports_title": "Pomozte vylepšit Glassfin",
       "crash_reports_description": "Glassfin odesílá vývojářům anonymní hlášení o pádech a chybách. Neobsahují žádné údaje o účtu ani adresy serverů. Můžete to vypnout zde nebo kdykoli v nastavení."
     },

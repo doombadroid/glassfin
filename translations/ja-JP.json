@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Glassfinへようこそ",
-      "a_free_and_open_source_client_for_jellyfin": "Jellyfinのためのフリーでオープンソースのクライアント。",
-      "features_title": "特長",
-      "features_description": "Glassfinには多くの機能があり、他のソフトウェアとも連携します。設定メニューで確認できます：",
-      "seerr_feature_description": "Seerrインスタンスに接続し、アプリ内で直接映画をリクエストします。",
-      "downloads_feature_title": "ダウンロード",
-      "downloads_feature_description": "映画やテレビ番組をダウンロードしてオフラインで視聴します。デフォルトの方法を使用するか、バックグラウンドでファイルをダウンロードするために最適化されたサーバーをインストールしてください。",
-      "chromecast_feature_description": "映画とテレビ番組をChromecastデバイスにキャストします。",
-      "centralised_settings_plugin_title": "集中設定プラグイン",
-      "centralised_settings_plugin_description": "Jellyfinサーバーで設定を一元管理できます。すべてのユーザーのクライアント設定が自動的に同期されます。",
       "done_button": "完了",
       "go_to_settings_button": "設定に移動",
-      "read_more": "続きを読む",
       "crash_reports_title": "Glassfinの改善にご協力ください",
       "crash_reports_description": "Glassfinは匿名のクラッシュレポートとエラーレポートを開発者に送信します。アカウント情報やサーバーのアドレスは含まれません。ここで、または設定からいつでもオフにできます。"
     },

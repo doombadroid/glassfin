@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Bienvenido a Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "Un cliente gratuito y de código abierto para Jellyfin.",
-      "features_title": "Características",
-      "features_description": "Glassfin tiene muchas características y funciona con otro software. Las encontrarás en el menú de configuración:",
-      "seerr_feature_description": "Conéctate a tu servidor de Seerr y solicita películas directamente desde la app.",
-      "downloads_feature_title": "Descargas",
-      "downloads_feature_description": "Descarga películas y series para ver sin conexión. Usa el método por defecto o el servidor optimizado para descargar archivos en segundo plano.",
-      "chromecast_feature_description": "Envía pelícuas y series a tus dispositivos Chromecast.",
-      "centralised_settings_plugin_title": "Plugin de configuración centralizada",
-      "centralised_settings_plugin_description": "Configura los ajustes de forma centralizada en tu servidor Jellyfin. Los ajustes de cliente de cada usuario se sincronizan automáticamente.",
       "done_button": "Hecho",
       "go_to_settings_button": "Ir a la configuración",
-      "read_more": "Leer más",
       "crash_reports_title": "Ayuda a mejorar Glassfin",
       "crash_reports_description": "Glassfin envía informes anónimos de fallos y errores a los desarrolladores. No incluyen datos de la cuenta ni direcciones de servidores. Puedes desactivarlo aquí o en cualquier momento en la configuración."
     },

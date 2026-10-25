@@ -158,6 +158,11 @@ function SettingsMobile() {
               showArrow
               title={t("home.settings.logs.logs_title")}
             />
+            <ListItem
+              onPress={() => router.push("/settings/acknowledgements/page")}
+              showArrow
+              title={t("home.settings.acknowledgements.title")}
+            />
           </ListGroup>
         </View>
 

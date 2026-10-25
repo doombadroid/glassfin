@@ -2,10 +2,11 @@
 import SwiftUI
 import UIKit
 
-/// iPhone Duo half open: every control in glass capsules over the video's
-/// reflection, on the bottom half standing on a table or the right page held
-/// like a book. They stay up the whole time, since that half has nothing else
-/// to show. Their glow tilts with the phone and brightens as the room (the
+/// iPhone Duo half open: glass capsules over the video's reflection. On a
+/// table the bottom half pages between the controls, up next and chapters;
+/// held like a book the transport sits under the video and the right page
+/// browses beside it. Everything stays up, since that half has nothing else
+/// to show. The glow tilts with the phone and brightens as the room (the
 /// screen) dims.
 struct TabletopDeck: View {
 	@ObservedObject var viewModel: PlayerViewModel
@@ -15,32 +16,90 @@ struct TabletopDeck: View {
 	let fold: CGRect
 	let size: CGSize
 
+	/// Which page the free half shows; list pages only appear when there is
+	/// something to list.
+	@State private var page: DeckPage = .controls
+
 	/// The fold runs across the screen (on a table) rather than down it.
 	private var acrossScreen: Bool { fold.width > fold.height }
 
 	var body: some View {
 		if acrossScreen {
-			VStack(spacing: 0) {
-				Color.clear
-					.frame(height: max(0, fold.maxY))
-					.allowsHitTesting(false)
-				deck
-					.padding(.horizontal, 16)
-					.padding(.top, 14)
-				Spacer(minLength: 8)
-			}
-			.frame(width: size.width, height: size.height, alignment: .top)
+			tabletop
 		} else {
-			HStack(spacing: 0) {
-				Color.clear
-					.frame(width: max(0, fold.maxX))
-					.allowsHitTesting(false)
-				deck
-					.padding(.horizontal, 16)
-					.frame(maxHeight: .infinity)
-			}
-			.frame(width: size.width, height: size.height, alignment: .leading)
+			book
 		}
+	}
+
+	/// On a table: the bottom half pages between the controls and the lists,
+	/// with the transport kept under a list so playback stays in reach.
+	private var tabletop: some View {
+		let pages = viewModel.deckPages(includingControls: true)
+		let shown = pages.contains(page) ? page : .controls
+		return VStack(spacing: 0) {
+			Color.clear
+				.frame(height: max(0, fold.maxY))
+				.allowsHitTesting(false)
+			VStack(spacing: 12) {
+				if pages.count > 1 {
+					DeckPagePicker(viewModel: viewModel, pages: pages, selection: $page, sheen: sheen)
+				}
+				if shown == .controls {
+					deck
+					Spacer(minLength: 0)
+				} else {
+					DeckList(viewModel: viewModel, page: shown)
+						.frame(maxHeight: .infinity)
+					PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
+					TransportRow(viewModel: viewModel, sheen: sheen)
+				}
+			}
+			.padding(.horizontal, 16)
+			.padding(.top, 14)
+			.padding(.bottom, 8)
+		}
+		.frame(width: size.width, height: size.height, alignment: .top)
+	}
+
+	/// Held like a book: the transport sits under the video on the left page
+	/// and the right page browses episodes or chapters beside it.
+	private var book: some View {
+		let pages = viewModel.deckPages(includingControls: false)
+		let shown = pages.contains(page) ? page : pages.first
+		return HStack(spacing: 0) {
+			VStack(alignment: .leading, spacing: 12) {
+				Spacer(minLength: 0)
+				NowPlayingBadge(viewModel: viewModel)
+				PlayerBottomBar(viewModel: viewModel, time: viewModel.time)
+				HStack {
+					Spacer(minLength: 0)
+					TransportRow(viewModel: viewModel, sheen: sheen)
+					Spacer(minLength: 0)
+				}
+			}
+			.padding(.horizontal, 20)
+			.padding(.bottom, 16)
+			.frame(width: max(0, fold.minX))
+			Color.clear
+				.frame(width: fold.width)
+				.allowsHitTesting(false)
+			VStack(alignment: .leading, spacing: 12) {
+				actions
+				if let shown {
+					if pages.count > 1 {
+						DeckPagePicker(viewModel: viewModel, pages: pages, selection: $page, sheen: sheen)
+					}
+					DeckList(viewModel: viewModel, page: shown)
+						.frame(maxHeight: .infinity)
+				} else {
+					Spacer(minLength: 0)
+				}
+				prompts
+			}
+			.padding(16)
+			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+		}
+		.frame(width: size.width, height: size.height, alignment: .leading)
 	}
 
 	/// No panel: the capsules float over the reflection, as on Netflix, and
@@ -64,21 +123,27 @@ struct TabletopDeck: View {
 				TransportRow(viewModel: viewModel, sheen: sheen)
 				Spacer(minLength: 0)
 			}
-			if let notice = viewModel.skippedSegmentNotice {
-				Text(notice)
-					.font(.subheadline.weight(.medium))
-					.foregroundStyle(.white)
-					.frame(maxWidth: .infinity, alignment: .center)
-			}
-			if !viewModel.controlsLocked {
-				if let countdown = viewModel.countdownRemaining, let next = viewModel.nextEpisode {
-					NextEpisodeCountdownView(viewModel: viewModel, next: next, remaining: countdown)
-				} else if let segment = viewModel.activeSegment, segment.skipMode != "auto" {
-					SkipSegmentButton(viewModel: viewModel, segment: segment)
-				}
-			}
+			prompts
 		}
 		.padding(.horizontal, 6)
+	}
+
+	/// Skip notices, the skip button and the next-episode countdown.
+	@ViewBuilder
+	private var prompts: some View {
+		if let notice = viewModel.skippedSegmentNotice {
+			Text(notice)
+				.font(.subheadline.weight(.medium))
+				.foregroundStyle(.white)
+				.frame(maxWidth: .infinity, alignment: .center)
+		}
+		if !viewModel.controlsLocked {
+			if let countdown = viewModel.countdownRemaining, let next = viewModel.nextEpisode {
+				NextEpisodeCountdownView(viewModel: viewModel, next: next, remaining: countdown)
+			} else if let segment = viewModel.activeSegment, segment.skipMode != "auto" {
+				SkipSegmentButton(viewModel: viewModel, segment: segment)
+			}
+		}
 	}
 
 	private var actions: some View {

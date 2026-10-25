@@ -4,7 +4,7 @@ import { toast } from "sonner-native";
 import { SettingSwitch } from "@/components/common/SettingSwitch";
 import useRouter from "@/hooks/useAppRouter";
 import { useSettings } from "@/utils/atoms/settings";
-import { sentryDebugInDev } from "@/utils/sentry";
+import { crashReportingAvailable, sentryDebugInDev } from "@/utils/sentry";
 import { ListGroup } from "../list/ListGroup";
 import { ListItem } from "../list/ListItem";
 
@@ -69,17 +69,19 @@ export const PluginSettings = () => {
           }
         />
       </ListItem>
-      <ListItem
-        title={t("home.settings.plugins.crash_reports")}
-        subtitle={t("home.settings.plugins.crash_reports_hint")}
-        disabledByAdmin={sentryLocked}
-      >
-        <SettingSwitch
-          value={settings.sentryEnabled}
-          disabled={sentryLocked}
-          onValueChange={(value) => updateSettings({ sentryEnabled: value })}
-        />
-      </ListItem>
+      {crashReportingAvailable && (
+        <ListItem
+          title={t("home.settings.plugins.crash_reports")}
+          subtitle={t("home.settings.plugins.crash_reports_hint")}
+          disabledByAdmin={sentryLocked}
+        >
+          <SettingSwitch
+            value={settings.sentryEnabled}
+            disabled={sentryLocked}
+            onValueChange={(value) => updateSettings({ sentryEnabled: value })}
+          />
+        </ListItem>
+      )}
       {/* Dev-only smoke test for the Sentry pipeline; never ships in release.
           Dev builds don't report unless EXPO_PUBLIC_SENTRY_DEBUG=1, so the
           button is hidden when the event would go nowhere. */}

@@ -66,6 +66,7 @@ import {
   type SavedServer,
   type SavedServerAccount,
 } from "@/utils/secureCredentials";
+import { crashReportingAvailable } from "@/utils/sentry";
 import { coerceStillWatchingPreset } from "@/utils/stillWatching";
 import { clearTopShelfCacheSafely } from "@/utils/topshelf/cache";
 
@@ -1479,12 +1480,14 @@ export default function SettingsTV() {
               updateSettings({ openSubtitlesEnabled: value })
             }
           />
-          <TVSettingsToggle
-            label={t("home.settings.plugins.crash_reports")}
-            value={settings.sentryEnabled}
-            disabledByAdmin={pluginSettings?.sentryEnabled?.locked === true}
-            onToggle={(value) => updateSettings({ sentryEnabled: value })}
-          />
+          {crashReportingAvailable && (
+            <TVSettingsToggle
+              label={t("home.settings.plugins.crash_reports")}
+              value={settings.sentryEnabled}
+              disabledByAdmin={pluginSettings?.sentryEnabled?.locked === true}
+              onToggle={(value) => updateSettings({ sentryEnabled: value })}
+            />
+          )}
 
           {/* Custom proxy auth headers for Jellyfin and each integration */}
           <TVCustomHeadersSection serverUrl={storage.getString("serverUrl")} />

@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Glassfin yI'el!",
-      "a_free_and_open_source_client_for_jellyfin": "Jellyfin lut 'el je'be' 'ej wang.",
-      "features_title": "mIw",
-      "features_description": "Glassfin mIw law' tu'. men menuDaq yISam:",
-      "seerr_feature_description": "SeerrlIj yIngoq 'ej ghunDaq DIS yIpetlh.",
-      "downloads_feature_title": "Qaw' Doch",
-      "downloads_feature_description": "DIS 'ej Hem Qaw'laH. Qaw' mIw tu'lu'.",
-      "chromecast_feature_description": "DIS 'ej Hem Chromecast vI' ghoS.",
-      "centralised_settings_plugin_title": "wa'DIch men mIw",
-      "centralised_settings_plugin_description": "Jellyfin Ho'Do' veSDaq men yISeH. tlhIngan chIch.",
       "done_button": "Qapla'",
       "go_to_settings_button": "men yIghoS",
-      "read_more": "yIlaDqa'",
       "crash_reports_title": "Glassfin wIDubmeH ghoQaH",
       "crash_reports_description": "ghunwI'pu'vaD Qagh De' pong Hutlhbogh ngeH Glassfin. laH De' ghap Server Daq ghap ngeHbe'. naDev Dachu'Ha'laH, pagh reH menDaq Dachu'Ha'laH."
     },

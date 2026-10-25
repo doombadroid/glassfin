@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Üdvözöljük a Glassfinben",
-      "a_free_and_open_source_client_for_jellyfin": "Egy Ingyenes és Nyílt Forráskódú Jellyfin Kliens.",
-      "features_title": "Funkciók",
-      "features_description": "A Glassfin számos funkcióval rendelkezik, és együttműködik más szoftverekkel is. Ezeket a beállítások menüben találod:",
-      "seerr_feature_description": "Csatlakozz a Seerr-példányodhoz, és kérj filmeket közvetlenül az alkalmazásból.",
-      "downloads_feature_title": "Letöltések",
-      "downloads_feature_description": "Töltsd le a filmeket és sorozatokat az offline megtekintéshez. Használhatod az alapértelmezett módszert, vagy telepítheted az 'optimise server'-t a háttérben történő letöltéshez.",
-      "chromecast_feature_description": "Játszd le a filmeket és sorozatokat a  Chromecast eszközeiden.",
-      "centralised_settings_plugin_title": "Központosított Beállítások Bővítmény",
-      "centralised_settings_plugin_description": "Konfiguráld a beállításokat központilag a Jellyfin szervereden. Minden felhasználó kliensbeállításai automatikusan szinkronizálódnak.",
       "done_button": "Kész",
       "go_to_settings_button": "Ugrás a Beállításokhoz",
-      "read_more": "Bővebben",
       "crash_reports_title": "Segíts jobbá tenni a Glassfint",
       "crash_reports_description": "A Glassfin névtelen összeomlási és hibajelentéseket küld a fejlesztőknek. Ezek nem tartalmaznak fiókadatokat vagy kiszolgálócímeket. Ezt itt vagy később bármikor kikapcsolhatod a beállításokban."
     },

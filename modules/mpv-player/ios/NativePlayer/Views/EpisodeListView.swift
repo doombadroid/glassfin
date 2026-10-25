@@ -14,7 +14,7 @@ struct EpisodeListView: View {
 					Button {
 						viewModel.selectEpisode(episode)
 					} label: {
-						row(for: episode)
+						EpisodeRow(episode: episode, headers: viewModel.imageHeaders)
 					}
 					.listRowBackground(episode.isCurrent ? Color.white.opacity(0.1) : Color.clear)
 					.id(episode.itemId)
@@ -42,11 +42,18 @@ struct EpisodeListView: View {
 		.presentationDetents([.medium, .large])
 		.preferredColorScheme(.dark)
 	}
+}
 
-	private func row(for episode: EpisodeListItemRecord) -> some View {
+/// One episode: thumbnail with its watched progress, then the title. Shared
+/// by the episode sheet and the half-open Duo deck.
+struct EpisodeRow: View {
+	let episode: EpisodeListItemRecord
+	let headers: [String: String]?
+
+	var body: some View {
 		HStack(spacing: 12) {
 			ZStack(alignment: .bottomLeading) {
-				thumbnail(for: episode)
+				thumbnail
 				if episode.progressPercent > 0 {
 					GeometryReader { geometry in
 						Rectangle()
@@ -60,7 +67,7 @@ struct EpisodeListView: View {
 			.clipShape(RoundedRectangle(cornerRadius: 8))
 
 			VStack(alignment: .leading, spacing: 3) {
-				Text(episodeTitle(for: episode))
+				Text(title)
 					.font(.subheadline.weight(episode.isCurrent ? .semibold : .regular))
 					.foregroundStyle(.primary)
 					.lineLimit(2)
@@ -75,7 +82,7 @@ struct EpisodeListView: View {
 		.padding(.vertical, 4)
 	}
 
-	private func episodeTitle(for episode: EpisodeListItemRecord) -> String {
+	private var title: String {
 		if let index = episode.indexNumber {
 			return "\(index). \(episode.title)"
 		}
@@ -83,9 +90,9 @@ struct EpisodeListView: View {
 	}
 
 	@ViewBuilder
-	private func thumbnail(for episode: EpisodeListItemRecord) -> some View {
+	private var thumbnail: some View {
 		if let imageUrl = episode.imageUrl, let url = URL(string: imageUrl) {
-			RemoteImage(url: url, headers: viewModel.imageHeaders) {
+			RemoteImage(url: url, headers: headers) {
 				Color.gray.opacity(0.3)
 			}
 		} else {

@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Tervetuloa Glassfiniin",
-      "a_free_and_open_source_client_for_jellyfin": "Ilmainen ja avoimen lähdekoodin asiakas Jellyfinille.",
-      "features_title": "Ominaisuudet",
-      "features_description": "Glassfinissä on useita ominaisuuksia, ja se toimii muiden ohjelmistojen kanssa. Löydät ne asetukset-valikosta:",
-      "seerr_feature_description": "Yhdistä Seerr-instanssiisi ja pyydä elokuvia suoraan sovelluksessa.",
-      "downloads_feature_title": "Lataukset",
-      "downloads_feature_description": "Lataa elokuvia ja TV-sarjoja katsottavaksi offline-tilassa. Käytä joko oletusmenetelmää tai asenna optimoitu palvelin ladataksesi tiedostoja taustalla.",
-      "chromecast_feature_description": "Toista elokuvia ja TV-sarjoja Chromecast-laitteillesi.",
-      "centralised_settings_plugin_title": "Keskitetty asetusten liitännäinen",
-      "centralised_settings_plugin_description": "Määritä asetukset keskitetysti Jellyfin-palvelimellasi. Jokaisen käyttäjän asiakasasetukset synkronoidaan automaattisesti.",
       "done_button": "Valmis",
       "go_to_settings_button": "Siirry asetuksiin",
-      "read_more": "Lue lisää",
       "crash_reports_title": "Auta parantamaan Glassfiniä",
       "crash_reports_description": "Glassfin lähettää kehittäjille nimettömiä kaatumis- ja virheraportteja. Niihin ei sisälly tilitietoja eikä palvelinosoitteita. Voit poistaa tämän käytöstä täällä tai milloin tahansa asetuksista."
     },

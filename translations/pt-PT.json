@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Bem-vindo ao Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "Um cliente gratuito e de código aberto para o Jellyfin.",
-      "features_title": "Funcionalidades",
-      "features_description": "O Glassfin tem várias funcionalidades e funciona com outro software. Encontra-as no menu de definições:",
-      "seerr_feature_description": "Conecte-se à sua instância do Seerr e peça filmes diretamente na aplicação.",
-      "downloads_feature_title": "Transferências",
-      "downloads_feature_description": "Transfira filmes e séries para ver sem ligação à Internet.",
-      "chromecast_feature_description": "Transmita filmes e séries para os seus dispositivos Chromecast.",
-      "centralised_settings_plugin_title": "Plugin de definições centralizadas",
-      "centralised_settings_plugin_description": "Defina as opções de forma centralizada no seu servidor Jellyfin. As definições de cliente de cada utilizador sincronizam automaticamente.",
       "done_button": "Concluído",
       "go_to_settings_button": "Ir para Configurações",
-      "read_more": "Ler mais",
       "crash_reports_title": "Contribui para o desenvolvimento do Glassfin",
       "crash_reports_description": "O streamyfin envia dados anónimos acerca de ‘crashes’ e erros aos programadores. Dados da conta ou endereços de servidor não estão incluídos. Pode desligar esta opção a qualquer momento nas definições."
     },

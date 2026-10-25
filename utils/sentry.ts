@@ -22,6 +22,9 @@ import { getVersionInfo } from "@/utils/version";
 // purpose: their project must not receive this fork's events.
 const SENTRY_DSN = process.env.EXPO_PUBLIC_SENTRY_DSN;
 
+// The crash-report toggles only show when a build can actually report.
+export const crashReportingAvailable = Boolean(SENTRY_DSN);
+
 // Dev builds stay out of Sentry entirely. Their frames carry local absolute
 // paths — the developer's username and worktree layout — Metro reloads throw
 // errors that no user will ever hit, and the same bug grouped under a handful

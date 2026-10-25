@@ -46,18 +46,9 @@
     "suggested_episodes": "Foreslåtte episodar",
     "intro": {
       "welcome": "Velkommen til Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "Ein gratis og open kjeldekode-klient for Jellyfin.",
-      "features_title": "Funksjonar",
-      "features_description": "Glassfin har ei rekkje funksjonar og blir integrerte med eit breitt utval av programvare som du finn i innstillingsmenyen, desse inkluderer:",
       "jellyseerr_feature_description": "Kopl til Jellyseerr-instansen din og be om filmar direkte i appen.",
-      "downloads_feature_title": "Nedlastingar",
-      "downloads_feature_description": "Last ned filmar og TV-seriar for å sjå dei offline. Bruk anten standardmetoden eller installer optimize-serveren for å lasta ned filer i bakgrunnen.",
-      "chromecast_feature_description": "Cast filmar og TV-seriar til Chromecast-einingane dine.",
-      "centralised_settings_plugin_title": "Sentraliserte innstillingar-plugin",
-      "centralised_settings_plugin_description": "Konfigurer innstillingar frå ei sentralisert plassering på Jellyfin-serveren din. Alle klientinnstillingar for alle brukarar blir automatisk synkroniserte.",
       "done_button": "Hald fram",
-      "go_to_settings_button": "Gå til innstillingar",
-      "read_more": "Les meir"
+      "go_to_settings_button": "Gå til innstillingar"
     },
     "settings": {
       "settings_title": "Innstillingar",

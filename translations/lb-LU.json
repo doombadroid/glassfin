@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Wëllkomm bei Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "E fräien an Open-Source Client fir Jellyfin.",
-      "features_title": "Featuren",
-      "features_description": "Glassfin bitt vill Featuren a funktionéiert mat anerer Software. Du fënns se am Astellungsmenu:",
-      "seerr_feature_description": "Verbann dech mat denger Seerr-Instanz a fro Filmer direkt an der App un.",
-      "downloads_feature_title": "Downloaden",
-      "downloads_feature_description": "Lued Filmer a Serien erof, fir se offline unzekucken. Notz entweder d'Standardmethod oder installéier den optiméierte Server, fir Dateien am Hannergrond erofzelueden.",
-      "chromecast_feature_description": "Iwwerdro Filmer a Serien op deng Chromecast-Apparater.",
-      "centralised_settings_plugin_title": "Zenrtaliséierten Astellungsplugin",
-      "centralised_settings_plugin_description": "Konfiguréier Astellungen zentral op dengem Jellyfin-Server. D'Client-Astellunge vun alle Benotzer ginn automatesch synchroniséiert.",
       "done_button": "Färdeg",
       "go_to_settings_button": "Géi an d'Astellungen",
-      "read_more": "Méi erfueren",
       "crash_reports_title": "Hëllef, Glassfin ze verbesseren",
       "crash_reports_description": "Glassfin schéckt den Entwéckler anonym Crash- a Feelerrapporten. Keng Accountdaten oder Serveradresse sinn derbäi. Du kanns dat hei oder jidderzäit an den Astellungen ofschalten."
     },

@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "歡迎來到 Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "一個免費且開源的 Jellyfin 客戶端。",
-      "features_title": "功能",
-      "features_description": "Glassfin 擁有許多功能，並與多種軟體整合，您可以在設置菜單中找到這些功能，包括：",
-      "seerr_feature_description": "連線到您的 Seerr 伺服器，直接在應用程式中請求電影。",
-      "downloads_feature_title": "下載",
-      "downloads_feature_description": "下載電影和電視節目以離線觀看。使用默認方法或安裝 Optimized Server 以在背景中下載文件。",
-      "chromecast_feature_description": "將電影和電視節目投射到您的 Chromecast 設備。",
-      "centralised_settings_plugin_title": "統一設置插件",
-      "centralised_settings_plugin_description": "從 Jellyfin 伺服器上的統一位置改變設置。所有用戶的所有客戶端設置將會自動同步。",
       "done_button": "完成",
       "go_to_settings_button": "前往設置",
-      "read_more": "閱讀更多",
       "crash_reports_title": "協助改善 Glassfin",
       "crash_reports_description": "Glassfin 會向開發者傳送匿名的當機與錯誤報告，不包含任何帳戶資料或伺服器位址。您可以在此處關閉此功能，也可以隨時在設定中關閉。"
     },

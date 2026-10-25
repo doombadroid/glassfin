@@ -1,11 +1,10 @@
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import {
   BottomSheetBackdrop,
   type BottomSheetBackdropProps,
   BottomSheetModal,
   BottomSheetScrollView,
 } from "@gorhom/bottom-sheet";
-import { Image } from "expo-image";
 import { forwardRef, useCallback, useImperativeHandle, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -18,10 +17,35 @@ import { Button } from "@/components/Button";
 import { SettingSwitch } from "@/components/common/SettingSwitch";
 import { Text } from "@/components/common/Text";
 import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
+import { Colors } from "@/constants/Colors";
 import { SHEET_MAX_HEIGHT_RATIO } from "@/constants/Values";
 import useRouter from "@/hooks/useAppRouter";
 import { useSettings } from "@/utils/atoms/settings";
 import { storage } from "@/utils/mmkv";
+import { crashReportingAvailable } from "@/utils/sentry";
+
+const INTRO_ROWS = [
+  {
+    icon: "laptop-outline",
+    title: "home.intro.tabletop_title",
+    body: "home.intro.tabletop_description",
+  },
+  {
+    icon: "book-outline",
+    title: "home.intro.book_title",
+    body: "home.intro.book_description",
+  },
+  {
+    icon: "tablet-landscape-outline",
+    title: "home.intro.unfolded_title",
+    body: "home.intro.unfolded_description",
+  },
+  {
+    icon: "cloud-download-outline",
+    title: "home.intro.offline_title",
+    body: "home.intro.offline_description",
+  },
+] as const;
 
 export interface IntroSheetRef {
   present: () => void;
@@ -77,7 +101,7 @@ export const IntroSheet = forwardRef<IntroSheetRef>((_, ref) => {
       enableDynamicSizing
       maxDynamicContentSize={windowHeight * SHEET_MAX_HEIGHT_RATIO}
       backdropComponent={renderBackdrop}
-      backgroundStyle={{ backgroundColor: "#171717" }}
+      backgroundStyle={{ backgroundColor: Colors.background }}
       handleIndicatorStyle={{ backgroundColor: "#737373" }}
     >
       <BottomSheetScrollView
@@ -91,162 +115,87 @@ export const IntroSheet = forwardRef<IntroSheetRef>((_, ref) => {
             <Text className='text-3xl font-bold text-center mb-2'>
               {t("home.intro.welcome")}
             </Text>
-            <Text className='text-center'>
-              {t("home.intro.a_free_and_open_source_client_for_jellyfin")}
-            </Text>
+            <Text className='text-center'>{t("home.intro.tagline")}</Text>
           </View>
 
+          {/* The Duo poses are what Glassfin is for, so they lead; the rest
+              is one line each rather than an inventory of settings. */}
           <View>
             <Text className='text-lg font-bold'>
-              {t("home.intro.features_title")}
+              {t("home.intro.duo_title")}
             </Text>
-            <Text className='text-xs'>
-              {t("home.intro.features_description")}
-            </Text>
-            <View className='flex flex-row items-center mt-4'>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                }}
-                className='flex items-center justify-center'
+            {INTRO_ROWS.map((row) => (
+              <View key={row.title} className='flex flex-row items-center mt-4'>
+                <View
+                  style={{ width: 50, height: 50 }}
+                  className='flex items-center justify-center'
+                >
+                  <Ionicons name={row.icon} size={28} color={Colors.primary} />
+                </View>
+                <View className='shrink ml-2'>
+                  <Text className='font-bold mb-1'>{t(row.title)}</Text>
+                  <Text className='shrink text-xs'>{t(row.body)}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+
+          {crashReportingAvailable && (
+            <View>
+              <Text className='text-lg font-bold'>
+                {t("home.intro.crash_reports_title")}
+              </Text>
+              {/* The whole row toggles: the Switch itself isn't focusable on TV,
+                  so the TouchableOpacity carries the remote-select press there. */}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                disabled={sentryLocked}
+                onPress={() =>
+                  updateSettings({ sentryEnabled: !settings?.sentryEnabled })
+                }
+                className='flex flex-row items-center mt-2'
               >
-                <Image
-                  source={require("@/assets/icons/seerr-logo.svg")}
+                <View
                   style={{
-                    width: 30,
-                    height: 30,
+                    width: 50,
+                    height: 50,
                   }}
-                />
-              </View>
-              <View className='shrink ml-2'>
-                <Text className='font-bold mb-1'>Seerr</Text>
-                <Text className='shrink text-xs'>
-                  {t("home.intro.seerr_feature_description")}
-                </Text>
-              </View>
-            </View>
-            {!Platform.isTV && (
-              <>
-                <View className='flex flex-row items-center mt-4'>
-                  <View
-                    style={{
-                      width: 50,
-                      height: 50,
-                    }}
-                    className='flex items-center justify-center'
-                  >
-                    <Ionicons
-                      name='cloud-download-outline'
-                      size={32}
-                      color='white'
-                    />
-                  </View>
-                  <View className='shrink ml-2'>
-                    <Text className='font-bold mb-1'>
-                      {t("home.intro.downloads_feature_title")}
-                    </Text>
-                    <Text className='shrink text-xs'>
-                      {t("home.intro.downloads_feature_description")}
-                    </Text>
-                  </View>
+                  className='flex items-center justify-center'
+                >
+                  <Ionicons name='bug-outline' size={28} color='white' />
                 </View>
-                <View className='flex flex-row items-center mt-4'>
-                  <View
-                    style={{
-                      width: 50,
-                      height: 50,
-                    }}
-                    className='flex items-center justify-center'
-                  >
-                    <Feather name='cast' size={28} color={"white"} />
-                  </View>
-                  <View className='shrink ml-2'>
-                    <Text className='font-bold mb-1'>Chromecast</Text>
-                    <Text className='shrink text-xs'>
-                      {t("home.intro.chromecast_feature_description")}
-                    </Text>
-                  </View>
-                </View>
-              </>
-            )}
-            <View className='flex flex-row items-center mt-4'>
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                }}
-                className='flex items-center justify-center'
-              >
-                <Feather name='settings' size={28} color={"white"} />
-              </View>
-              <View className='shrink ml-2'>
-                <Text className='font-bold mb-1'>
-                  {t("home.intro.centralised_settings_plugin_title")}
-                </Text>
-                <View className='flex-row flex-wrap items-baseline'>
+                <View className='shrink flex-1 ml-2 mr-3'>
                   <Text className='shrink text-xs'>
-                    {t("home.intro.centralised_settings_plugin_description")}
+                    {t("home.intro.crash_reports_description")}
                   </Text>
                 </View>
-              </View>
-            </View>
-          </View>
-
-          <View>
-            <Text className='text-lg font-bold'>
-              {t("home.intro.crash_reports_title")}
-            </Text>
-            {/* The whole row toggles: the Switch itself isn't focusable on TV,
-                so the TouchableOpacity carries the remote-select press there. */}
-            <TouchableOpacity
-              activeOpacity={0.7}
-              disabled={sentryLocked}
-              onPress={() =>
-                updateSettings({ sentryEnabled: !settings?.sentryEnabled })
-              }
-              className='flex flex-row items-center mt-2'
-            >
-              <View
-                style={{
-                  width: 50,
-                  height: 50,
-                }}
-                className='flex items-center justify-center'
-              >
-                <Ionicons name='bug-outline' size={28} color='white' />
-              </View>
-              <View className='shrink flex-1 ml-2 mr-3'>
-                <Text className='shrink text-xs'>
-                  {t("home.intro.crash_reports_description")}
+                {/* Presentational only — the row press above is the single
+                    mutation path. The inertness has to come from a wrapping
+                    View: a Switch ignores its own pointerEvents on Android, so
+                    its native touch handler flipped it and the controlled value
+                    snapped it straight back — a toggle that couldn't be
+                    disabled by tapping the one control that looks tappable. */}
+                <View pointerEvents='none'>
+                  <SettingSwitch
+                    value={settings?.sentryEnabled === true}
+                    disabled={sentryLocked}
+                  />
+                </View>
+              </TouchableOpacity>
+              {sentryLocked && (
+                <Text className='text-xs text-red-500 mt-1'>
+                  {t("home.settings.disabled_by_admin")}
                 </Text>
-              </View>
-              {/* Presentational only — the row press above is the single
-                  mutation path. The inertness has to come from a wrapping
-                  View: a Switch ignores its own pointerEvents on Android, so
-                  its native touch handler flipped it and the controlled value
-                  snapped it straight back — a toggle that couldn't be
-                  disabled by tapping the one control that looks tappable. */}
-              <View pointerEvents='none'>
-                <SettingSwitch
-                  value={settings?.sentryEnabled === true}
-                  disabled={sentryLocked}
-                />
-              </View>
-            </TouchableOpacity>
-            {sentryLocked && (
-              <Text className='text-xs text-red-500 mt-1'>
-                {t("home.settings.disabled_by_admin")}
-              </Text>
-            )}
-          </View>
+              )}
+            </View>
+          )}
 
           <View>
             <Button onPress={handleDismiss} className='mt-4'>
               {t("home.intro.done_button")}
             </Button>
             <TouchableOpacity onPress={handleGoToSettings} className='mt-4'>
-              <Text className='text-purple-600 text-center'>
+              <Text className='text-center' style={{ color: Colors.primary }}>
                 {t("home.intro.go_to_settings_button")}
               </Text>
             </TouchableOpacity>

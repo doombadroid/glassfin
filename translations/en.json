@@ -123,18 +123,18 @@
     },
     "intro": {
       "welcome": "Welcome to Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "A free and open-source client for Jellyfin.",
-      "features_title": "Features",
-      "features_description": "Glassfin has a bunch of features and works with other software. You'll find them in the settings menu:",
-      "seerr_feature_description": "Connect to your Seerr instance and request movies directly in the app.",
-      "downloads_feature_title": "Downloads",
-      "downloads_feature_description": "Download movies and series to watch offline.",
-      "chromecast_feature_description": "Cast movies and series to your Chromecast devices.",
-      "centralised_settings_plugin_title": "Centralised Settings plugin",
-      "centralised_settings_plugin_description": "Configure settings centrally on your Jellyfin server. Every user's client settings sync automatically.",
+      "tagline": "A Jellyfin player made for iPhone, with layouts built for iPhone Duo.",
+      "duo_title": "Fold it, and the player follows",
+      "tabletop_title": "Tabletop",
+      "tabletop_description": "Stand the phone half-open: the video plays on top while the bottom half holds the controls, what's up next and the chapters.",
+      "book_title": "Book",
+      "book_description": "Hold it open like a book: the video sits on one side and the episodes, chapters and details on the other, without pausing.",
+      "unfolded_title": "Unfolded",
+      "unfolded_description": "Open it flat for a sidebar and side-by-side pages, with a show on one side and its episodes on the other.",
+      "offline_title": "Offline",
+      "offline_description": "Download films and episodes to watch without a connection.",
       "done_button": "Done",
       "go_to_settings_button": "Go to Settings",
-      "read_more": "Read more",
       "crash_reports_title": "Help improve Glassfin",
       "crash_reports_description": "Glassfin sends anonymous crash and error reports to the developers. No account data or server addresses are included. You can turn this off here or anytime in settings."
     },
@@ -440,7 +440,7 @@
         "max_cache_size": "Max cache size"
       },
       "plugins": {
-        "plugins_title": "Plugins",
+        "plugins_title": "Integrations",
         "wikidata_awards": "Awards from Wikidata",
         "wikidata_awards_hint": "Show Oscar and award status on movie and series pages. This device asks Wikidata directly, not your Jellyfin server.",
         "opensubtitles_enabled": "Search OpenSubtitles",
@@ -539,6 +539,15 @@
         "title": "Intro",
         "show_intro": "Show intro",
         "reset_intro": "Reset intro"
+      },
+      "acknowledgements": {
+        "title": "Acknowledgements",
+        "body": "Glassfin is an independent fork of Streamyfin, the open-source Jellyfin client created by Fredrik Burmester and its contributors. Much of what Glassfin does started there, and it is shared under the Mozilla Public License 2.0. Thank you.",
+        "libraries": "Video playback uses MPV through MPVKit. Glassfin is not affiliated with or endorsed by Streamyfin or the Jellyfin project.",
+        "links": "Links",
+        "source_code": "Glassfin source code",
+        "streamyfin_project": "The Streamyfin project",
+        "licence": "Mozilla Public License 2.0"
       },
       "logs": {
         "logs_title": "Logs",
@@ -900,6 +909,7 @@
     "message_from_server": "Message from server: {{message}}",
     "next_episode": "Next episode",
     "up_next": "Up next",
+    "controls": "Controls",
     "continue_watching": "Continue watching",
     "go_back": "Go back",
     "downloaded_file_title": "You have this file downloaded",

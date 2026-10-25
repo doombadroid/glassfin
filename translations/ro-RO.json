@@ -123,18 +123,8 @@
     },
     "intro": {
       "welcome": "Bun venit la Glassfin",
-      "a_free_and_open_source_client_for_jellyfin": "Un client gratuit și open-source pentru Jellyfin.",
-      "features_title": "Caracteristici",
-      "features_description": "Glassfin are o mulțime de funcții și funcționează cu alte aplicații software. Le găsiți în meniul de setări:",
-      "seerr_feature_description": "Conectează-te la instanța ta Seerr și cere filme direct din aplicație.",
-      "downloads_feature_title": "Descărcări",
-      "downloads_feature_description": "Descarcă filme și seriale pentru a le viziona offline. Folosește fie metoda implicită, fie instalează serverul de optimizare pentru a descărca fișiere în fundal.",
-      "chromecast_feature_description": "Transmiteți filme și seriale pe dispozitivele dvs. Chromecast.",
-      "centralised_settings_plugin_title": "Plugin de setări centralizate",
-      "centralised_settings_plugin_description": "Configurați setările central pe serverul Jellyfin. Setările clientului fiecărui utilizator se sincronizează automat.",
       "done_button": "Efectuat",
       "go_to_settings_button": "Accesați setările",
-      "read_more": "Citeşte mai mult",
       "crash_reports_title": "Ajută-ne să îmbunătățim Glassfin",
       "crash_reports_description": "Glassfin trimite dezvoltatorilor rapoarte anonime de blocare și erori. Nu sunt incluse date de cont sau adrese de server. Poți dezactiva această opțiune aici sau oricând din setări."
     },
