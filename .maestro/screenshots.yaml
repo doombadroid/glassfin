@@ -5,6 +5,10 @@ appId: com.doombadroid.glassfin
 ---
 - launchApp:
     clearState: true
+# A cold launch can take a while on the CI simulator.
+- extendedWaitUntil:
+    visible: "http(s)://your-server.com"
+    timeout: 60000
 - tapOn: "http(s)://your-server.com"
 - inputText: "https://demo.jellyfin.org/stable"
 - tapOn: "Continue"
