@@ -19,16 +19,14 @@ appId: com.doombadroid.glassfin
 - inputText: "demo"
 - tapOn: "Log in"
 # First launch shows the intro sheet over Home.
-# The bottom-sheet library exposes the sheet as one "Bottom Sheet" element,
-# so its text can't be matched: wait for that, tap Done by position.
+# The intro sheet's text is readable since the bottom-sheet accessibility fix.
 - extendedWaitUntil:
-    visible: "Bottom Sheet"
+    visible: "Welcome to Glassfin"
     timeout: 45000
 - waitForAnimationToEnd:
     timeout: 5000
 - takeScreenshot: 00-intro
-- tapOn:
-    point: "50%,86%"
+- tapOn: "Done"
 - extendedWaitUntil:
     visible: "Tonight"
     timeout: 15000

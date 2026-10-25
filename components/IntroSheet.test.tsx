@@ -32,6 +32,14 @@ jest.mock("react-native-safe-area-context", () => ({
   useSafeAreaInsets: () => ({ top: 20, bottom: 0, left: 0, right: 0 }),
 }));
 jest.mock("@/hooks/useHaptic", () => ({ useHaptic: () => () => {} }));
+const mockDuo = {
+  verticalBarEdge: "none",
+  hinge: "unknown",
+  fold: null as null | object,
+};
+jest.mock("@/utils/atoms/duoLayout", () => ({
+  useDuoLayout: () => mockDuo,
+}));
 jest.mock("@/hooks/useAppRouter", () => ({
   __esModule: true,
   default: () => ({ push: () => {} }),
@@ -54,4 +62,26 @@ test("caps the sheet below the window height", async () => {
   const cap = mockSheetProps.at(-1)?.maxDynamicContentSize;
   expect(cap).toBeDefined();
   expect(cap).toBeLessThan(height);
+});
+
+test("a regular iPhone gets what every iPhone has, not the fold poses", async () => {
+  Object.assign(mockDuo, {
+    verticalBarEdge: "none",
+    hinge: "unknown",
+    fold: null,
+  });
+  const screen = await render(<IntroSheet />);
+  expect(screen.getByText("home.intro.inside_title")).toBeTruthy();
+  expect(screen.queryByText("home.intro.book_title")).toBeNull();
+});
+
+test("iPhone Duo gets the fold poses, even before the hinge first reports", async () => {
+  Object.assign(mockDuo, {
+    verticalBarEdge: "right",
+    hinge: "unknown",
+    fold: null,
+  });
+  const screen = await render(<IntroSheet />);
+  expect(screen.getByText("home.intro.book_title")).toBeTruthy();
+  expect(screen.queryByText("home.intro.inside_title")).toBeNull();
 });

@@ -20,11 +20,13 @@ import { useWindowSafeAreaInsets } from "@/components/duo/TabContentInsets";
 import { Colors } from "@/constants/Colors";
 import { SHEET_MAX_HEIGHT_RATIO } from "@/constants/Values";
 import useRouter from "@/hooks/useAppRouter";
+import { useDuoLayout } from "@/utils/atoms/duoLayout";
 import { useSettings } from "@/utils/atoms/settings";
 import { storage } from "@/utils/mmkv";
 import { crashReportingAvailable } from "@/utils/sentry";
 
-const INTRO_ROWS = [
+// What the fold does, for a phone that folds.
+const DUO_ROWS = [
   {
     icon: "laptop-outline",
     title: "home.intro.tabletop_title",
@@ -47,6 +49,30 @@ const INTRO_ROWS = [
   },
 ] as const;
 
+// Any other iPhone: the poses above don't exist there.
+const PHONE_ROWS = [
+  {
+    icon: "play-circle-outline",
+    title: "home.intro.player_title",
+    body: "home.intro.player_description",
+  },
+  {
+    icon: "moon-outline",
+    title: "home.intro.tonight_title",
+    body: "home.intro.tonight_description",
+  },
+  {
+    icon: "cloud-download-outline",
+    title: "home.intro.offline_title",
+    body: "home.intro.offline_description",
+  },
+  {
+    icon: "phone-portrait-outline",
+    title: "home.intro.duo_ready_title",
+    body: "home.intro.duo_ready_description",
+  },
+] as const;
+
 export interface IntroSheetRef {
   present: () => void;
   dismiss: () => void;
@@ -61,6 +87,11 @@ export const IntroSheet = forwardRef<IntroSheetRef>((_, ref) => {
   const { height: windowHeight } = useWindowDimensions();
   const router = useRouter();
   const { settings, updateSettings, pluginSettings } = useSettings();
+  // Only iPhone Duo reports a hinge, a fold or the outer screen's vertical
+  // bar; the hinge alone can stay "unknown" until the phone first moves.
+  const duo = useDuoLayout();
+  const foldable =
+    duo.hinge !== "unknown" || duo.verticalBarEdge !== "none" || !!duo.fold;
   // An admin-locked toggle cannot take the write: updateSettings drops it and
   // the read stays pinned, so the row would look broken rather than locked.
   const sentryLocked = pluginSettings?.sentryEnabled?.locked === true;
@@ -118,13 +149,13 @@ export const IntroSheet = forwardRef<IntroSheetRef>((_, ref) => {
             <Text className='text-center'>{t("home.intro.tagline")}</Text>
           </View>
 
-          {/* The Duo poses are what Glassfin is for, so they lead; the rest
-              is one line each rather than an inventory of settings. */}
+          {/* The Duo poses lead on a phone that folds; anywhere else they
+              don't exist, so the sheet shows what every iPhone gets. */}
           <View>
             <Text className='text-lg font-bold'>
-              {t("home.intro.duo_title")}
+              {t(foldable ? "home.intro.duo_title" : "home.intro.inside_title")}
             </Text>
-            {INTRO_ROWS.map((row) => (
+            {(foldable ? DUO_ROWS : PHONE_ROWS).map((row) => (
               <View key={row.title} className='flex flex-row items-center mt-4'>
                 <View
                   style={{ width: 50, height: 50 }}
