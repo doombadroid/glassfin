@@ -28,7 +28,13 @@
   <img src="./docs/screenshots/03-book.webp" alt="Book: the video and controls on the left page, the episode list on the right" width="29%">
   <img src="./docs/screenshots/06-unfolded.webp" alt="Unfolded: the player on the full inner screen" width="29%">
 </p>
-<p align="center"><sub>Shown with the public Jellyfin demo server's public-domain and Creative Commons films. Device frames: Apple Design Resources.</sub></p>
+<p align="center">
+  <img src="./docs/screenshots/ip-00-intro.webp" alt="iPhone: the welcome sheet" width="24%">
+  <img src="./docs/screenshots/ip-01-home.webp" alt="iPhone: the Tonight home screen" width="24%">
+  <img src="./docs/screenshots/ip-04-details.webp" alt="iPhone: a film's page" width="24%">
+  <img src="./docs/screenshots/ip-05-series.webp" alt="iPhone: a series page with the season dropdown and episodes" width="24%">
+</p>
+<p align="center"><sub>Shown with the public Jellyfin demo server's public-domain and Creative Commons films. Device frames: Apple Design Resources. The bottom row is the iPhone 18 Pro Max simulator.</sub></p>
 
 ---
 
