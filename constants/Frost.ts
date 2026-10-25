@@ -22,6 +22,17 @@ export const FrostColors = {
  */
 export const FROST_CONTENT_FILL = "rgba(7, 9, 12, 0.45)";
 
+/**
+ * The glass sheet a detail page's content rides up on, over the artwork:
+ * nearly opaque so long overviews stay readable, with the ambient colour
+ * still faintly through it.
+ */
+export const FROST_SHEET = {
+  fill: "rgba(13, 28, 36, 0.92)",
+  edge: "rgba(255, 255, 255, 0.18)",
+  radius: 32,
+} as const;
+
 export const FrostAmbient = {
   /** expo-image blur radius over the backdrop. */
   blurRadius: 60,

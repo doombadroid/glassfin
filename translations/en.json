@@ -1503,5 +1503,16 @@
     "play_now": "Play now",
     "refresh_group": "Refresh group",
     "close": "Close"
+  },
+  "item": {
+    "glass": {
+      "minutes_left": "{{count}} min left",
+      "watched_percent": "{{percent}}% watched",
+      "choose_season": "Season: {{season}}. Choose another season",
+      "one_season": "1 season",
+      "season_count": "{{count}} seasons",
+      "resume_episode": "Resume S{{season}} E{{episode}}",
+      "play_episode": "Play S{{season}} E{{episode}}"
+    }
   }
 }

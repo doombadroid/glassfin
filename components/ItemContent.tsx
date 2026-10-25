@@ -27,9 +27,9 @@ import { CurrentSeries } from "@/components/series/CurrentSeries";
 import { SeasonEpisodesCarousel } from "@/components/series/SeasonEpisodesCarousel";
 import { SyncPlayButton } from "@/components/syncplay/SyncPlayButton";
 import { SyncPlayQueueButton } from "@/components/syncplay/SyncPlayQueueButton";
+import { Colors } from "@/constants/Colors";
 import { LOGO_HEIGHT } from "@/constants/Images";
 import useDefaultPlaySettings from "@/hooks/useDefaultPlaySettings";
-import { useImageColorsReturn } from "@/hooks/useImageColorsReturn";
 import { useOrientation } from "@/hooks/useOrientation";
 import { useVersionItemState } from "@/hooks/useVersionItem";
 import * as ScreenOrientation from "@/packages/expo-screen-orientation";
@@ -59,6 +59,10 @@ const ItemContentTV = Platform.isTV
 const HEADER_HEIGHT = 350;
 const MOVIE_HEADER_HEIGHT = 500;
 const LANDSCAPE_HEADER_HEIGHT = 230;
+
+// The sheet's primary actions are mint whatever the artwork, so Play reads the
+// same on every page instead of taking its colour from the poster.
+const SHEET_PLAY_COLORS = { primary: Colors.primary, text: Colors.onPrimary };
 
 export type SelectedOptions = {
   bitrate: Bitrate;
@@ -94,8 +98,6 @@ const ItemContentMobile: React.FC<ItemContentProps> = ({
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const [user] = useAtom(userAtom);
-
-  const itemColors = useImageColorsReturn({ item });
 
   const [loadingLogo, setLoadingLogo] = useState(true);
   const [headerHeight, setHeaderHeight] = useState(HEADER_HEIGHT);
@@ -253,6 +255,7 @@ const ItemContentMobile: React.FC<ItemContentProps> = ({
         className='flex-1'
         headerHeight={headerHeight}
         ambientItem={Platform.isTV ? undefined : item}
+        sheet
         headerImage={
           <View style={[{ flex: 1 }]}>
             <ItemImage
@@ -300,15 +303,15 @@ const ItemContentMobile: React.FC<ItemContentProps> = ({
                 <PlayButton
                   selectedOptions={selectedOptions}
                   item={playButtonItem ?? item}
-                  colors={itemColors}
+                  colors={SHEET_PLAY_COLORS}
                   // The resume point shown is still the primary version's.
                   disabled={isVersionPending}
                 />
                 <View className='w-1' />
                 <SyncPlayQueueButton
                   items={[item]}
-                  color={itemColors.primary}
-                  iconColor={itemColors.text}
+                  color={SHEET_PLAY_COLORS.primary}
+                  iconColor={SHEET_PLAY_COLORS.text}
                   // Its own gap to the next button, the one Play has: it is
                   // only there in a group, so a spacer in the row would be
                   // there always.
@@ -319,7 +322,7 @@ const ItemContentMobile: React.FC<ItemContentProps> = ({
                     selectedOptions={selectedOptions}
                     setSelectedOptions={setSelectedOptions}
                     item={itemWithSources}
-                    colors={itemColors}
+                    colors={SHEET_PLAY_COLORS}
                   />
                 )}
               </View>

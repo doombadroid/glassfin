@@ -1,7 +1,9 @@
+import { Ionicons } from "@expo/vector-icons";
 import type { BaseItemDto } from "@jellyfin/sdk/lib/generated-client/models";
 import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { Platform, TouchableOpacity, View } from "react-native";
+import { FrostColors } from "@/constants/Frost";
 import { Text } from "../common/Text";
 import { PlatformDropdown } from "../PlatformDropdown";
 
@@ -62,7 +64,7 @@ export const SeasonDropdown: React.FC<Props> = ({
     () => [
       {
         options:
-          seasons?.sort(sortByIndex).map((season: any) => {
+          [...(seasons ?? [])].sort(sortByIndex).map((season: any) => {
             const title = season.Name || `Season ${season.IndexNumber}`;
             return {
               type: "radio" as const,
@@ -121,17 +123,36 @@ export const SeasonDropdown: React.FC<Props> = ({
 
   if (isTv) return null;
 
+  // The season's own name ("Specials", "Season 101"), not just its number.
+  const selected = seasons?.find(
+    (season) => Number(season.IndexNumber) === Number(seasonIndex),
+  );
+  const label =
+    selected?.Name ??
+    (seasonIndex == null ? "" : `${t("item_card.season")} ${seasonIndex}`);
+
   return (
     <PlatformDropdown
       groups={optionGroups}
       open={open}
       onOpenChange={setOpen}
       trigger={
-        <TouchableOpacity onPress={() => setOpen(true)}>
-          <View className='bg-neutral-900 rounded-2xl border-neutral-900 border px-3 py-2 flex flex-row items-center justify-between'>
-            <Text>
-              {t("item_card.season")} {seasonIndex}
-            </Text>
+        <TouchableOpacity
+          onPress={() => setOpen(true)}
+          accessibilityRole='button'
+          accessibilityLabel={t("item.glass.choose_season", { season: label })}
+        >
+          <View
+            className='rounded-full px-4 flex flex-row items-center'
+            style={{
+              minHeight: 40,
+              backgroundColor: FrostColors.glassRaised,
+              borderWidth: 1,
+              borderColor: FrostColors.glassEdge,
+            }}
+          >
+            <Text className='font-bold mr-2'>{label}</Text>
+            <Ionicons name='chevron-down' size={16} color='white' />
           </View>
         </TouchableOpacity>
       }
