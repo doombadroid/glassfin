@@ -31,6 +31,8 @@ jest.mock("@/hooks/useRefreshLibraryOnFocus", () => ({
 jest.mock("@/hooks/useRevalidatePlaybackProgressCache", () => ({
   useInvalidatePlaybackProgressCache: () => () => {},
 }));
+// The Tonight card's play button reaches the native player module.
+jest.mock("@/hooks/usePlayMedia", () => ({ usePlayMedia: () => () => {} }));
 jest.mock("@/hooks/useRemapHiddenLibraries", () => ({
   useRemapHiddenLibraries: () => {},
 }));

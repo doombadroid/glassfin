@@ -401,11 +401,6 @@ export enum InactivityTimeout {
 export type MpvCacheMode = "auto" | "yes" | "no";
 export type MpvVoDriver = "gpu-next" | "gpu";
 
-/** Content groups that can appear in the home hero carousel. */
-export type HomeHeroSection = "continueWatching" | "nextUp" | "recentlyAdded";
-/** Media kinds that can appear in the home hero carousel. */
-export type HomeHeroMediaType = "movie" | "tv";
-
 export type Settings = {
   home?: Home | null;
   deviceProfile?: "Expo" | "Native" | "Old";
@@ -506,14 +501,6 @@ export type Settings = {
   mergeNextUpAndContinueWatching: boolean;
   /** Home row of episodes about to air, from every TV library. Off by default. */
   showUpcomingOnHome: boolean;
-  /**
-   * Home hero carousel filters. Both are "hidden" lists, so an empty list
-   * (the default) shows everything, and they combine: hiding the
-   * "recentlyAdded" group and the "movie" media type leaves only
-   * continue-watching and next-up episodes.
-   */
-  hiddenHomeHeroSections?: HomeHeroSection[];
-  hiddenHomeHeroMediaTypes?: HomeHeroMediaType[];
   // Use the episode's own image (instead of the series thumb) for the
   // "Next Up" and "Continue Watching" home rows.
   useEpisodeImagesForNextUp: boolean;
@@ -701,8 +688,6 @@ export const defaultValues: Settings = {
   usePopularPlugin: true,
   mergeNextUpAndContinueWatching: false,
   showUpcomingOnHome: false,
-  hiddenHomeHeroSections: [],
-  hiddenHomeHeroMediaTypes: [],
   useEpisodeImagesForNextUp: false,
   // TV-specific settings
   nativeVideoPlayerTV: true,
