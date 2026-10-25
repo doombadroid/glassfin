@@ -65,4 +65,7 @@ appId: com.doombadroid.glassfin
     timeout: 20000
 - tapOn:
     point: "50%,45%"
+# Let the controls fade in (the video itself never stops animating).
+- waitForAnimationToEnd:
+    timeout: 800
 - takeScreenshot: 07-player
