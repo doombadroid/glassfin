@@ -28,10 +28,10 @@ import { HeaderButton } from "@/components/common/HeaderButton";
 import { HeaderIcon } from "@/components/common/HeaderIcon";
 import { Text } from "@/components/common/Text";
 import { HomeAmbientBackdrop } from "@/components/frost/AmbientBackdrop";
-import { HomeHeroCarousel } from "@/components/home/HomeHeroCarousel";
 import { InfiniteScrollingCollectionList } from "@/components/home/InfiniteScrollingCollectionList";
 import { StreamystatsPromotedWatchlists } from "@/components/home/StreamystatsPromotedWatchlists";
 import { StreamystatsRecommendations } from "@/components/home/StreamystatsRecommendations";
+import { TonightFeed } from "@/components/home/TonightFeed";
 import { Loader } from "@/components/Loader";
 import { MediaListSection } from "@/components/medialists/MediaListSection";
 import { Colors } from "@/constants/Colors";
@@ -79,6 +79,9 @@ type MediaListSectionType = {
 };
 
 type Section = InfiniteScrollingCollectionListSection | MediaListSectionType;
+
+/** Home holds its lower rows until the Tonight feed has answered. */
+const TONIGHT_SECTION_KEY = "tonight";
 
 const HomeMobile = () => {
   const router = useRouter();
@@ -231,7 +234,12 @@ const HomeMobile = () => {
 
   const refetch = async () => {
     setLoading(true);
-    setLoadedSections(new Set());
+    // Tonight reports once, on its first answer; a refresh keeps that.
+    setLoadedSections((prev) =>
+      prev.has(TONIGHT_SECTION_KEY)
+        ? new Set([TONIGHT_SECTION_KEY])
+        : new Set(),
+    );
     await refreshStreamyfinPluginSettings();
     await invalidateCache();
     setLoading(false);
@@ -279,106 +287,7 @@ const HomeMobile = () => {
         },
       );
 
-    // Helper to sort items by most recent activity
-    const sortByRecentActivity = (items: BaseItemDto[]): BaseItemDto[] => {
-      return items.sort((a, b) => {
-        const dateA = a.UserData?.LastPlayedDate || a.DateCreated || "";
-        const dateB = b.UserData?.LastPlayedDate || b.DateCreated || "";
-        return new Date(dateB).getTime() - new Date(dateA).getTime();
-      });
-    };
-
-    // Helper to deduplicate items by ID
-    const deduplicateById = (items: BaseItemDto[]): BaseItemDto[] => {
-      const seen = new Set<string>();
-      return items.filter((item) => {
-        if (!item.Id || seen.has(item.Id)) return false;
-        seen.add(item.Id);
-        return true;
-      });
-    };
-
-    // Build the first sections based on merge setting
-    const firstSections: Section[] = settings.mergeNextUpAndContinueWatching
-      ? [
-          {
-            title: t("home.continue_and_next_up"),
-            queryKey: ["home", "continueAndNextUp"],
-            queryFn: async ({ pageParam = 0 }) => {
-              // Fetch both in parallel
-              const [resumeResponse, nextUpResponse] = await Promise.all([
-                getItemsApi(api).getResumeItems({
-                  userId: user.Id,
-                  enableImageTypes: ["Primary", "Backdrop", "Thumb"],
-                  includeItemTypes: ["Movie", "Episode"],
-                  startIndex: 0,
-                  limit: 20,
-                }),
-                getTvShowsApi(api).getNextUp({
-                  userId: user?.Id,
-                  startIndex: 0,
-                  limit: 20,
-                  enableImageTypes: ["Primary", "Backdrop", "Thumb"],
-                  enableResumable: false,
-                }),
-              ]);
-
-              const resumeItems = resumeResponse.data.Items || [];
-              const nextUpItems = nextUpResponse.data.Items || [];
-
-              // Combine, sort by recent activity, deduplicate
-              const combined = [...resumeItems, ...nextUpItems];
-              const sorted = sortByRecentActivity(combined);
-              const deduplicated = deduplicateById(sorted);
-
-              // Paginate client-side
-              return deduplicated.slice(pageParam, pageParam + 10);
-            },
-            type: "InfiniteScrollingCollectionList",
-            orientation: "horizontal",
-            pageSize: 10,
-            priority: 1,
-          },
-        ]
-      : [
-          {
-            title: t("home.continue_watching"),
-            queryKey: ["home", "resumeItems"],
-            queryFn: async ({ pageParam = 0 }) =>
-              (
-                await getItemsApi(api).getResumeItems({
-                  userId: user.Id,
-                  enableImageTypes: ["Primary", "Backdrop", "Thumb"],
-                  includeItemTypes: ["Movie", "Episode"],
-                  startIndex: pageParam,
-                  limit: 10,
-                })
-              ).data.Items || [],
-            type: "InfiniteScrollingCollectionList",
-            orientation: "horizontal",
-            pageSize: 10,
-            priority: 1,
-          },
-          {
-            title: t("home.next_up"),
-            queryKey: ["home", "nextUp-all"],
-            queryFn: async ({ pageParam = 0 }) =>
-              (
-                await getTvShowsApi(api).getNextUp({
-                  userId: user?.Id,
-                  startIndex: pageParam,
-                  limit: 10,
-                  enableImageTypes: ["Primary", "Backdrop", "Thumb"],
-                  enableResumable: false,
-                })
-              ).data.Items || [],
-            type: "InfiniteScrollingCollectionList",
-            orientation: "horizontal",
-            pageSize: 10,
-            priority: 1,
-          },
-        ];
-
+    // Continue watching and next up live in the Tonight feed above the rows.
     // After Continue watching and Next up, where the TV home has it too.
     const upcomingSections: Section[] = settings.showUpcomingOnHome
       ? [
@@ -401,7 +310,6 @@ const HomeMobile = () => {
       : [];
 
     const ss: Section[] = [
-      ...firstSections,
       ...upcomingSections,
       ...latestMediaViews.map((s) => ({ ...s, priority: 2 as const })),
       // Only show Jellyfin suggested movies if StreamyStats recommendations are disabled
@@ -435,7 +343,6 @@ const HomeMobile = () => {
     latestMediaLibraries,
     t,
     settings?.streamyStatsMovieRecommendations,
-    settings.mergeNextUpAndContinueWatching,
     settings.showUpcomingOnHome,
   ]);
 
@@ -533,14 +440,21 @@ const HomeMobile = () => {
 
   // Get all high priority section keys and check if all have loaded
   const highPrioritySectionKeys = useMemo(() => {
-    return sections
-      .filter((s) => s.priority === 1)
-      .map((s) => s.queryKey.join("-"));
+    return [
+      TONIGHT_SECTION_KEY,
+      ...sections
+        .filter((s) => s.priority === 1)
+        .map((s) => s.queryKey.join("-")),
+    ];
   }, [sections]);
 
   const allHighPriorityLoaded = useMemo(() => {
     return highPrioritySectionKeys.every((key) => loadedSections.has(key));
   }, [highPrioritySectionKeys, loadedSections]);
+
+  const markTonightLoaded = useCallback(() => {
+    setLoadedSections((prev) => new Set(prev).add(TONIGHT_SECTION_KEY));
+  }, []);
 
   const markSectionLoaded = useCallback(
     (queryKey: (string | undefined | null)[]) => {
@@ -648,7 +562,7 @@ const HomeMobile = () => {
           className='flex flex-col space-y-4'
           style={{ paddingTop: Platform.OS === "android" ? 10 : 0 }}
         >
-          <HomeHeroCarousel />
+          <TonightFeed onLoaded={markTonightLoaded} />
           {sections.map((section, index) => {
             // Render Streamystats sections after Recently Added sections
             // For default sections: place after Recently Added, before Suggested Movies (if present)

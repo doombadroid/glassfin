@@ -110,17 +110,9 @@
     "continue": "Continue",
     "next_up": "Next up",
     "continue_and_next_up": "Continue & Next up",
-    "recently_added": "Recently added",
     "recently_added_in": "Recently added in {{libraryName}}",
     "suggested_movies": "Suggested movies",
     "suggested_episodes": "Suggested episodes",
-    "hero": {
-      "filter": "Filter",
-      "groups": "Groups",
-      "media": "Media",
-      "tv_shows": "TV shows",
-      "disable": "Disable hero"
-    },
     "intro": {
       "welcome": "Welcome to Glassfin",
       "tagline": "A Jellyfin player made for iPhone, with layouts built for iPhone Duo.",
@@ -171,7 +163,6 @@
         "hide_remote_session_button_hint": "Hide the remote-sessions button from the home header.",
         "show_home_backdrop": "Dynamic home backdrop",
         "show_hero_carousel": "Hero carousel",
-        "show_hero_carousel_hint": "Show the large swipeable carousel at the top of the home screen.",
         "show_series_poster_on_episode": "Show series poster on episodes",
         "theme_music": "Theme music",
         "display_size": "Display size",
@@ -719,6 +710,25 @@
         "no_media_source_to_download": "This item cannot be downloaded",
         "file_deleted": "{{item}} deleted"
       }
+    },
+    "tonight": {
+      "title": "Tonight",
+      "part_of_day": {
+        "morning": "{{weekday}} morning",
+        "afternoon": "{{weekday}} afternoon",
+        "evening": "{{weekday}} evening",
+        "night": "{{weekday}} night"
+      },
+      "up_next": "Up next",
+      "resume": "Resume {{title}}",
+      "episode_code": "S{{season}} E{{episode}}",
+      "film": "Film",
+      "minutes_left": "{{count}} min left",
+      "percent_watched": "{{percent}}% watched",
+      "see_all": "See all {{count}}",
+      "show_less": "Show less",
+      "resume_card_setting": "Resume card",
+      "resume_card_setting_hint": "Show a large card at the top of Home for what you were watching last."
     }
   },
   "common": {
