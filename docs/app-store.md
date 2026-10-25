@@ -89,7 +89,10 @@ bottom half holds the controls, what's up next and the chapters.
 ## Draft message to the Streamyfin maintainers
 
 Send it from your own account (for example, a GitHub discussion on streamyfin/streamyfin).
-It isn't sent automatically.
+It isn't sent automatically. Streamyfin welcomes AI-assisted work but requires it to be
+disclosed (CONTRIBUTING.md "If you used AI", PR template badge), hence the disclosure
+line. Upstream PRs also need the AI badge and personal testing on every platform the
+change touches.
 
 > Hi Fredrik and the Streamyfin team,
 >
@@ -100,6 +103,9 @@ It isn't sent automatically.
 > I'd like to put it on the App Store under its own name and icon, with no Streamyfin
 > branding in the listing and a credit to your project in the app. Would you be OK with
 > that? A short "no objection" would help me answer App Review if they ask about the fork.
+>
+> Full disclosure, in the spirit of your contributing guide: Glassfin was built
+> largely with Claude Code, and I've tested it myself on my iPhone Duo.
 >
 > Thanks for building Streamyfin.
 
