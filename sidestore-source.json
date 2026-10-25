@@ -13,6 +13,15 @@
       "tintColor": "8fe6cb",
       "versions": [
         {
+          "version": "1.0.0.22",
+          "buildVersion": "22",
+          "date": "2026-10-25T04:11:22Z",
+          "localizedDescription": "Xcode 27.1 Build version 27A9275, iOS SDK 27.1",
+          "downloadURL": "https://github.com/doombadroid/glassfin/releases/download/next-22/Glassfin-unsigned.ipa",
+          "size": 59148669,
+          "minOSVersion": "16.4"
+        },
+        {
           "version": "1.0.0.21",
           "buildVersion": "21",
           "date": "2026-10-25T02:44:37Z",
