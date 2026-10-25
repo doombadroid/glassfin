@@ -21,11 +21,12 @@
   <img src="./docs/screenshots/01-home.webp" alt="Folded: the Tonight home screen with a resume card and Up next" width="23%">
   <img src="./docs/screenshots/04-details.webp" alt="Folded: a film's page with the artwork and a glass sheet" width="23%">
   <img src="./docs/screenshots/07-player.webp" alt="Folded: the player with a centred glass dock" width="23%">
-  <img src="./docs/screenshots/02-tabletop.webp" alt="Tabletop: video on the top half, controls and Up next on the bottom" width="26%">
+  <img src="./docs/screenshots/02-tabletop.webp" alt="Tabletop, screen view: the picture reflects onto the lower half behind the glass controls" width="26%">
 </p>
 <p align="center">
-  <img src="./docs/screenshots/03-book.webp" alt="Book: the video and controls on the left page, the episode list on the right" width="48%">
-  <img src="./docs/screenshots/06-unfolded.webp" alt="Unfolded: the player on the full inner screen" width="48%">
+  <img src="./docs/screenshots/02-tabletop-real.webp" alt="Tabletop: the Duo standing half open, video on the upright half, controls over its reflection on the lower half" width="40%">
+  <img src="./docs/screenshots/03-book.webp" alt="Book: the video and controls on the left page, the episode list on the right" width="29%">
+  <img src="./docs/screenshots/06-unfolded.webp" alt="Unfolded: the player on the full inner screen" width="29%">
 </p>
 <p align="center"><sub>Shown with the public Jellyfin demo server's public-domain and Creative Commons films. Device frames: Apple Design Resources.</sub></p>
 
