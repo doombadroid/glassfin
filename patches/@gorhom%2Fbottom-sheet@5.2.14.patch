@@ -1,0 +1,28 @@
+diff --git a/lib/module/components/bottomSheet/constants.js b/lib/module/components/bottomSheet/constants.js
+index 16f66d2ef7c8cda6e09ee03010d937d8337410ec..b6cea5eb38ffffdba537f2047c7aced2738e224e 100644
+--- a/lib/module/components/bottomSheet/constants.js
++++ b/lib/module/components/bottomSheet/constants.js
+@@ -24,7 +24,8 @@ const INITIAL_VALUE = Number.NEGATIVE_INFINITY;
+ const INITIAL_SNAP_POINT = -999;
+ 
+ // accessibility
+-const DEFAULT_ACCESSIBLE = true;
++// Glassfin: an accessible container hides the sheet's contents from VoiceOver.
++const DEFAULT_ACCESSIBLE = false;
+ const DEFAULT_ACCESSIBILITY_LABEL = 'Bottom Sheet';
+ const DEFAULT_ACCESSIBILITY_ROLE = 'adjustable';
+ export { DEFAULT_ACCESSIBILITY_LABEL, DEFAULT_ACCESSIBILITY_ROLE, DEFAULT_ACCESSIBLE, DEFAULT_ANIMATE_ON_MOUNT, DEFAULT_DYNAMIC_SIZING, DEFAULT_ENABLE_BLUR_KEYBOARD_ON_GESTURE, DEFAULT_ENABLE_CONTENT_PANNING_GESTURE, DEFAULT_ENABLE_HANDLE_PANNING_GESTURE, DEFAULT_ENABLE_OVER_DRAG, DEFAULT_ENABLE_PAN_DOWN_TO_CLOSE, DEFAULT_HANDLE_HEIGHT, DEFAULT_KEYBOARD_BEHAVIOR, DEFAULT_KEYBOARD_BLUR_BEHAVIOR, DEFAULT_KEYBOARD_INDEX, DEFAULT_KEYBOARD_INPUT_MODE, DEFAULT_OVER_DRAG_RESISTANCE_FACTOR, INITIAL_SNAP_POINT, INITIAL_VALUE };
+diff --git a/src/components/bottomSheet/constants.ts b/src/components/bottomSheet/constants.ts
+index 51ff1d9ce803a76f6a257c3cb2eb92f4d0faf64c..82363495ee31beaa43effe04b0d375c4e1766e59 100644
+--- a/src/components/bottomSheet/constants.ts
++++ b/src/components/bottomSheet/constants.ts
+@@ -26,7 +26,8 @@ const INITIAL_VALUE = Number.NEGATIVE_INFINITY;
+ const INITIAL_SNAP_POINT = -999;
+ 
+ // accessibility
+-const DEFAULT_ACCESSIBLE = true;
++// Glassfin: an accessible container hides the sheet's contents from VoiceOver.
++const DEFAULT_ACCESSIBLE = false;
+ const DEFAULT_ACCESSIBILITY_LABEL = 'Bottom Sheet';
+ const DEFAULT_ACCESSIBILITY_ROLE = 'adjustable';
+ 
