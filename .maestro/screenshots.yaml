@@ -14,13 +14,17 @@ appId: com.doombadroid.glassfin
 - tapOn: "Username"
 - inputText: "demo"
 - tapOn: "Log in"
+# First launch shows the intro sheet over Home.
+- extendedWaitUntil:
+    visible: "Welcome to Glassfin"
+    timeout: 45000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: ${OUT}/00-intro
+- tapOn: "Done"
 - extendedWaitUntil:
     visible: "Tonight"
-    timeout: 45000
-# First launch shows the intro sheet.
-- tapOn:
-    text: "Done"
-    optional: true
+    timeout: 15000
 - swipe:
     direction: DOWN
 - waitForAnimationToEnd:
