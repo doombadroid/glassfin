@@ -11,8 +11,9 @@ difference plain. Researched 2026-10-24 against the guidelines last updated 2026
   description, promotional text, What's New, screenshots). Apple's copycat guidance: "Don't
   include references to popular app names or trademarked terms in any metadata field." The
   credit lives in the app (Settings > Acknowledgements) and in the README.
-- "Jellyfin" may describe compatibility ("for Jellyfin"), as other listed clients do, but
-  not as the app's name.
+- "Jellyfin" describes what the app plays, as in many approved listings ("Phyn: Jellyfin
+  Media Player", "Moonjelly - Jellyfin Player", "JellyGo - Jellyfin Client"): keep it to
+  that descriptive use, never Jellyfin's logo.
 - Screenshots come from the public demo server (demo.jellyfin.org/stable, user `demo`, no
   password): public-domain and Creative Commons films only. Leave out Dracula (1931); it is
   still under copyright.
@@ -21,9 +22,9 @@ difference plain. Researched 2026-10-24 against the guidelines last updated 2026
 
 ## Listing draft
 
-**Name:** Glassfin
+**Name (30):** Glassfin: Jellyfin Player (the home-screen name stays "Glassfin")
 
-**Subtitle (30):** Jellyfin player for iPhone Duo
+**Subtitle (30):** Made for iPhone Duo
 
 **Promotional text:** Stand your iPhone Duo on a table and the video plays on top while the
 bottom half holds the controls, what's up next and the chapters.
@@ -145,7 +146,7 @@ change touches.
    (`group.com.doombadroid.glassfin.downloads`), Push Notifications and Access
    Wi-Fi Information, plus `com.doombadroid.glassfin.downloadactivity`
    for the Live Activity extension in the same app group.
-3. App Store Connect: new app "Glassfin", that bundle ID, SKU `glassfin`.
+3. App Store Connect: new app "Glassfin: Jellyfin Player", that bundle ID, SKU `glassfin`.
 4. Users and Access › Integrations: create an App Store Connect API key (App
    Manager), then add the GitHub secrets `ASC_KEY_P8` (the .p8 file's text),
    `ASC_KEY_ID` and `ASC_ISSUER_ID` to doombadroid/glassfin.
