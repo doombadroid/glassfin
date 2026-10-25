@@ -11,11 +11,11 @@
     "ios": {
       "requireFullScreen": true,
       "infoPlist": {
-        "NSCameraUsageDescription": "The app needs access to your camera to scan barcodes.",
-        "NSMicrophoneUsageDescription": "The app needs access to your microphone.",
+        "NSCameraUsageDescription": "Glassfin uses the camera only to scan the QR code your TV shows when you sign in there.",
+        "NSMicrophoneUsageDescription": "Glassfin only plays audio and never records. iOS asks for this description because the audio library Glassfin includes can also record.",
         "UIBackgroundModes": ["audio", "fetch"],
-        "NSLocalNetworkUsageDescription": "The app needs access to your local network to connect to your Jellyfin server.",
-        "NSLocationWhenInUseUsageDescription": "Glassfin uses your location to detect your home WiFi network for automatic local server switching.",
+        "NSLocalNetworkUsageDescription": "Glassfin connects to Jellyfin servers on your home network, and finds them when you search for servers.",
+        "NSLocationWhenInUseUsageDescription": "Glassfin reads your Wi-Fi network's name to use your server's home address while you're on it. Your location isn't stored or shared.",
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true
         },
@@ -30,7 +30,7 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "supportsTablet": true,
+      "supportsTablet": false,
       "entitlements": {
         "com.apple.developer.networking.wifi-info": true
       },

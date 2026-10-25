@@ -102,3 +102,46 @@ It isn't sent automatically.
 > that? A short "no objection" would help me answer App Review if they ask about the fork.
 >
 > Thanks for building Streamyfin.
+
+## App Store Connect answers
+
+- **Platform:** iPhone only (`supportsTablet` is off), so no iPad screenshots.
+  iPhone Duo is an iPhone.
+- **Screenshots:** `~/projects/glassfin-shots/appstore/` holds upload-ready
+  sets: `iphone-duo-outer/` (1398×2034), `iphone-duo-inner/` (2007×2853 and
+  landscape), `iphone-6.9/` (1320×2868). Remake them with the
+  "Simulator screenshots" workflow and `compose.py` / `tabletop.py` there.
+- **Category:** Entertainment (secondary: Photo & Video).
+- **Age rating:** answer "None" to every content question and "No" to
+  unrestricted web access, gambling and contests: 4+, as other Jellyfin
+  clients are. What a server holds is the user's own media.
+- **App Privacy:** Data Not Collected. Glassfin has no analytics, ads,
+  tracking or crash reporting (the Sentry DSN was removed), and everything it
+  sends goes to servers the user chose (see docs/privacy.md).
+- **Privacy Policy URL:** https://github.com/doombadroid/glassfin/blob/develop/docs/privacy.md
+- **Support URL:** https://github.com/doombadroid/glassfin/issues
+- **Copyright:** 2026 doombadroid
+- **Price:** Free. Only the Free Apps agreement is needed; no tax or banking.
+- **Export compliance:** answered in the binary (`ITSAppUsesNonExemptEncryption`
+  is false: HTTPS only).
+- **EU (Digital Services Act):** App Store Connect asks whether you're a
+  trader. A free hobby app is usually "not a trader". A trader's address and
+  phone number are shown on the EU product page.
+- **App Transport Security:** arbitrary loads are allowed because Jellyfin
+  servers at home are often plain http. If App Review asks, say so.
+
+## Apple account setup (owner only)
+
+1. Join the Apple Developer Program ($99/year). As an individual, your legal
+   name is shown as the seller; an organisation needs a D-U-N-S number.
+2. Certificates, Identifiers & Profiles: register the App ID
+   `com.doombadroid.glassfin` with App Groups
+   (`group.com.doombadroid.glassfin.downloads`), Push Notifications and Access
+   Wi-Fi Information, plus `com.doombadroid.glassfin.downloadactivity`
+   for the Live Activity extension in the same app group.
+3. App Store Connect: new app "Glassfin", that bundle ID, SKU `glassfin`.
+4. Users and Access › Integrations: create an App Store Connect API key (App
+   Manager), then add the GitHub secrets `ASC_KEY_P8` (the .p8 file's text),
+   `ASC_KEY_ID` and `ASC_ISSUER_ID` to doombadroid/glassfin.
+5. Run the TestFlight workflow, install from TestFlight, check it on the Duo,
+   then fill in the fields above and submit.
