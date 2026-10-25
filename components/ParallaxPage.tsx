@@ -6,7 +6,12 @@ import {
   type ReactElement,
   useMemo,
 } from "react";
-import { type NativeScrollEvent, View, type ViewProps } from "react-native";
+import {
+  type NativeScrollEvent,
+  StyleSheet,
+  View,
+  type ViewProps,
+} from "react-native";
 import Animated, {
   type AnimatedRef,
   interpolate,
@@ -18,7 +23,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AmbientBackdrop } from "@/components/frost/AmbientBackdrop";
 import { ParallaxPageColors } from "@/constants/Colors";
-import { FROST_CONTENT_FILL } from "@/constants/Frost";
+import { FROST_CONTENT_FILL, FROST_SHEET } from "@/constants/Frost";
 import { LOGO_HEIGHT } from "@/constants/Images";
 
 /**
@@ -54,6 +59,11 @@ interface Props extends ViewProps {
    * through the content area instead of the solid black.
    */
   ambientItem?: BaseItemDto | null;
+  /**
+   * Glassfin's detail pages: the content rides up over the artwork on a
+   * rounded glass sheet instead of fading out of it.
+   */
+  sheet?: boolean;
 }
 
 export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
@@ -64,6 +74,7 @@ export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
   logo,
   onEndReached,
   ambientItem,
+  sheet = false,
   ...props
 }: Props) => {
   const ambient = ambientItem !== undefined;
@@ -150,34 +161,47 @@ export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
 
         <View
           style={{
-            top: -50,
+            top: sheet ? -SHEET_OVERLAP : -50,
             // Clear the translucent tab bar so the last section stays readable
             paddingBottom: insets.bottom + 32,
           }}
           className='relative flex-1 bg-transparent'
         >
-          <LinearGradient
-            // Background Linear Gradient
-            colors={["transparent", ambient ? fill : "rgba(0,0,0,1)"]}
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: -150,
-              height: 200,
-            }}
-          />
-          <View
-            // Background Linear Gradient
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: 50,
-              height: "100%",
-              backgroundColor: fill,
-            }}
-          />
+          {sheet ? (
+            <>
+              <View style={styles.sheet} />
+              <View
+                style={styles.grabber}
+                accessibilityElementsHidden
+                importantForAccessibility='no-hide-descendants'
+              />
+            </>
+          ) : (
+            <>
+              <LinearGradient
+                // Background Linear Gradient
+                colors={["transparent", ambient ? fill : "rgba(0,0,0,1)"]}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  top: -150,
+                  height: 200,
+                }}
+              />
+              <View
+                // Background Linear Gradient
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  top: 50,
+                  height: "100%",
+                  backgroundColor: fill,
+                }}
+              />
+            </>
+          )}
           <ParallaxScrollContext.Provider value={scroll}>
             {children}
           </ParallaxScrollContext.Provider>
@@ -186,3 +210,31 @@ export const ParallaxScrollView: React.FC<PropsWithChildren<Props>> = ({
     </View>
   );
 };
+
+/** How far the sheet rides up over the artwork, in layout points. */
+const SHEET_OVERLAP = 64;
+
+const styles = StyleSheet.create({
+  sheet: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: FROST_SHEET.fill,
+    borderTopLeftRadius: FROST_SHEET.radius,
+    borderTopRightRadius: FROST_SHEET.radius,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 0,
+    borderColor: FROST_SHEET.edge,
+  },
+  grabber: {
+    alignSelf: "center",
+    width: 40,
+    height: 5,
+    borderRadius: 3,
+    marginTop: 8,
+    marginBottom: 4,
+    backgroundColor: "rgba(255, 255, 255, 0.25)",
+  },
+});

@@ -97,13 +97,13 @@ describe("SeasonPicker offline", () => {
     store.set(seasonIndexAtom, { [SERIES.Id!]: 1 });
 
     const { tree, view } = await renderPicker(store);
-    await waitFor(() => expect(screen.getByText("Pilot")).toBeTruthy());
+    await waitFor(() => expect(screen.getByText("1. Pilot")).toBeTruthy());
 
     mockDownloads = [episode(2, "Return")];
     await view.rerender(tree());
 
-    await waitFor(() => expect(screen.getByText("Return")).toBeTruthy());
-    expect(screen.queryByText("Pilot")).toBeNull();
+    await waitFor(() => expect(screen.getByText("1. Return")).toBeTruthy());
+    expect(screen.queryByText("1. Pilot")).toBeNull();
     expect(store.get(seasonIndexAtom)[SERIES.Id!]).toBe(2);
   });
 });

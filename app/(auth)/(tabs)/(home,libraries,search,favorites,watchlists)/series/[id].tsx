@@ -22,6 +22,7 @@ import {
   SeasonPicker,
   seasonIndexAtom,
 } from "@/components/series/SeasonPicker";
+import { SeriesContinueButton } from "@/components/series/SeriesContinueButton";
 import { SeriesHeader } from "@/components/series/SeriesHeader";
 import { TVSeriesPage } from "@/components/series/TVSeriesPage";
 import { SyncPlayButton } from "@/components/syncplay/SyncPlayButton";
@@ -261,6 +262,7 @@ const page: React.FC = () => {
       <ParallaxScrollView
         headerHeight={HEADER_HEIGHT}
         ambientItem={Platform.isTV ? undefined : item}
+        sheet
         headerImage={
           backdropUrl ? (
             <Image
@@ -297,12 +299,13 @@ const page: React.FC = () => {
           ) : undefined
         }
       >
-        <View className='flex flex-col pt-4'>
+        <View className='flex flex-col pt-2'>
           {/* Unfolded, the episodes sit beside the show rather than under it. */}
           <TwoPane
             primary={
               <>
                 <SeriesHeader item={item} />
+                <SeriesContinueButton episodes={allEpisodes} />
                 {!isOffline && (
                   <View className='mb-4'>
                     <NextUp seriesId={seriesId} />

@@ -6,6 +6,12 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { HeaderIcon } from "@/components/common/HeaderIcon";
+import { ProgressRing } from "@/components/common/ProgressRing";
+import {
+  episodeRowDetail,
+  episodeRowProgress,
+  episodeRowTitle,
+} from "@/components/series/episodeRowText";
 import {
   SeasonDropdown,
   type SeasonIndexState,
@@ -21,7 +27,6 @@ import {
   getDownloadedEpisodesForSeason,
 } from "@/utils/downloads/offline-series";
 import { replacementSeason } from "@/utils/seasonSelection";
-import { runtimeTicksToSeconds } from "@/utils/time";
 import { buildItemCards, type CardData } from "../cards/CardData";
 import { CardListRow } from "../cards/CardListRow";
 import { CardPill } from "../cards/CardPill";
@@ -168,19 +173,27 @@ export const SeasonPicker: React.FC<Props> = ({ item, initialSeasonIndex }) => {
     [episodes],
   );
 
-  // The shared card, plus the runtime line a season list wants. Episodes here
-  // keep their own still rather than the series poster.
+  // The shared card, relabelled the way a season list reads: "2. Title", then
+  // the time left or the runtime. Episodes keep their own still rather than
+  // the series poster, and the ring at the end carries the progress.
   const episodeCards = useMemo(() => {
     const base = buildItemCards(episodes ?? [], {
       api,
       kind: "rowWide",
       useEpisodePoster: true,
     });
-    return base.map((card) => ({
-      ...card,
-      detail: runtimeTicksToSeconds(episodeById.get(card.id)?.RunTimeTicks),
-    }));
-  }, [episodes, api, episodeById]);
+    return base.map((card) => {
+      const episode = episodeById.get(card.id);
+      if (!episode) return card;
+      return {
+        ...card,
+        title: episodeRowTitle(episode),
+        subtitle: null,
+        detail: episodeRowDetail(episode, t),
+        progress: 0,
+      };
+    });
+  }, [episodes, api, episodeById, t]);
 
   const { cards, handlePress, handleLongPress, actionSheet } =
     useItemCardBehavior({
@@ -202,20 +215,34 @@ export const SeasonPicker: React.FC<Props> = ({ item, initialSeasonIndex }) => {
       },
       trailing: (card: CardData) => {
         const episode = episodeById.get(card.id);
-        if (isOffline || !episode || availabilityLabel(episode)) return null;
-        return <DownloadSingleItem item={episode} />;
+        if (!episode) return null;
+        const progress = episodeRowProgress(episode);
+        const downloadable = !isOffline && !availabilityLabel(episode);
+        return (
+          <View className='flex flex-row items-center'>
+            {downloadable && <DownloadSingleItem item={episode} />}
+            <View className='ml-2'>
+              <ProgressRing
+                progress={progress}
+                accessibilityLabel={t("item.glass.watched_percent", {
+                  percent: Math.round(progress * 100),
+                })}
+              />
+            </View>
+          </View>
+        );
       },
       footer: (card: CardData) => {
         const overview = episodeById.get(card.id)?.Overview;
         if (!overview) return null;
         return (
-          <Text numberOfLines={3} className='text-xs text-neutral-500 mt-2'>
+          <Text numberOfLines={3} className='text-xs text-neutral-400 mt-2'>
             {overview}
           </Text>
         );
       },
     }),
-    [episodeById, isOffline, availabilityLabel],
+    [episodeById, isOffline, availabilityLabel, t],
   );
 
   return (
@@ -286,7 +313,7 @@ export const SeasonPicker: React.FC<Props> = ({ item, initialSeasonIndex }) => {
         )}
         {(episodes?.length || 0) === 0 ? (
           <View className='flex flex-col'>
-            <Text className='text-neutral-500'>
+            <Text className='text-neutral-400'>
               {t("item_card.no_episodes_for_this_season")}
             </Text>
           </View>
