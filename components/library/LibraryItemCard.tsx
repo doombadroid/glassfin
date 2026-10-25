@@ -6,6 +6,7 @@ import type {
 } from "@jellyfin/sdk/lib/generated-client/models";
 import { getItemsApi } from "@jellyfin/sdk/lib/utils/api";
 import { useQuery } from "@tanstack/react-query";
+import { LinearGradient } from "expo-linear-gradient";
 import { useAtom } from "jotai";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -15,6 +16,7 @@ import { Text } from "@/components/common/Text";
 import { apiAtom, userAtom } from "@/providers/JellyfinProvider";
 import { useSettings } from "@/utils/atoms/settings";
 import { getPrimaryImageUrl } from "@/utils/jellyfin/image/getPrimaryImageUrl";
+import { LIBRARY_STRIP_HEIGHT } from "@/utils/library/libraryCardColumns";
 import { TouchableItemRouter } from "../common/TouchableItemRouter";
 
 interface Props extends TouchableOpacityProps {
@@ -129,50 +131,53 @@ export const LibraryItemCard: React.FC<Props> = ({ library, ...props }) => {
     );
   }
 
+  const typeIcon = icons[library.CollectionType!] || "folder";
+  const countLine =
+    settings?.libraryOptions?.showStats && itemsCount != null
+      ? `${itemsCount} ${itemTypeName}`
+      : null;
+
+  // Backdrop strip: the library's art fills a tall rounded strip, with the
+  // name and count over a dark fade on the left and the type in a glass
+  // badge. "Poster" keeps the art as a framed thumbnail on the right instead.
   if (settings?.libraryOptions?.imageStyle === "cover") {
     return (
-      <TouchableItemRouter item={library} className='w-full'>
-        <View className='flex justify-center rounded-xl w-full relative border border-neutral-900 h-20 '>
-          <View
-            style={{
-              width: "100%",
-              height: "100%",
-              borderRadius: 8,
-              position: "absolute",
-              top: 0,
-              left: 0,
-              overflow: "hidden",
-            }}
-          >
-            <Image
-              source={{ uri: url }}
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-              cachePolicy={"memory-disk"}
-            />
-            <View
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: "rgba(0, 0, 0, 0.3)", // Adjust the alpha value (0.3) to control darkness
-              }}
-            />
+      <TouchableItemRouter
+        item={library}
+        className='w-full'
+        accessibilityLabel={
+          countLine ? `${library.Name}, ${countLine}` : (library.Name ?? "")
+        }
+      >
+        <View
+          style={{ height: LIBRARY_STRIP_HEIGHT }}
+          className='w-full rounded-[22px] overflow-hidden bg-neutral-900 justify-end'
+        >
+          <Image
+            source={{ uri: url }}
+            style={{ position: "absolute", width: "100%", height: "100%" }}
+            contentFit='cover'
+            cachePolicy={"memory-disk"}
+          />
+          <LinearGradient
+            colors={["rgba(5,9,12,0.85)", "rgba(5,9,12,0.35)", "transparent"]}
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            style={{ position: "absolute", width: "100%", height: "100%" }}
+          />
+          <View className='flex-row items-end justify-between px-4 pb-3.5'>
+            <View className='shrink'>
+              {settings?.libraryOptions?.showTitles && (
+                <Text className='font-extrabold text-xl' numberOfLines={1}>
+                  {library.Name}
+                </Text>
+              )}
+              {countLine && (
+                <Text className='text-xs text-neutral-200'>{countLine}</Text>
+              )}
+            </View>
+            <TypeBadge icon={typeIcon} />
           </View>
-          {settings?.libraryOptions?.showTitles && (
-            <Text className='font-bold text-lg text-start px-4'>
-              {library.Name}
-            </Text>
-          )}
-          {settings?.libraryOptions?.showStats && (
-            <Text className='font-bold text-xs  text-start px-4'>
-              {itemsCount} {itemTypeName}
-            </Text>
-          )}
         </View>
       </TouchableItemRouter>
     );
@@ -180,24 +185,34 @@ export const LibraryItemCard: React.FC<Props> = ({ library, ...props }) => {
 
   return (
     <TouchableItemRouter item={library} {...props}>
-      <View className='flex flex-row items-center justify-between rounded-xl w-full relative border bg-neutral-900 border-neutral-900 h-20'>
-        <View className='flex flex-col'>
-          <Text className='font-bold text-lg text-start px-4'>
+      <View
+        style={{ height: LIBRARY_STRIP_HEIGHT }}
+        className='flex flex-row items-center justify-between rounded-[22px] w-full border border-white/10 bg-white/5'
+      >
+        <View className='flex flex-col shrink pl-4'>
+          <Text className='font-extrabold text-xl' numberOfLines={1}>
             {library.Name}
           </Text>
-          {settings?.libraryOptions?.showStats && (
-            <Text className='font-bold text-xs text-neutral-500 text-start px-4'>
-              {itemsCount} {itemTypeName}
-            </Text>
+          {countLine && (
+            <Text className='text-xs text-neutral-400'>{countLine}</Text>
           )}
         </View>
-        <View className='p-2'>
+        <View className='p-2.5 h-full'>
           <Image
             source={{ uri: url }}
-            className='h-full aspect-[2/1] object-cover rounded-lg overflow-hidden'
+            className='h-full aspect-[2/1] object-cover rounded-2xl overflow-hidden'
           />
         </View>
       </View>
     </TouchableItemRouter>
   );
 };
+
+const TypeBadge: React.FC<{ icon: IconName }> = ({ icon }) => (
+  <View
+    className='w-9 h-9 rounded-full items-center justify-center border border-white/20'
+    style={{ backgroundColor: "rgba(11,24,32,0.6)" }}
+  >
+    <Ionicons name={icon} size={16} color='#EEF3F6' />
+  </View>
+);
