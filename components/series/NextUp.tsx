@@ -28,6 +28,9 @@ export const NextUp: React.FC<{ seriesId: string }> = ({ seriesId }) => {
     staleTime: 0,
   });
 
+  // Nothing to resume: no empty "Next up" section on the series page.
+  if (!isLoading && !items?.length) return null;
+
   return (
     <CardRow
       enableActionSheet

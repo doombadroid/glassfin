@@ -41,6 +41,7 @@ import {
   useJellyfin,
   userAtom,
 } from "@/providers/JellyfinProvider";
+import { useDuoLayout } from "@/utils/atoms/duoLayout";
 import { type CustomHeader, usableCustomHeaders } from "@/utils/customHeaders";
 import {
   checkJellyfinServer,
@@ -177,6 +178,7 @@ export const Login: React.FC = () => {
     }
   }, [api?.basePath, _apiUrl, _username, _password]);
 
+  const verticalBar = useDuoLayout().verticalBarEdge !== "none";
   useEffect(() => {
     navigation.setOptions({
       headerTitle: serverName,
@@ -184,20 +186,24 @@ export const Login: React.FC = () => {
         api?.basePath ? (
           <HeaderButton
             placement='left'
-            variant='text'
+            variant={verticalBar ? "icon" : "text"}
+            accessibilityLabel={t("login.change_server")}
             onPress={() => {
               removeServer();
             }}
             style={{ flexDirection: "row", gap: 4 }}
           >
             <HeaderIcon name='back' tintColor={Colors.primary} size={18} />
-            <Text style={{ color: Colors.primary }}>
-              {t("login.change_server")}
-            </Text>
+            {/* The Duo's vertical header bar is too narrow for the label. */}
+            {!verticalBar && (
+              <Text style={{ color: Colors.primary }}>
+                {t("login.change_server")}
+              </Text>
+            )}
           </HeaderButton>
         ) : null,
     });
-  }, [serverName, navigation, api?.basePath]);
+  }, [serverName, navigation, api?.basePath, verticalBar]);
 
   const handleLogin = async () => {
     Keyboard.dismiss();
@@ -327,6 +333,8 @@ export const Login: React.FC = () => {
 
   // Closing a code leaves its polling running, so it can still be approved
   // from another device; closing while a new one is on its way drops that one.
+  const serverScrollRef = useRef<ScrollView>(null);
+
   const closeQuickConnectSheet = () => {
     if (startingRef.current) startRef.current++;
     setQuickConnectCode(null);
@@ -458,6 +466,7 @@ export const Login: React.FC = () => {
         ) : (
           <View className='flex-1'>
             <ScrollView
+              ref={serverScrollRef}
               keyboardShouldPersistTaps='handled'
               contentContainerStyle={{
                 paddingHorizontal: 24,
@@ -507,6 +516,17 @@ export const Login: React.FC = () => {
                   returnKeyType='done'
                   autoCapitalize='none'
                   textContentType='URL'
+                  // The keyboard shrinks the list and the pinned Continue
+                  // rides up with it; keep the field in view above both.
+                  onFocus={() =>
+                    setTimeout(
+                      () =>
+                        serverScrollRef.current?.scrollToEnd({
+                          animated: true,
+                        }),
+                      300,
+                    )
+                  }
                   maxLength={500}
                 />
                 {/* Servers behind an access gateway need their headers before

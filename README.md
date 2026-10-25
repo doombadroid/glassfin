@@ -17,6 +17,20 @@
 
 ---
 
+<p align="center">
+  <img src="./docs/screenshots/01-home.webp" alt="Folded: the Tonight home screen with a resume card and Up next" width="23%">
+  <img src="./docs/screenshots/04-details.webp" alt="Folded: a film's page with the artwork and a glass sheet" width="23%">
+  <img src="./docs/screenshots/07-player.webp" alt="Folded: the player with a centred glass dock" width="23%">
+  <img src="./docs/screenshots/02-tabletop.webp" alt="Tabletop: video on the top half, controls and Up next on the bottom" width="26%">
+</p>
+<p align="center">
+  <img src="./docs/screenshots/03-book.webp" alt="Book: the video and controls on the left page, the episode list on the right" width="48%">
+  <img src="./docs/screenshots/06-unfolded.webp" alt="Unfolded: the player on the full inner screen" width="48%">
+</p>
+<p align="center"><sub>Shown with the public Jellyfin demo server's public-domain and Creative Commons films. Device frames: Apple Design Resources.</sub></p>
+
+---
+
 ## 💚 Built on Streamyfin, with endless thanks
 
 Glassfin exists because of **[Streamyfin](https://github.com/streamyfin/streamyfin)**, and we want to be loud about it.
