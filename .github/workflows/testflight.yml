@@ -5,7 +5,8 @@ name: TestFlight
 # kind: the App Store Connect API key (Admin role) is the only credential, and
 # Xcode registers the app and extension IDs and makes the profiles itself.
 #
-# Secrets: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (the .p8 file's text, or it base64-encoded).
+# Secrets (in the "app-store" environment): ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8
+# (the .p8 file's text, or it base64-encoded).
 on:
   workflow_dispatch:
 
@@ -27,6 +28,9 @@ env:
 jobs:
   upload:
     runs-on: xcode-27
+    # The key lives in this environment, limited to develop, so no other
+    # workflow in this public repo can read it.
+    environment: app-store
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
