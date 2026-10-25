@@ -1,0 +1,59 @@
+# App Store screenshots on an iPhone simulator, signed in to the public
+# Jellyfin demo server (public-domain and Creative Commons films only).
+# Run by .github/workflows/sim-screenshots.yml, which passes the item ids.
+appId: com.doombadroid.glassfin
+---
+- launchApp:
+    clearState: true
+- tapOn: "http(s)://your-server.com"
+- inputText: "https://demo.jellyfin.org/stable"
+- hideKeyboard
+- tapOn: "Continue"
+- extendedWaitUntil:
+    visible: "Username"
+    timeout: 30000
+- tapOn: "Username"
+- inputText: "demo"
+- hideKeyboard
+- tapOn: "Log in"
+- extendedWaitUntil:
+    visible: "Tonight"
+    timeout: 45000
+# First launch shows the intro sheet.
+- tapOn:
+    text: "Done"
+    optional: true
+- swipe:
+    direction: DOWN
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${OUT}/01-home
+
+- openLink: "glassfin://items/page?id=${MOVIE_ID}"
+- tapOn:
+    text: "Open"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${OUT}/04-details
+
+- openLink: "glassfin://series/${SERIES_ID}"
+- tapOn:
+    text: "Open"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${OUT}/05-series
+
+- openLink: "glassfin://items/page?id=${MOVIE_ID}"
+- waitForAnimationToEnd:
+    timeout: 5000
+# The play button sits near the bottom of the details sheet.
+- tapOn:
+    point: "40%,91%"
+# Let playback run: the video keeps animating, so this waits the full time.
+- waitForAnimationToEnd:
+    timeout: 20000
+- tapOn:
+    point: "50%,45%"
+- takeScreenshot: ${OUT}/07-player
