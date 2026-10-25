@@ -1,6 +1,5 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import axios from "axios";
-import { Image } from "expo-image";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { t } from "i18next";
 import { useAtomValue, useSetAtom } from "jotai";
@@ -10,18 +9,27 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   Switch,
   TouchableOpacity,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { z } from "zod";
-import { Button } from "@/components/Button";
 import { HeaderButton } from "@/components/common/HeaderButton";
 import { HeaderIcon } from "@/components/common/HeaderIcon";
 import { Input } from "@/components/common/Input";
 import { Text } from "@/components/common/Text";
 import JellyfinServerDiscovery from "@/components/JellyfinServerDiscovery";
+import {
+  GLASS_BORDER,
+  GLASS_FILL,
+  GLASS_SUBTLE_TEXT,
+  GlassLabel,
+  GlassPrimaryButton,
+  glassInputStyle,
+  SailMark,
+} from "@/components/login/LoginGlass";
 import { QuickConnectCodeModal } from "@/components/login/QuickConnectCodeModal";
 import { PreviousServersList } from "@/components/PreviousServersList";
 import { CustomHeaderSheet } from "@/components/settings/CustomHeaderSheet";
@@ -183,7 +191,9 @@ export const Login: React.FC = () => {
             style={{ flexDirection: "row", gap: 4 }}
           >
             <HeaderIcon name='back' tintColor={Colors.primary} size={18} />
-            <Text className='text-purple-600'>{t("login.change_server")}</Text>
+            <Text style={{ color: Colors.primary }}>
+              {t("login.change_server")}
+            </Text>
           </HeaderButton>
         ) : null,
     });
@@ -329,172 +339,142 @@ export const Login: React.FC = () => {
         style={{ flex: 1 }}
       >
         {api?.basePath ? (
-          <View className='flex flex-col flex-1 justify-center'>
-            <View className='px-4 w-full'>
-              <View className='flex flex-col space-y-2'>
-                <Text className='text-2xl font-bold -mb-2'>
-                  {serverName ? (
-                    <>
-                      {`${t("login.login_to_title")} `}
-                      <Text className='text-purple-600'>{serverName}</Text>
-                    </>
-                  ) : (
-                    t("login.login_title")
-                  )}
-                </Text>
-                <Text className='text-xs text-neutral-400'>{api.basePath}</Text>
-                <Input
-                  placeholder={t("login.username_placeholder")}
-                  onChangeText={(text) =>
-                    setCredentials((prev) => ({ ...prev, username: text }))
-                  }
-                  onEndEditing={(e) => {
-                    const newValue = e.nativeEvent.text;
-                    if (newValue && newValue !== credentials.username) {
-                      setCredentials((prev) => ({
-                        ...prev,
-                        username: newValue,
-                      }));
-                    }
-                  }}
-                  value={credentials.username}
-                  keyboardType='default'
-                  returnKeyType='done'
-                  autoCapitalize='none'
-                  autoCorrect={false}
-                  textContentType='username'
-                  clearButtonMode='while-editing'
-                  maxLength={500}
-                />
-
-                <Input
-                  placeholder={t("login.password_placeholder")}
-                  onChangeText={(text) =>
-                    setCredentials((prev) => ({ ...prev, password: text }))
-                  }
-                  onEndEditing={(e) => {
-                    const newValue = e.nativeEvent.text;
-                    if (newValue && newValue !== credentials.password) {
-                      setCredentials((prev) => ({
-                        ...prev,
-                        password: newValue,
-                      }));
-                    }
-                  }}
-                  value={credentials.password}
-                  secureTextEntry
-                  keyboardType='default'
-                  returnKeyType='done'
-                  autoCapitalize='none'
-                  textContentType='password'
-                  clearButtonMode='while-editing'
-                  maxLength={500}
-                />
-                <TouchableOpacity
-                  onPress={() => setSaveAccount(!saveAccount)}
-                  className='flex flex-row items-center py-2'
-                  activeOpacity={0.7}
-                >
-                  <Switch
-                    value={saveAccount}
-                    onValueChange={setSaveAccount}
-                    trackColor={{ false: "#3f3f46", true: Colors.primary }}
-                    thumbColor='white'
-                  />
-                  <Text className='ml-3 text-neutral-300'>
-                    {t("save_account.save_for_later")}
-                  </Text>
-                </TouchableOpacity>
-                <View className='flex flex-row items-center justify-between'>
-                  <Button
-                    onPress={handleLogin}
-                    loading={loading}
-                    disabled={!credentials.username.trim()}
-                    className='flex-1 mr-2'
-                  >
-                    {t("login.login_button")}
-                  </Button>
-                  <TouchableOpacity
-                    onPress={handleQuickConnect}
-                    className='p-2 bg-neutral-900 rounded-xl h-12 w-12 flex items-center justify-center'
-                  >
-                    <MaterialCommunityIcons
-                      name='cellphone-lock'
-                      size={24}
-                      color='white'
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-
-            <View className='absolute bottom-0 left-0 w-full px-4 mb-2' />
-          </View>
-        ) : (
-          <View className='flex flex-col flex-1 items-center justify-center w-full'>
-            <View className='flex flex-col gap-y-2 px-4 w-full -mt-36'>
-              <Image
-                style={{
-                  width: 100,
-                  height: 100,
-                  marginLeft: -23,
-                  marginBottom: -20,
-                }}
-                source={require("@/assets/images/icon-ios-plain.png")}
-              />
-              <Text className='text-3xl font-bold'>Glassfin</Text>
-              <Text className='text-neutral-500'>
-                {t("server.enter_url_to_jellyfin_server")}
+          <View className='flex flex-col flex-1 justify-center px-6'>
+            <View style={{ gap: 14 }}>
+              <SailMark size={56} />
+              <Text className='text-3xl font-bold'>
+                {serverName ? (
+                  <>
+                    {`${t("login.login_to_title")} `}
+                    <Text style={{ color: Colors.primary }}>{serverName}</Text>
+                  </>
+                ) : (
+                  t("login.login_title")
+                )}
+              </Text>
+              <Text style={{ color: GLASS_SUBTLE_TEXT }} className='text-xs'>
+                {api.basePath}
               </Text>
               <Input
-                aria-label={t("server.server_url")}
-                placeholder={t("server.server_url_placeholder")}
-                onChangeText={setServerURL}
-                value={serverURL}
-                keyboardType='url'
+                aria-label={t("login.username_placeholder")}
+                placeholder={t("login.username_placeholder")}
+                style={glassInputStyle}
+                onChangeText={(text) =>
+                  setCredentials((prev) => ({ ...prev, username: text }))
+                }
+                onEndEditing={(e) => {
+                  const newValue = e.nativeEvent.text;
+                  if (newValue && newValue !== credentials.username) {
+                    setCredentials((prev) => ({
+                      ...prev,
+                      username: newValue,
+                    }));
+                  }
+                }}
+                value={credentials.username}
+                keyboardType='default'
                 returnKeyType='done'
                 autoCapitalize='none'
-                textContentType='URL'
+                autoCorrect={false}
+                textContentType='username'
+                clearButtonMode='while-editing'
                 maxLength={500}
               />
-              <Button
-                loading={loadingServerCheck}
-                disabled={loadingServerCheck}
-                onPress={async () => {
-                  await handleConnect(serverURL, connectHeaders);
-                }}
-                className='w-full grow'
-              >
-                {t("server.connect_button")}
-              </Button>
 
-              {/* Servers behind an access gateway need their headers before
-                  the very first request, so they are configured here. */}
+              <Input
+                aria-label={t("login.password_placeholder")}
+                placeholder={t("login.password_placeholder")}
+                style={glassInputStyle}
+                onChangeText={(text) =>
+                  setCredentials((prev) => ({ ...prev, password: text }))
+                }
+                onEndEditing={(e) => {
+                  const newValue = e.nativeEvent.text;
+                  if (newValue && newValue !== credentials.password) {
+                    setCredentials((prev) => ({
+                      ...prev,
+                      password: newValue,
+                    }));
+                  }
+                }}
+                value={credentials.password}
+                secureTextEntry
+                keyboardType='default'
+                returnKeyType='done'
+                autoCapitalize='none'
+                textContentType='password'
+                clearButtonMode='while-editing'
+                maxLength={500}
+              />
               <TouchableOpacity
-                onPress={openHeaderSheet}
-                className='flex flex-row items-center justify-between py-3'
+                onPress={() => setSaveAccount(!saveAccount)}
+                className='flex flex-row items-center py-2'
                 activeOpacity={0.7}
               >
-                <Text className='text-purple-600'>
-                  {t("custom_headers.advanced_title")}
+                <Switch
+                  value={saveAccount}
+                  onValueChange={setSaveAccount}
+                  trackColor={{ false: "#3f3f46", true: Colors.primary }}
+                  thumbColor='white'
+                />
+                <Text className='ml-3 text-neutral-300'>
+                  {t("save_account.save_for_later")}
                 </Text>
-                <View className='flex flex-row items-center'>
-                  <Text className='text-xs text-neutral-400 mr-1'>
-                    {usableHeaders.length > 0
-                      ? t("custom_headers.header_count", {
-                          count: usableHeaders.length,
-                        })
-                      : t("custom_headers.source_none")}
-                  </Text>
-                  <Ionicons
-                    name='chevron-forward'
-                    size={18}
-                    color={Colors.primary}
-                  />
-                </View>
               </TouchableOpacity>
+              <View className='flex flex-row items-center' style={{ gap: 10 }}>
+                <GlassPrimaryButton
+                  onPress={handleLogin}
+                  loading={loading}
+                  disabled={!credentials.username.trim()}
+                  style={{ flex: 1 }}
+                >
+                  {t("login.login_button")}
+                </GlassPrimaryButton>
+                {/* Quick Connect: approve this phone from a signed-in app. */}
+                <TouchableOpacity
+                  onPress={handleQuickConnect}
+                  accessibilityRole='button'
+                  accessibilityLabel={t("login.quick_connect")}
+                  style={{
+                    width: 54,
+                    height: 54,
+                    borderRadius: 27,
+                    borderWidth: 1,
+                    borderColor: GLASS_BORDER,
+                    backgroundColor: GLASS_FILL,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name='cellphone-lock'
+                    size={24}
+                    color='white'
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <View className='flex-1'>
+            <ScrollView
+              keyboardShouldPersistTaps='handled'
+              contentContainerStyle={{
+                paddingHorizontal: 24,
+                paddingTop: 24,
+                paddingBottom: 16,
+                gap: 18,
+              }}
+            >
+              <SailMark />
+              <Text className='text-3xl font-bold' style={{ lineHeight: 36 }}>
+                {t("login.glass.headline")}
+              </Text>
+              <Text style={{ color: GLASS_SUBTLE_TEXT, lineHeight: 21 }}>
+                {t("login.glass.body")}
+              </Text>
 
-              {/* The headers above belong to the URL that was typed with them.
+              {/* The headers below belong to the URL that is typed with them.
                   A server picked from a list connects with its own saved ones —
                   passing these would overwrite them. */}
               <JellyfinServerDiscovery
@@ -514,6 +494,60 @@ export const Login: React.FC = () => {
                 onPasswordLogin={handlePasswordLogin}
                 onAddAccount={handleAddAccount}
               />
+
+              <View style={{ gap: 8 }}>
+                <GlassLabel>{t("login.glass.address_label")}</GlassLabel>
+                <Input
+                  aria-label={t("server.server_url")}
+                  placeholder={t("server.server_url_placeholder")}
+                  style={glassInputStyle}
+                  onChangeText={setServerURL}
+                  value={serverURL}
+                  keyboardType='url'
+                  returnKeyType='done'
+                  autoCapitalize='none'
+                  textContentType='URL'
+                  maxLength={500}
+                />
+                {/* Servers behind an access gateway need their headers before
+                    the very first request, so they are configured here. */}
+                <TouchableOpacity
+                  onPress={openHeaderSheet}
+                  className='flex flex-row items-center justify-between py-3'
+                  activeOpacity={0.7}
+                >
+                  <Text style={{ color: Colors.primary }}>
+                    {t("custom_headers.advanced_title")}
+                  </Text>
+                  <View className='flex flex-row items-center'>
+                    <Text className='text-xs text-neutral-400 mr-1'>
+                      {usableHeaders.length > 0
+                        ? t("custom_headers.header_count", {
+                            count: usableHeaders.length,
+                          })
+                        : t("custom_headers.source_none")}
+                    </Text>
+                    <Ionicons
+                      name='chevron-forward'
+                      size={18}
+                      color={Colors.primary}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+            {/* Pinned under the list so Continue stays in reach however many
+                servers there are. */}
+            <View className='px-6 pt-2'>
+              <GlassPrimaryButton
+                loading={loadingServerCheck}
+                disabled={loadingServerCheck || !serverURL.trim()}
+                onPress={async () => {
+                  await handleConnect(serverURL, connectHeaders);
+                }}
+              >
+                {t("login.glass.continue")}
+              </GlassPrimaryButton>
             </View>
           </View>
         )}

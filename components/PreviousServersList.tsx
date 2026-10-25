@@ -18,8 +18,7 @@ import {
 } from "@/utils/secureCredentials";
 import { AccountsSheet } from "./AccountsSheet";
 import { Text } from "./common/Text";
-import { ListGroup } from "./list/ListGroup";
-import { ListItem } from "./list/ListItem";
+import { GlassLabel, GlassRow } from "./login/LoginGlass";
 import { PasswordEntryModal } from "./PasswordEntryModal";
 import { PINEntryModal } from "./PINEntryModal";
 import { CustomHeaderSheet } from "./settings/CustomHeaderSheet";
@@ -301,31 +300,36 @@ export const PreviousServersList: React.FC<PreviousServersListProps> = ({
   if (!previousServers.length) return null;
 
   return (
-    <View>
-      <ListGroup title={t("server.previous_servers")} className='mt-4'>
-        {previousServers.map((s) => (
-          <ServerItem
-            key={s.address}
-            server={s}
-            loadingServer={loadingServer}
-            onPress={() => handleServerPress(s)}
-            onRemoveCredential={() => handleRemoveFirstCredential(s.address)}
-            renderRightActions={renderRightActions}
-            subtitle={getServerSubtitle(s)}
-            securityIcon={getSecurityIcon(s)}
-          />
-        ))}
-        <ListItem
+    <View style={{ gap: 8 }}>
+      <GlassLabel>{t("server.previous_servers")}</GlassLabel>
+      {previousServers.map((s) => (
+        <ServerItem
+          key={s.address}
+          server={s}
+          loadingServer={loadingServer}
+          onPress={() => handleServerPress(s)}
+          onRemoveCredential={() => handleRemoveFirstCredential(s.address)}
+          renderRightActions={renderRightActions}
+          subtitle={getServerSubtitle(s)}
+          securityIcon={getSecurityIcon(s)}
+        />
+      ))}
+      <View className='flex flex-row items-center justify-between'>
+        <Text className='text-xs text-neutral-400'>
+          {t("server.swipe_for_options")}
+        </Text>
+        <TouchableOpacity
           onPress={() => {
             setPreviousServers("[]");
           }}
-          title={t("server.clear_button")}
-          textColor='red'
-        />
-      </ListGroup>
-      <Text className='text-xs text-neutral-500 mt-2 ml-4'>
-        {t("server.swipe_for_options")}
-      </Text>
+          accessibilityRole='button'
+          className='py-3 pl-4'
+        >
+          <Text className='text-xs text-red-400'>
+            {t("server.clear_button")}
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Account Selection Sheet */}
       <AccountsSheet
@@ -397,6 +401,7 @@ const ServerItem: React.FC<ServerItemProps> = ({
   subtitle,
   securityIcon,
 }) => {
+  const { t } = useTranslation();
   const swipeableRef = useRef<Swipeable>(null);
   const hasAccounts = server.accounts?.length > 0;
 
@@ -408,28 +413,31 @@ const ServerItem: React.FC<ServerItemProps> = ({
       }
       overshootRight={false}
     >
-      <ListItem
+      <GlassRow
         onPress={onPress}
         title={server.name || server.address}
         subtitle={subtitle}
-        showArrow={loadingServer !== server.address}
         disabled={loadingServer === server.address}
-      >
-        {loadingServer === server.address ? (
-          <ActivityIndicator size='small' color={Colors.primary} />
-        ) : hasAccounts && securityIcon ? (
-          <TouchableOpacity
-            onPress={(e) => {
-              e.stopPropagation();
-              onRemoveCredential();
-            }}
-            className='p-1'
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          >
-            <Ionicons name={securityIcon} size={16} color={Colors.primary} />
-          </TouchableOpacity>
-        ) : null}
-      </ListItem>
+        trailing={
+          loadingServer === server.address ? (
+            <ActivityIndicator size='small' color={Colors.primary} />
+          ) : hasAccounts && securityIcon ? (
+            <TouchableOpacity
+              onPress={(e) => {
+                e.stopPropagation();
+                onRemoveCredential();
+              }}
+              className='p-1'
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              accessibilityLabel={t("server.remove_saved_login")}
+            >
+              <Ionicons name={securityIcon} size={16} color={Colors.primary} />
+            </TouchableOpacity>
+          ) : (
+            <Ionicons name='chevron-forward' size={18} color='#8A949B' />
+          )
+        }
+      />
     </Swipeable>
   );
 };

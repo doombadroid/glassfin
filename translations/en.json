@@ -34,7 +34,15 @@
     "there_is_a_server_error": "There is a server error",
     "an_unexpected_error_occurred_did_you_enter_the_correct_url": "An unexpected error occurred. Did you enter the server URL correctly?",
     "too_old_server_text": "Unsupported Jellyfin server discovered",
-    "too_old_server_description": "Please update Jellyfin to the latest version"
+    "too_old_server_description": "Please update Jellyfin to the latest version",
+    "glass": {
+      "headline": "Set sail for your library",
+      "body": "Glassfin plays from your own Jellyfin server. Pick one on this network or one you used before, or enter its address.",
+      "found": "On this network",
+      "find_servers": "Find servers on this network",
+      "address_label": "Or enter an address",
+      "continue": "Continue"
+    }
   },
   "server": {
     "enter_url_to_jellyfin_server": "Enter the URL to your Jellyfin server",
@@ -44,9 +52,7 @@
     "clear_button": "Clear all",
     "server_url": "Server URL",
     "swipe_to_remove": "Swipe to remove",
-    "search_for_local_servers": "Search for local servers",
     "searching": "Searching...",
-    "servers": "Servers",
     "saved": "Saved",
     "session_expired": "Session expired",
     "please_login_again": "Your saved session has expired. Please log in again.",
