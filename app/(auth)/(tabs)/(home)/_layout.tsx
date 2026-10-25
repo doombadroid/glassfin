@@ -55,7 +55,8 @@ export default function IndexLayout() {
         name='index'
         options={{
           headerShown: !Platform.isTV,
-          headerTitle: t("tabs.home"),
+          // The feed draws its own "Tonight" title.
+          headerTitle: "",
           headerBlurEffect: "none",
           headerTransparent: Platform.OS === "ios",
           headerShadowVisible: false,

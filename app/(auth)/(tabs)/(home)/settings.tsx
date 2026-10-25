@@ -11,7 +11,10 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { HeaderButton } from "@/components/common/HeaderButton";
+import {
+  HEADER_ICON_SIZE,
+  HeaderButton,
+} from "@/components/common/HeaderButton";
 import { SettingSwitch } from "@/components/common/SettingSwitch";
 import { Text } from "@/components/common/Text";
 import { ListGlassContext, ListGroup } from "@/components/list/ListGroup";
@@ -47,14 +50,16 @@ function SettingsMobile() {
     navigation.setOptions({
       headerRight: () => (
         <HeaderButton
-          variant='text'
+          accessibilityLabel={t("home.settings.log_out_button")}
           onPress={() => {
             logout();
           }}
         >
-          <Text className='text-red-600'>
-            {t("home.settings.log_out_button")}
-          </Text>
+          <Ionicons
+            name='log-out-outline'
+            size={HEADER_ICON_SIZE}
+            color='#ef4444'
+          />
         </HeaderButton>
       ),
     });

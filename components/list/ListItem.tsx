@@ -115,7 +115,7 @@ const ListItemContent = ({
           <Text
             className={
               textColor === "blue"
-                ? "text-[#0584FE]"
+                ? "text-[#8FE6CB]"
                 : textColor === "red"
                   ? "text-red-600"
                   : "text-white"

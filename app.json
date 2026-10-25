@@ -2,7 +2,7 @@
   "expo": {
     "name": "Glassfin",
     "slug": "glassfin",
-    "version": "0.56.0",
+    "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "glassfin",

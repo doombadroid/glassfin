@@ -3,6 +3,7 @@ import type { BaseItemDto } from "@jellyfin/sdk/lib/generated-client/models";
 import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { Platform, TouchableOpacity, View } from "react-native";
+import { seasonTitle } from "@/components/series/seasonTitle";
 import { FrostColors } from "@/constants/Frost";
 import { Text } from "../common/Text";
 import { PlatformDropdown } from "../PlatformDropdown";
@@ -65,7 +66,7 @@ export const SeasonDropdown: React.FC<Props> = ({
       {
         options:
           [...(seasons ?? [])].sort(sortByIndex).map((season: any) => {
-            const title = season.Name || `Season ${season.IndexNumber}`;
+            const title = seasonTitle(season, t("item_card.season"));
             return {
               type: "radio" as const,
               label: title,
@@ -127,9 +128,11 @@ export const SeasonDropdown: React.FC<Props> = ({
   const selected = seasons?.find(
     (season) => Number(season.IndexNumber) === Number(seasonIndex),
   );
-  const label =
-    selected?.Name ??
-    (seasonIndex == null ? "" : `${t("item_card.season")} ${seasonIndex}`);
+  const label = selected
+    ? seasonTitle(selected, t("item_card.season"))
+    : seasonIndex == null
+      ? ""
+      : `${t("item_card.season")} ${seasonIndex}`;
 
   return (
     <PlatformDropdown

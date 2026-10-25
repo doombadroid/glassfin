@@ -16,7 +16,7 @@ const lastActivity = (item: BaseItemDto) =>
 
 /**
  * The Tonight feed's items: continue watching and next up in one list, each
- * item once. With the merge setting on, by most recent activity, as the
+ * item, and each show, once. With the merge setting on, by most recent activity, as the
  * merged row sorted them; off, continue watching first, then next up.
  */
 export const tonightItems = (
@@ -28,10 +28,13 @@ export const tonightItems = (
   const ordered = mergeByActivity
     ? combined.sort((a, b) => lastActivity(b) - lastActivity(a))
     : combined;
+  // One entry per show: several half-watched episodes of one series would
+  // otherwise fill the list. The first (most relevant) episode wins.
   const seen = new Set<string>();
   return ordered.filter((item) => {
-    if (!item.Id || seen.has(item.Id)) return false;
-    seen.add(item.Id);
+    const key = item.SeriesId ?? item.Id;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
     return true;
   });
 };

@@ -48,6 +48,20 @@ describe("tonightItems", () => {
     ]);
   });
 
+  test("one entry per show: the first episode of a series wins", () => {
+    const episode = (Id: string, SeriesId: string): BaseItemDto => ({
+      Id,
+      SeriesId,
+      UserData: {},
+    });
+    const items = tonightItems(
+      [episode("e10", "cat"), episode("e7", "cat"), item("film")],
+      [episode("e4", "cat"), episode("s2", "other")],
+      false,
+    );
+    expect(items.map((i) => i.Id)).toEqual(["e10", "film", "s2"]);
+  });
+
   test("leaves the caller's arrays alone", () => {
     const input = [item("x", "2026-01-01"), item("y", "2026-02-01")];
     tonightItems(input, [], true);

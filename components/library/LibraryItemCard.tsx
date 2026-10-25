@@ -15,6 +15,7 @@ import { Image } from "@/components/common/ServerImage";
 import { Text } from "@/components/common/Text";
 import { apiAtom, userAtom } from "@/providers/JellyfinProvider";
 import { useSettings } from "@/utils/atoms/settings";
+import { getBackdropUrl } from "@/utils/jellyfin/image/getBackdropUrl";
 import { getPrimaryImageUrl } from "@/utils/jellyfin/image/getPrimaryImageUrl";
 import { LIBRARY_STRIP_HEIGHT } from "@/utils/library/libraryCardColumns";
 import { TouchableItemRouter } from "../common/TouchableItemRouter";
@@ -107,6 +108,32 @@ export const LibraryItemCard: React.FC<Props> = ({ library, ...props }) => {
     enabled: !!api,
   });
 
+  // Jellyfin's generated library images carry the library's name baked into
+  // the picture, which doubled the strip's own label. The strip shows the
+  // newest backdrop inside the library instead, falling back to that image.
+  const { data: stripArt } = useQuery({
+    queryKey: ["library-strip-art", library.Id],
+    queryFn: async () => {
+      if (!api) return null;
+      const response = await getItemsApi(api).getItems({
+        userId: user?.Id,
+        parentId: library.Id,
+        recursive: true,
+        limit: 1,
+        imageTypes: ["Backdrop"],
+        sortBy: ["DateCreated"],
+        sortOrder: ["Descending"],
+        includeItemTypes: itemType ? [itemType] : undefined,
+      });
+      const item = response.data.Items?.[0];
+      return item
+        ? getBackdropUrl({ api, item, quality: 80, width: 1200 })
+        : null;
+    },
+    enabled: !!api && settings?.libraryOptions?.imageStyle === "cover",
+    staleTime: 60 * 60 * 1000,
+  });
+
   if (!url) return null;
 
   if (settings?.libraryOptions?.display === "row") {
@@ -154,7 +181,7 @@ export const LibraryItemCard: React.FC<Props> = ({ library, ...props }) => {
           className='w-full rounded-[22px] overflow-hidden bg-neutral-900 justify-end'
         >
           <Image
-            source={{ uri: url }}
+            source={{ uri: stripArt ?? url }}
             style={{ position: "absolute", width: "100%", height: "100%" }}
             contentFit='cover'
             cachePolicy={"memory-disk"}

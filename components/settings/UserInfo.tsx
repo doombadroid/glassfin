@@ -1,6 +1,7 @@
 import { useAtom } from "jotai";
 import { useTranslation } from "react-i18next";
 import { View, type ViewProps } from "react-native";
+import { maskToken } from "@/components/settings/maskToken";
 import { apiAtom, userAtom } from "@/providers/JellyfinProvider";
 import { getVersionInfo } from "@/utils/version";
 import { ListGroup } from "../list/ListGroup";
@@ -30,7 +31,7 @@ export const UserInfo: React.FC<Props> = ({ ...props }) => {
         />
         <ListItem
           title={t("home.settings.user_info.token")}
-          value={api?.accessToken}
+          value={maskToken(api?.accessToken)}
         />
         <ListItem
           title={t("home.settings.user_info.app_version")}
