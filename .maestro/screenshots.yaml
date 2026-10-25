@@ -53,9 +53,9 @@ appId: com.doombadroid.glassfin
 - openLink: "glassfin://items/page?id=${MOVIE_ID}"
 - waitForAnimationToEnd:
     timeout: 5000
-# The play button sits near the bottom of the details sheet.
+# The play button in the details sheet (2m ▶).
 - tapOn:
-    point: "40%,91%"
+    point: "40%,64%"
 # Let playback run: the video keeps animating, so this waits the full time.
 - waitForAnimationToEnd:
     timeout: 20000
